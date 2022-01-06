@@ -68,6 +68,126 @@ class ParserError extends Error {
 }
 
 /**
+ * it can check whether is a undefine type ,
+ * it till you.
+ *
+ * @param v it object to be checked.
+ * @returns it is undefine will return true;
+ */
+function isUndef(v) {
+    return v === undefined;
+}
+function isNotUndef(v) {
+    return !isUndef(v);
+}
+function isFunction(v) {
+    return typeof v === "function";
+}
+function isEmpty(v) {
+    return v.length === 0;
+}
+/**
+ * enter  any object ,
+ * it can check whether  is a null type ,
+ * and tell you.
+ *
+ * @param v it is an object to be checked.
+ * @returns if it is null ,it will return true;
+ */
+function isNull(v) {
+    return v === null;
+}
+/**
+ * this will check is it null or undefine ，this will return true
+ *
+ * @param v it can be anything type;
+ * @returns   if it is null  or undefine ,it will return true;
+ */
+function isUndefAndNull(v) {
+    return isNull(v) || isUndef(v);
+}
+/**
+ * if is a string type,it will return true.
+ *
+ * @param v \
+ * @returns
+ */
+function isString(x) {
+    return typeof x === "string";
+}
+/**
+ * if is a symbol type,it is true
+ *
+ *
+ * @param v
+ * @returns
+ */
+function isSymbol(v) {
+    return typeof v === "symbol";
+}
+/**
+ * if is a number type ,it is return true;
+ *
+ * @param v
+ * @returns
+ */
+function isNumber(v) {
+    return typeof v === "number";
+}
+function makeMap(mapString) {
+    const arr = mapString.split(",");
+    let map = Object.create(null);
+    for (let i = 0; i < map.length; i++) {
+        map[arr[i]] = true;
+    }
+    return (v) => !!v && !!map[v.toLocaleLowerCase()];
+}
+makeMap("inherit,initial,unset");
+
+/**
+ * 查看有没有某属性有的话就在类型上添加此属性代表的类型，但是由于不知道此属性的值是什么类型所以默认给了any
+ *
+ * @param obj 要检查的对象
+ * @param key  要检查的属性，注意如果输入变量将可能消除类型判断，所以我们就对于异常返回依然返回原类型（获取不到你变量里可能存在的类型）
+ * @returns 如果为true 类型将包含输入的属性
+ */
+function hasProp(obj, key) {
+    let x = obj[key];
+    return !!obj && !isUndef(x);
+}
+/**
+ * 是某个存在吗，传入那个存在
+ * @param THE  那个存在
+ * @returns 返回一个函数，如果向里面传入之前的那个词则返回true
+ */
+function isThe(THE) {
+    return (V) => THE === V;
+}
+function cached(handle) {
+    const cache = Object.create(null);
+    const cachecd = function (str, ...rest) {
+        const obj = cache[str];
+        return isNotUndef(obj) ? obj : (cache[str] = handle(str, ...rest));
+    };
+    return cachecd;
+}
+/**
+ * 将symboltostring 然后去掉Symbol()拿到括号里面的东西
+ * @param symbol
+ * @returns symbol()里面的东西
+ */
+function getSymbolStr(symbol) {
+    const str = symbol.toString();
+    return str.slice(7, str.length - 1);
+}
+
+class Warning {
+    constructor(msg) {
+        this.msg = msg;
+    }
+}
+
+/**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  */
 class WTSC {
@@ -87,44 +207,37 @@ class WTSC {
      */
     proxify(_target) {
         const _this = this;
+        const isWtsc = isThe("wtsc");
         /**
-         * 缓存函数类
+         * 缓存处理函数
          */
-        const parsersHandler = {};
+        const parsersHandler = cached((prop, key) => {
+            return function (...rest) {
+                _this._addStyle(_this.keyToString(key), _target[key], ...rest);
+                //永远返回this
+                return _this;
+            };
+        });
         let handle = {
             get(target, prop) {
                 //检测到如果是函数的话就会认为是parser
                 //parser会被代理并将返回结果变为<WTSC<T,P>>this,
                 //并将返回结果变为css的值,以函数名作为css的属性名
-                if (typeof _target[prop] === "function") {
-                    return (parsersHandler[prop] ||
-                        (parsersHandler[prop] = function (...rest) {
-                            try {
-                                const ret = _target[prop](...rest);
-                                if (ret !== null || ret !== undefined) {
-                                    _this.addCSS(prop, ret);
-                                }
-                                else {
-                                }
-                            }
-                            catch (E) {
-                                if (E instanceof ParserError) {
-                                    console.error(E.toString());
-                                }
-                                else {
-                                    throw E;
-                                }
-                            }
-                            finally {
-                                return _this;
-                            }
-                        }));
+                if (hasProp(_target, prop)) {
+                    if (isFunction(_target[prop])) {
+                        return parsersHandler(prop.toString(), prop);
+                    }
+                    else if (isWtsc(prop)) {
+                        return _this;
+                    }
+                    else {
+                        //这里可能在访问自身的属性
+                        return _target[prop];
+                    }
                 }
-                else if (prop === "wtsc") {
-                    return _this;
+                else {
+                    return undefined;
                 }
-                //这里可能在访问自身的属性
-                return target[prop];
             },
         };
         return new Proxy(_target, handle);
@@ -151,7 +264,6 @@ class WTSC {
         let result = {};
         console.log(Object.keys(first));
         for (let id in first) {
-            console.log(id);
             result[id] = first[id];
         }
         for (let id in second) {
@@ -160,6 +272,43 @@ class WTSC {
             }
         }
         return result;
+    }
+    _addStyle(key, handle, ...rest) {
+        try {
+            let value;
+            if (isFunction(handle)) {
+                value = handle(...rest);
+            }
+            else {
+                if (isString(handle)) {
+                    value = handle;
+                }
+            }
+            //是空的情况是不会处理的
+            if (isUndefAndNull(value) || isEmpty(value)) {
+                return this;
+            }
+            //是str类型才会处理
+            if (isString(value)) {
+                this.setCSS(key, value);
+                return this;
+            }
+            throw new Warning("WTSC>addStyle:检测到，处理器传入的类型错误'" + typeof value + "'");
+        }
+        catch (E) {
+            if (E instanceof ParserError) {
+                console.error(E.toString());
+            }
+            else if (E instanceof Warning) {
+                console.warn(E.msg);
+            }
+            else {
+                throw E;
+            }
+        }
+        finally {
+            return this;
+        }
     }
     /**
      * 给css添加属性
@@ -171,28 +320,33 @@ class WTSC {
      * @return {*}  {AddCSSState}
      * @memberof WTSC
      */
-    addCSS(cssKey, cssValue, config = DEFAULT_ADD_CSS_CONFIG) {
-        try {
-            if (this.isExistedBeCSS(cssKey)) {
-                if (config.isAllowOverride) {
-                    this.setCSS(cssKey, cssValue);
-                    return AddCSSState.REDEFINE_SUCCEEDED;
-                }
-                else {
-                    return AddCSSState.REWRITE_FAILED;
-                }
-            }
-            else {
-                this.setCSS(cssKey, cssValue);
-                return AddCSSState.SUCCEEDED;
-            }
+    addStyle(cssKey, cssValue) {
+        this._addStyle(this.keyToString(cssKey), cssValue.toString());
+        return this;
+    }
+    keyToString(cssKey) {
+        if (isString(cssKey)) {
+            return cssKey;
         }
-        catch (_a) {
-            return AddCSSState.ERROR;
+        if (isSymbol(cssKey)) {
+            return getSymbolStr(cssKey);
         }
-        finally {
-            return AddCSSState.UNKNOWN;
+        if (isNumber(cssKey)) {
+            return cssKey.toString();
         }
+        return "";
+        // throw new Warning(
+        //   "警告,出现了意料为的类型" + toTypeOf(cssKey) + cssKey.toString()
+        // );
+    }
+    /**
+     *
+     * @param key "任何stylekey"
+     * @param value “任何stylleValue，不会做校验”
+     */
+    addAnyStyle(key, value) {
+        this.addStyle(key, value);
+        return this;
     }
     /**
      * 拆分方法添加属性
@@ -215,12 +369,16 @@ class WTSC {
     }
     /**
      * 返回css属性
-     *
+     * @isClear:boolean 是否清空，默认值true
      * @return {*}
      * @memberof WTSC
      */
-    return() {
-        return this._style;
+    return(isClear = true) {
+        const _style = this._style;
+        if (isClear == true) {
+            this.clear();
+        }
+        return _style;
     }
     /**
      * 清空css
@@ -265,12 +423,6 @@ var AddCSSState;
      */
     AddCSSState[AddCSSState["UNKNOWN"] = 5] = "UNKNOWN";
 })(AddCSSState || (AddCSSState = {}));
-/**
- * 配置的默认值
- */
-const DEFAULT_ADD_CSS_CONFIG = {
-    isAllowOverride: true,
-};
 
 var index$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,

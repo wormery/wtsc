@@ -1,3 +1,5 @@
+import { is } from "bluebird";
+
 /**
  * it can check whether is a undefine type ,
  * it till you.
@@ -5,12 +7,28 @@
  * @param v it object to be checked.
  * @returns it is undefine will return true;
  */
-export function isUndef(v: any): boolean {
+export function isUndef(v: any): v is undefined {
   return v === undefined;
+}
+
+/**
+ * 打印typeof
+ *
+ * @param v
+ * @returns
+ */
+export function toTypeOf(v: any): string {
+  return typeof v;
 }
 
 export function isNotUndef(v: any): boolean {
   return !isUndef(v);
+}
+export function isFunction(v: any): v is Function {
+  return typeof v === "function";
+}
+export function isEmpty(v: string): boolean {
+  return v.length === 0;
 }
 
 /**
@@ -21,7 +39,7 @@ export function isNotUndef(v: any): boolean {
  * @param v it is an object to be checked.
  * @returns if it is null ,it will return true;
  */
-export function isNull(v: any): boolean {
+export function isNull(v: any): v is null {
   return v === null;
 }
 
@@ -31,7 +49,7 @@ export function isNull(v: any): boolean {
  * @param v it can be anything type;
  * @returns   if it is null  or undefine ,it will return true;
  */
-export function isUndefAndNull(v: any): boolean {
+export function isUndefAndNull(v: any): v is null | undefined {
   return isNull(v) || isUndef(v);
 }
 
@@ -42,7 +60,7 @@ export function isUndefAndNull(v: any): boolean {
  * @param v  it is a Object to determine
  * @returns if it should return true ,it will return true.
  */
-export function isTure(v: any): boolean {
+export function isTure(v: any): v is true {
   return !!v === true;
 }
 
@@ -53,7 +71,7 @@ export function isTure(v: any): boolean {
  * @param v it is a Object to determine.
  * @returns  if it should return true ,it will return false.
  */
-export function isFalse(v: any): boolean {
+export function isFalse(v: any): v is false {
   return !!v === false;
 }
 
@@ -65,7 +83,7 @@ export function isFalse(v: any): boolean {
  * @param v 要确定的对象
  * @returns 是基础类型则返回是 it is basic type ,ts is returned;
  */
-export function isPrimitive(v: any): boolean {
+export function isPrimitive(v: any): v is string | number | boolean | symbol {
   return (
     typeof v === "string" ||
     typeof v === "number" ||
@@ -73,7 +91,8 @@ export function isPrimitive(v: any): boolean {
     typeof v === "symbol"
   );
 }
-export function isArray(v: any): boolean {
+
+export function isArray(v: any): v is any[] {
   return Array.isArray(v);
 }
 
@@ -82,7 +101,7 @@ export function isArray(v: any): boolean {
  * @param v
  * @returns
  */
-export function isObject(v: any): boolean {
+export function isObject(v: any): v is Object {
   return v !== null && typeof v === "object";
 }
 
@@ -92,8 +111,8 @@ export function isObject(v: any): boolean {
  * @param v \
  * @returns
  */
-export function isString(v: any): boolean {
-  return typeof v === "string";
+export function isString(x: any): x is string {
+  return typeof x === "string";
 }
 
 /**
@@ -113,7 +132,7 @@ export function isBoolean(v: any): boolean {
  * @param v
  * @returns
  */
-export function isSymbol(v: any): boolean {
+export function isSymbol(v: any): v is symbol {
   return typeof v === "symbol";
 }
 /**
