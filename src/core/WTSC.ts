@@ -7,8 +7,11 @@ import {
   isSymbol,
   isUndefAndNull,
   toTypeOf,
-} from "../utils/isType";
-import { cached, getSymbolStr, hasProp, isThe } from "../utils/utils";
+  cached,
+  getSymbolStr,
+  hasProp,
+  isThe,
+} from "../utils/utils";
 import ParserError from "./error/ParsersError";
 import { Warning } from "./error/Warning";
 
