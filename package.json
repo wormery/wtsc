@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generate vue style value using TS",
   "main": "./lib/wtsc.common.js",
   "module": "lib/wtsc.esm.js",
@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "pnpm build:all",
-    "build:all": "pnpm rollup -c"
+    "build:all": "pnpm rollup -c",
+    "format": "prettier --write \"./**/*.{js,jsx,json,yaml}\""
   },
   "author": "meke",
   "license": "MIT",
@@ -34,10 +35,19 @@
     "@rollup/plugin-node-resolve": "^13.1.2",
     "@types/bluebird": "*",
     "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^8.4.0",
+    "prettier": "^2.5.1",
     "rollup": "^2.63.0",
     "rollup-plugin-typescript2": "^0.31.1",
     "ts-toolbelt": "^9.6.0",
-    "typescript": "^4.5.4"
+    "typescript": "~4.4.0"
   },
   "dependencies": {
     "@wormery/utils": "^1.0.1"

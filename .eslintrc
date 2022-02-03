@@ -1,0 +1,20 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "vue"],
+  "extends": [
+    "plugin:vue/vue3-recommended",
+    "standard-with-typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json",
+    "sourceType": "module"
+  },
+  "rules": {
+    // off禁用
+    // 禁止强制类型转换
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    //允许this使用其他别名（const _this = this）
+    "@typescript-eslint/no-this-alias": "off"
+  }
+}

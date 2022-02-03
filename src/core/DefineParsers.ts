@@ -1,5 +1,5 @@
-import { implReturn } from ".";
-import { DefineParsersType, DefineWTSCType } from "./WTSC";
+import { implReturn } from '.'
+import { DefineParsersType, DefineWTSCType } from './WTSC'
 
 /**
  * 定义Parsers的接口
@@ -21,9 +21,9 @@ export interface DefineParsers<R extends implReturn | WTSC>
  *
  */
 
-type WTSC = DefineWTSC<DefineParsers<WTSC>>;
+type WTSC = DefineWTSC<DefineParsers<WTSC>>
 
 /**
  * 定义实例对象的类型
  */
-export type DefineWTSC<E> = DefineWTSCType<E>;
+export type DefineWTSC<E> = DefineWTSCType<E>

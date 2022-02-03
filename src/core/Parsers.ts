@@ -1,5 +1,5 @@
-import { DefineParsers, DefineWTSC, ParsersError } from ".";
-import type { ParsersReturnType, StyleValueType } from "./WTSC";
+import { DefineParsers, DefineWTSC, ParsersError } from '.'
+import type { ParsersReturnType } from './WTSC'
 
 /**
  * 这是一个样例
@@ -15,29 +15,30 @@ export default class Parsers implements DefineParsers<implReturn> {
    * @type {WTSC}
    * @memberof Parsers
    */
-  protected wtsc: WTSC = <WTSC>{};
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  protected wtsc: WTSC = {} as WTSC
   /**
    * parsers名字
    */
-  protected name: string = "";
+  protected name: string = ''
 
   /**
    * parsers的id
    */
-  protected id: number = Math.random();
-  protected error(msg: string, cssName: string) {
+  protected id: number = Math.random()
+  protected error(msg: string, cssName: string): void {
     throw new ParsersError(
       msg,
       cssName,
       this.name,
       this.wtsc.groupName,
       this.wtsc.groupId
-    );
+    )
   }
 }
 
-type WTSC = DefineWTSC<DefineParsers<WTSC>>;
+type WTSC = DefineWTSC<DefineParsers<WTSC>>
 /**
  * 实现接口需要传入本类型
  */
-export type implReturn = ParsersReturnType;
+export type implReturn = ParsersReturnType

@@ -1,2 +1,2 @@
-export { getSymbolVal as getSymbolStr, unique } from "@wormery/utils";
-export * from "@wormery/utils";
+export { getSymbolVal as getSymbolStr } from '@wormery/utils'
+export * from '@wormery/utils'

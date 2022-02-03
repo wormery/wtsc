@@ -1,8 +1,3 @@
-import { createWTSC } from "..";
-createWTSC().add.
-
-
-
 // const style = createWTSC()
 //   .add.width("15px")
 //   .add.height("23px")
@@ -12,4 +7,3 @@ createWTSC().add.
 // console.log(style);
 
 // import fs = require("@wormery");
-

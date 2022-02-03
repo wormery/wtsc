@@ -1,4 +1,4 @@
-import { camelize, unique } from "../utils/utils";
+import { camelize, unique } from '../utils/utils'
 
 const csslist = `
 "]
@@ -694,75 +694,74 @@ const csslist = `
 [" z-index "]
 [" zoom (@viewport) "]
 ["
-`;
+`
 
-function baseParsersGener() {
+function baseParsersGener(): void {
   let cssApiListArray = csslist.split(`"]
-["`);
-  console.log(cssApiListArray.length);
-  //1.替换无用的备注信息
+["`)
+  console.log(cssApiListArray.length)
+  // 1.替换无用的备注信息
   cssApiListArray = cssApiListArray.map((item) => {
-    item = item.trim();
-    item = item.replace(/\(@.+\)/, "");
-    item = item.trim();
-    return item;
-  });
-  //2.将不需要的内容先删除， 比如css中有一些函数，我们现在要css属性，暂时不需要
+    item = item.trim()
+    item = item.replace(/\(@.+\)/, '')
+    item = item.trim()
+    return item
+  })
+  // 2.将不需要的内容先删除， 比如css中有一些函数，我们现在要css属性，暂时不需要
   cssApiListArray = cssApiListArray.filter((item) => {
     return (
-      item.length > 0 &&
-      item.search(/\(\)|^\<.*\>$|^\:\:?.*|^\@.*|.*\#.*/) === -1
-    );
-  });
+      item.length > 0 && item.search(/\(\)|^<.*>$|^::?.*|^@.*|.*#.*/) === -1
+    )
+  })
 
-  //3.将横线命名法改为驼峰命名
+  // 3.将横线命名法改为驼峰命名
   cssApiListArray = cssApiListArray.map((item) => {
-    item = camelize(item);
-    return item;
-  });
+    item = camelize(item)
+    return item
+  })
 
-  //去重
-  cssApiListArray = unique(cssApiListArray);
+  // 去重
+  cssApiListArray = unique(cssApiListArray)
 
-  //4. 生成接口的函数
-  let interfaceStr = "";
+  // 4. 生成接口的函数
+  let interfaceStr = ''
 
-  //导入包
-  interfaceStr += `import { DefineParsers, DefineWTSC, implReturn } from "../core";\n`;
+  // 导入包
+  interfaceStr += `import { DefineParsers, DefineWTSC, implReturn } from "../core";\n`
 
-  //类型信息
-  interfaceStr += `type BaseWTSC = DefineWTSC<DefineBaseParsers<BaseWTSC>>;\n`;
+  // 类型信息
+  interfaceStr += `type BaseWTSC = DefineWTSC<DefineBaseParsers<BaseWTSC>>;\n`
 
-  //接口前缀
+  // 接口前缀
   interfaceStr += ` export interface  DefineBaseParsers<R extends implReturn | BaseWTSC>
-    extends DefineParsers<R> {\n`;
+    extends DefineParsers<R> {\n`
 
-  //遍历生成api
+  // 遍历生成api
   for (const item of cssApiListArray) {
-    interfaceStr = interfaceStr + "  " + item + `(value:string):R` + ";\n";
+    interfaceStr = interfaceStr + '  ' + item + `(value:string):R` + ';\n'
   }
 
-  //接口后缀
-  interfaceStr += "}\n";
+  // 接口后缀
+  interfaceStr += '}\n'
 
-  let implStr = "";
-  //导入包
-  implStr += `import { Parsers, DefineWTSC, implReturn } from "../core";\n`;
-  implStr += `import { DefineBaseParsers } from "../DefinBaseParsers";\n`;
-  //类前缀
+  let implStr = ''
+  // 导入包
+  implStr += `import { Parsers, DefineWTSC, implReturn } from "../core";\n`
+  implStr += `import { DefineBaseParsers } from "../DefinBaseParsers";\n`
+  // 类前缀
 
   implStr += ` export class BaseParsersImpl extends Parsers
-  implements DefineBaseParsers<implReturn> {\n`;
+  implements DefineBaseParsers<implReturn> {\n`
 
-  //编历生成
+  // 编历生成
   for (const item of cssApiListArray) {
-    implStr += `  ${item}(value:string):string{return value;}\n`;
+    implStr += `  ${item}(value:string):string{return value;}\n`
   }
-  //类后缀
-  implStr += "}";
-  console.log(interfaceStr);
+  // 类后缀
+  implStr += '}'
+  console.log(interfaceStr)
 
-  // console.log(implStr);
+  console.log(implStr)
 }
 
-baseParsersGener();
+baseParsersGener()

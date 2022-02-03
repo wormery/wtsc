@@ -1,3 +1,5 @@
-export class Warning {
-  constructor(public msg: string) {}
+export class Warning extends Error {
+  constructor(public msg: string) {
+    super()
+  }
 }
