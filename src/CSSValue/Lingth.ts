@@ -60,9 +60,6 @@ export enum LengthUnit {
 
   FR = 'fr',
 }
-function lengthUnit<K extends K in LengthUnit>(l:  ): LengthUnit {
-  return l
-}
 
 /**
  * Length可以导入对应的单位方法来
