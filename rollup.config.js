@@ -23,7 +23,6 @@ const commonConf = {
   output: {
     name: packageJSON.name,
   },
-  exclude: ['node_modules'],
 }
 const preOutName = 'wtsc'
 const output = (type, preName = preOutName) =>
