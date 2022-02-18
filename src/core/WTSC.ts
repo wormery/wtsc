@@ -1,3 +1,4 @@
+import { InjWTSC, Provides } from '.'
 import {
   isEmpty,
   isFunction,
@@ -10,24 +11,50 @@ import {
   hasProp,
   isThe,
 } from '../utils/utils'
+
 import ParserError from './error/ParsersError'
+
 import { Warning } from './error/Warning'
+
+export interface ParserReturnValue {
+  toString: () => string
+}
+
+export interface Parsers {
+  [k: string | symbol]: (...rest: any[]) => ParserReturnValue
+}
+
+export type ADD<T extends Parsers> = {
+  [k in keyof T]: T[k] extends (...rest: infer Rest) => ParserReturnValue
+    ? (...rest: Rest) => WTSC<T>
+    : never
+} & (<K extends keyof T>(
+  key: K,
+  ...rest: T[K] extends (...rest: infer Rest) => ParserReturnValue
+    ? Rest
+    : any[]
+) => WTSC<T>)
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  */
-export class WTSC<
-  T extends DefineParsersType<WTSC<T, P>>,
-  P extends ParsersType<T, WTSC<T, P>>
-> {
-  private _style: StyleType<T> = {} as unknown as StyleType<T>
-  public add: T
-  public groupName: string = 'wtsc'
-  public groupId: number = 0
-  public groupCount: number = 0
+export class WTSC<T extends Parsers> extends InjWTSC {
+  private _style = {} as unknown as Style<T>
 
-  constructor(parsers: P) {
-    this.add = this.proxify(parsers) as unknown as T
+  public add: ADD<T>
+
+  constructor(parsers: T, provides?: Provides) {
+    super(provides)
+    // 让add既是函数有是处理数据的对象
+    const addFn = ((key: CSSKey<T>, ...rest: any[]) => {
+      if (hasProp(this.add, key)) {
+        this.add[key](...rest)
+      }
+
+      return this
+    }) as unknown as ADD<T>
+
+    this.add = this.addProxify(parsers, addFn)
   }
 
   /**
@@ -37,15 +64,15 @@ export class WTSC<
    * @param handle
    * @returns
    */
-  private proxify<M extends Object>(_target: M): M {
+  private addProxify<M extends T>(parsers: M, addFn: any): ADD<T> {
     const that = this
     const isWtsc = isThe('wtsc')
     /**
      * 缓存处理函数
      */
-    const parsersHandler = cached((prop: string, key: string | symbol) => {
-      return function (this: T, ...rest: any[]): WTSC<T, P> {
-        that._addStyle(that.keyToString(key), (_target as any)[key], ...rest)
+    const parsersHandler = cached((prop: string, key: CSSKey<T>) => {
+      return function (this: T, ...rest: any[]): WTSC<T> {
+        that._addStyle(that.keyToString(key), (parsers as any)[key], ...rest)
         // 永远返回this
         return that
       }
@@ -56,63 +83,43 @@ export class WTSC<
         // 检测到如果是函数的话就会认为是parser
         // parser会被代理并将返回结果变为<WTSC<T,P>>this,
         // 并将返回结果变为css的值,以函数名作为css的属性名
-        if (hasProp(_target, prop)) {
-          if (isFunction(_target[prop])) {
+        if (hasProp(addFn, prop)) {
+          return that
+        } else if (hasProp(parsers, prop)) {
+          if (isFunction(parsers[prop])) {
             return parsersHandler(prop.toString(), prop)
           } else if (isWtsc(prop)) {
             return that
           } else {
             // 这里可能在访问自身的属性
-            return (_target as any)[prop]
+            return (parsers as any)[prop]
           }
         } else {
           return undefined
         }
       },
     }
-    return new Proxy(_target, handle)
+
+    return new Proxy(addFn, handle) as unknown as ADD<T>
   }
 
   /**
-   * 这里可以输入组名，未来可能会有一个功能，
-   * 组列表，我们可以生成常用的css组比如居中代码等，
-   * 输入对应组名就可以直接生成对应的css代码
    *
-   * @param cssGroupName 组名
-   */
-  public setClassName(cssGroupName: string): void {
-    this.groupName = cssGroupName
-  }
-
-  /**
-   * 合并两个类型为一个，可让开发者先合并css解析器，
-   * 然后生成本类，本类是核心不负责css解析器的工作
    *
-   * @param first
-   * @param second
-   * @returns
+   * @author meke
+   * @private
+   * @template F
+   * @param {string} key
+   * @param {F} handle
+   * @param {...any[]} rest
+   * @return {*}  {WTSC<T>}
+   * @memberof WTSC
    */
-  static mergeType<T, U>(first: T, second: U): T & U {
-    const result = {} as unknown as T & U
-    console.log(Object.keys(first))
-
-    for (const id in first) {
-      ;(result as any)[id] = (first as any)[id]
-    }
-
-    for (const id in second) {
-      if (!Object.prototype.hasOwnProperty.call(result, id)) {
-        ;(result as any)[id] = (second as any)[id]
-      }
-    }
-    return result
-  }
-
   private _addStyle<F extends ((...rest: any[]) => string) | string>(
     key: string,
     handle: F,
     ...rest: any[]
-  ): WTSC<T, P> {
+  ): WTSC<T> {
     try {
       let value: string | undefined
 
@@ -150,25 +157,15 @@ export class WTSC<
   }
 
   /**
-   * 给css添加属性
+   * keyToString
    *
-   * @param {WTSC<T>} this
+   * @author meke
+   * @private
    * @param {CSSKey<T>} cssKey
-   * @param {CSSValueType} cssValue
-   * @param {Object} [config]
-   * @return {*}  {AddCSSState}
+   * @return {*}  {string}
    * @memberof WTSC
    */
-  public addStyle(
-    this: WTSC<T, P>,
-    cssKey: CSSKey<T>,
-    cssValue: CSSValueType
-  ): WTSC<T, P> {
-    this._addStyle(this.keyToString(cssKey), cssValue.toString())
-    return this
-  }
-
-  private keyToString(cssKey: any): string {
+  private keyToString(cssKey: CSSKey<T>): string {
     if (isString(cssKey)) {
       return cssKey
     }
@@ -180,9 +177,6 @@ export class WTSC<
     }
 
     return ''
-    // throw new Warning(
-    //   "警告,出现了意料为的类型" + toTypeOf(cssKey) + cssKey.toString()
-    // );
   }
 
   /**
@@ -190,8 +184,8 @@ export class WTSC<
    * @param key "任何stylekey"
    * @param value “任何stylleValue，不会做校验”
    */
-  public addAnyStyle(key: string, value: string): WTSC<T, P> {
-    this.addStyle(key as any, value)
+  public addAny(key: string, value: string): WTSC<T> {
+    this.setCSS(key, value)
 
     return this
   }
@@ -202,7 +196,7 @@ export class WTSC<
    * @private能希望自定义基于Error的异常类型，使得你能够 throw new MyError() 并可以使用 instanceof MyError 来检查
    * @memberof WTSC
    */
-  private setCSS(cssName: CSSKey<T>, cssValue: CSSValueType): void {
+  private setCSS(cssName: CSSKey<T>, cssValue: CSSValue): void {
     this._style[cssName] = cssValue
   }
 
@@ -223,7 +217,7 @@ export class WTSC<
    * @return {*}
    * @memberof WTSC
    */
-  public return(isClear: boolean = true): StyleType<T> {
+  public output(isClear: boolean = true): Style<T> {
     const _style = this._style
     if (isClear) {
       this.clear()
@@ -234,106 +228,20 @@ export class WTSC<
   /**
    * 清空css
    */
-  public clear(newGroupName?: string): void {
-    this.groupCount += 1
-    this.groupId = this.groupCount
-
-    if (newGroupName === undefined) {
-      newGroupName = 'WTSC' + this.groupId.toString()
-    }
-
-    this.groupName = newGroupName
-    this._style = {} as unknown as StyleType<T>
+  public clear(): void {
+    this._style = {} as unknown as Style<T>
   }
-}
-
-/**
- * 添加css后的状态信息
- */
-export enum AddCSSState {
-  /**
-   * 添加CSS成功
-   */
-  SUCCEEDED,
-
-  /**
-   * 重写CSS成功
-   */
-  REDEFINE_SUCCEEDED,
-
-  /**
-   * 重写失败或禁止重写
-   */
-  REWRITE_FAILED,
-
-  /**
-   * 未知原因失败
-   */
-  FAILED,
-
-  /**
-   * 出错了
-   */
-  ERROR,
-
-  /**
-   * 我不知道这种情况应该不可能发生
-   */
-  UNKNOWN,
-}
-
-/**
- * 配置的默认值
- */
-export const DEFAULT_ADD_CSS_CONFIG: AddCSSConfigType = {
-  isAllowOverride: true,
-}
-
-/**
- * addCss 配置类型
- */
-export interface AddCSSConfigType {
-  isAllowOverride: Boolean
 }
 
 /**
  *  css值支持的类型
  */
-export type CSSValueType = string | number
-export type CSSKey<T extends { [key in string]: any }> = keyof T
+export type CSSValue = string | number
+export type CSSKey<T extends Parsers> = keyof T
 
 /**
  * style的类型
  */
-type StyleType<T> = {
-  [key in keyof T]: string | number
+type Style<T extends Parsers> = {
+  [k in CSSKey<T>]: CSSValue
 }
-
-/**
- * 处理器的类型
- */
-export type ParsersType<PT extends DefineParsersType<W>, W> = {
-  [css_name in keyof PT]: (...rest: any) => ParsersReturnType
-}
-
-/**
- * 声名处理器的类型
- */
-export type DefineParsersType<T> = {
-  [key in keyof {}]: (...rest: any) => T
-}
-
-/**
- * 定义WTSC的类型
- * 此类型相当于一个类型定义的工具类型，
- * 可以更简单的生成此工具类的类型
- */
-export type DefineWTSCType<MP> = WTSC<MP, ParsersType<MP, DefineWTSCType<MP>>>
-
-/**
- * 样式值支持的类型
- */
-export type StyleValueType = string | number
-
-export type ParsersReturnType = StyleValueType | ParsersReturnErrorType
-export type ParsersReturnErrorType = undefined
