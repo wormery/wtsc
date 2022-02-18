@@ -1,5 +1,5 @@
-import { DefineParsers, DefineWTSC, ParsersError } from '.'
-import type { ParsersReturnType } from './WTSC'
+import { Parsers, WTSC } from '.'
+import ParsersError from './error/ParsersError'
 
 /**
  * 这是一个样例
@@ -7,7 +7,7 @@ import type { ParsersReturnType } from './WTSC'
  * 这里实现自定义接口要传入函数返回值类型这里规定为implReturn
  *
  */
-export default class Parsers implements DefineParsers<implReturn> {
+export default class RootParsers implements Parsers {
   /**
    * 这里定义实例类型
    *
@@ -15,30 +15,27 @@ export default class Parsers implements DefineParsers<implReturn> {
    * @type {WTSC}
    * @memberof Parsers
    */
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  protected wtsc: WTSC = {} as WTSC
+  protected wtsc: WTSC<RootParsers> = {} as unknown as WTSC<RootParsers>
+
   /**
    * parsers名字
    */
-  protected name: string = ''
+  protected name: string = 'root'
 
   /**
    * parsers的id
    */
   protected id: number = Math.random()
+  /**
+   * 报错方法，使用此方法后，将停止本次的添加css过程
+   *
+   * @author meke
+   * @protected
+   * @param {string} msg
+   * @param {string} cssName
+   * @memberof RootParsers
+   */
   protected error(msg: string, cssName: string): void {
-    throw new ParsersError(
-      msg,
-      cssName,
-      this.name,
-      this.wtsc.groupName,
-      this.wtsc.groupId
-    )
+    throw new ParsersError(msg, cssName, this.name)
   }
 }
-
-type WTSC = DefineWTSC<DefineParsers<WTSC>>
-/**
- * 实现接口需要传入本类型
- */
-export type implReturn = ParsersReturnType

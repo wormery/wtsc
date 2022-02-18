@@ -20,11 +20,11 @@ export interface ParserReturnValue {
   toString: () => string
 }
 
-export interface Parsers {
-  [k: string | symbol]: (...rest: any[]) => ParserReturnValue
+export type Parsers<T = {}> = {
+  [k in keyof T]: (...rest: any[]) => ParserReturnValue
 }
 
-export type ADD<T extends Parsers> = {
+export type ADD<T extends Parsers<T>> = {
   [k in keyof T]: T[k] extends (...rest: infer Rest) => ParserReturnValue
     ? (...rest: Rest) => WTSC<T>
     : never
@@ -39,19 +39,19 @@ export type ADD<T extends Parsers> = {
  *  css值支持的类型
  */
 export type CSSValue = string | number
-export type CSSKey<T extends Parsers> = keyof T
+export type CSSKey<T extends Parsers<T>> = keyof T
 
 /**
  * style的类型
  */
-export type Style<T extends Parsers> = {
+export type Style<T extends Parsers<T>> = {
   [k in CSSKey<T>]: CSSValue
 }
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  */
-export class WTSC<T extends Parsers> extends Inject {
+export class WTSC<T extends Parsers<T>> extends Inject {
   private _style = {} as unknown as Style<T>
 
   public add: ADD<T>
@@ -100,7 +100,7 @@ export class WTSC<T extends Parsers> extends Inject {
           return that
         } else if (hasProp(parsers, prop)) {
           if (isFunction(parsers[prop])) {
-            return parsersHandler(prop.toString(), prop)
+            return parsersHandler(prop.toString(), prop as any)
           } else if (isWtsc(prop)) {
             return that
           } else {
@@ -198,7 +198,7 @@ export class WTSC<T extends Parsers> extends Inject {
    * @param value “任何stylleValue，不会做校验”
    */
   public addAny(key: string, value: string): WTSC<T> {
-    this.setCSS(key, value)
+    this.setCSS(key as any, value)
 
     return this
   }
