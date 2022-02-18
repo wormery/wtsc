@@ -1,4 +1,4 @@
-export default class extends Error {
+export class ParsersError extends Error {
   /**
    *
    * @param msg 错误信息

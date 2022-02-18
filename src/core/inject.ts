@@ -7,6 +7,11 @@ import {
 } from '@wormery/utils'
 
 /**
+ * 类唯一辨认属性等于它代表就是这个类
+ */
+const injectConstructorID: symbol = Symbol('injectConstructorID')
+
+/**
  * inject前缀
  */
 const WTSC_INJECT_KEY_PRE: string = 'WTSCIK:'
@@ -16,6 +21,9 @@ const WTSC_INJECT_KEY_PRE: string = 'WTSCIK:'
  */
 export const rootProvides: Provides = {}
 
+/**
+ * Provides 存储内容的对象类型
+ */
 export type Provides = Record<string | symbol, any>
 
 /**
@@ -37,22 +45,68 @@ export type GetObjInjectValue<T> = T extends InjectKey<infer P>
         : GetObjInjectValue<T[k]>
     }
 
+/**
+ * InjectKey
+ */
 export type InjectKeyApi = InjectKey<any> | ObjInjectKey
+
+/**
+ * @author meke
+ * @export
+ * @interface ObjInjectKey
+ */
 export interface ObjInjectKey {
   [k: string]: InjectKeyApi
 }
 
+/**
+ * @author meke
+ * @export
+ * @interface InjectKey
+ * @extends {Symbol}
+ * @template E
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface InjectKey<E> extends Symbol {}
 
-const injectConstructorID: symbol = Symbol('injectConstructorID')
+/**
+ * 注射器，输入一组api得到对应结果，主要作用为了在全局同一修改颜色
+ * @author meke
+ * @export
+ * @class Inject
+ */
 export class Inject {
   private readonly injectConstructorID: symbol = injectConstructorID
 
+  /**
+   * @author meke
+   * @type {Provides}
+   * @memberof Inject
+   */
   public provides: Provides
 
+  /**
+   * Creates an instance of Inject.
+   * @author meke
+   * @param {*} [inject]
+   * @memberof Inject
+   */
   constructor(inject?: any)
+
+  /**
+   * Creates an instance of Inject.
+   * @author meke
+   * @param {Inject} inject
+   * @memberof Inject
+   */
   constructor(inject: Inject)
+
+  /**
+   * Creates an instance of Inject.
+   * @author meke
+   * @param {(Inject | any)} [inject]
+   * @memberof Inject
+   */
   constructor(inject?: Inject | any) {
     if (!isUndef(inject) && 'injectConstructorID' in inject) {
       this.provides = Object.create(inject.provide)
@@ -61,46 +115,121 @@ export class Inject {
     }
   }
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @return {*}  {(GetObjInjectValue<KEYAPI> | undefined)}
+   * @memberof Inject
+   */
   inject<KEYAPI extends InjectKey<any>>(
     key: KEYAPI
   ): GetObjInjectValue<KEYAPI> | undefined
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends ObjInjectKey>(key: KEYAPI): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends InjectKey<any>>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends ObjInjectKey>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @param {boolean} write
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends InjectKey<any>>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>,
     write: boolean
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @param {boolean} write
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends ObjInjectKey>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>,
     write: boolean
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @param {true} write
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends ObjInjectKey>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>,
     write: true
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} defaul
+   * @param {true} write
+   * @return {*}  {GetObjInjectValue<KEYAPI>}
+   * @memberof Inject
+   */
   inject<KEYAPI extends InjectKey<any>>(
     key: KEYAPI,
     defaul: GetObjInjectValue<KEYAPI>,
     write: true
   ): GetObjInjectValue<KEYAPI>
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} [defaul]
+   * @param {boolean} [write=false]
+   * @return {*}  {(GetObjInjectValue<KEYAPI> | undefined)}
+   * @memberof Inject
+   */
   inject<KEYAPI extends InjectKeyApi>(
     key: KEYAPI,
     defaul?: GetObjInjectValue<KEYAPI>,
@@ -131,16 +260,37 @@ export class Inject {
     }
   }
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} value
+   * @memberof Inject
+   */
   provide<KEYAPI extends ObjInjectKey>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): void
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} value
+   * @memberof Inject
+   */
   provide<KEYAPI extends InjectKey<any>>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): void
 
+  /**
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} key
+   * @param {GetObjInjectValue<KEYAPI>} value
+   * @memberof Inject
+   */
   provide<KEYAPI extends InjectKeyApi>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
@@ -165,14 +315,52 @@ export class Inject {
   }
 }
 
+/**
+ * @author meke
+ * @export
+ * @template T
+ * @param {T} [kv]
+ * @return {*}  {InjectKey<unknown>}
+ */
 export function defineInjKey<T extends undefined>(kv?: T): InjectKey<unknown>
+
+/**
+ * @author meke
+ * @export
+ * @template T
+ * @param {T} kv
+ * @return {*}  {GetObjInjectKey<T>}
+ */
 export function defineInjKey<T extends { [key: string]: any }>(
   kv: T
 ): GetObjInjectKey<T>
+
+/**
+ * @author meke
+ * @export
+ * @template T
+ * @template P
+ * @param {T} key
+ * @param {P} [value]
+ * @return {*}  {InjectKey<P>}
+ */
 export function defineInjKey<T extends string, P extends unknown>(
   key: T,
   value?: P
 ): InjectKey<P>
+
+/**
+ * @author meke
+ * @export
+ * @template T
+ * @template P
+ * @param {T} [p1]
+ * @return {*}  {T extends undefined
+ *   ? InjectKey<unknown>
+ *   : T extends string
+ *   ? InjectKey<P>
+ *   : GetObjInjectKey<T>}
+ */
 export function defineInjKey<
   T extends { [key: string]: any } | undefined | string,
   P
@@ -197,8 +385,7 @@ export function defineInjKey<
 }
 
 /**
- *
- *
+ * 检查是不是 @ObjInjectKey 类型
  * @author meke
  * @export
  * @param {unknown} v
@@ -211,6 +398,13 @@ export function isObjInjectkey(v: unknown): v is ObjInjectKey {
   return false
 }
 
+/**
+ * 检查是不是 @InjectKey 类型
+ * @author meke
+ * @export
+ * @param {unknown} v
+ * @return {*}  {v is InjectKey<any>}
+ */
 export function isInjectKey(v: unknown): v is InjectKey<any> {
   if (isSymbol(v)) {
     if (getSymbolVal(v).startsWith(WTSC_INJECT_KEY_PRE)) {

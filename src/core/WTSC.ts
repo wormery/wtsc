@@ -13,9 +13,8 @@ import {
   isNull,
 } from '@wormery/utils'
 
-import ParserError from './error/ParsersError'
-
-import { Warning } from './error/Warning'
+import { ParsersError } from './error'
+import { warn } from './warn'
 import { Inject } from './inject'
 
 export const WTSCConstructorID = Symbol('WTSCConstructorID')
@@ -65,6 +64,15 @@ export type ADD<T extends Parsers<T>> = {
     : any[]
 ) => WTSC<T>)
 
+/**
+ * 生成一个定义WTSC的函数 传入一个类名
+ * @author meke
+ * @export
+ * @template T
+ * @param {new () => T} Parsers
+ * @param {boolean} [cache=true]
+ * @return {*}  {() => WTSC<T>}
+ */
 export function defineWTSC<T extends Parsers<T>>(
   Parsers: new () => T,
   cache: boolean = true
@@ -88,7 +96,6 @@ export function defineWTSC<T extends Parsers<T>>(
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
- *
  * @author meke
  * @export
  * @class WTSC
@@ -98,7 +105,6 @@ export function defineWTSC<T extends Parsers<T>>(
 export class WTSC<T extends Parsers<T>> extends Inject {
   /**
    * 一个symbol值，唯一表定一个构造器
-   *
    * @author meke
    * @type {symbol}
    * @memberof WTSC
@@ -107,7 +113,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 样式存储存储
-   *
    * @author meke
    * @private
    * @memberof WTSC
@@ -116,7 +121,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 处理器方法存储
-   *
    * @author meke
    * @type {ADD<T>}
    * @memberof WTSC
@@ -125,7 +129,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 父解析器
-   *
    * @author meke
    * @type {(WTSC<T> | null)}
    * @memberof WTSC
@@ -134,7 +137,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 子解析器
-   *
    * @author meke
    * @type {Array<WTSC<T>>}
    * @memberof WTSC
@@ -143,7 +145,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 解析器对象
-   *
    * @author meke
    * @type {T}
    * @memberof WTSC
@@ -198,7 +199,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 定义局部子wtsc
-   *
    * @author meke
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
@@ -213,7 +213,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 负责代理
-   *
    * @param target
    * @param handle
    * @returns
@@ -226,7 +225,11 @@ export class WTSC<T extends Parsers<T>> extends Inject {
      */
     const parsersHandler = cached((prop: string, key: CSSKey<T>) => {
       return function (this: T, ...rest: any[]): WTSC<T> {
-        that._addStyle(that.keyToString(key), (parsers as any)[key], ...rest)
+        that.parsersResultHandle(
+          that.keyToString(key),
+          (parsers as any)[key],
+          ...rest
+        )
         // 永远返回this
         return that
       }
@@ -258,8 +261,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   }
 
   /**
-   *
-   *
    * @author meke
    * @private
    * @template F
@@ -269,7 +270,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  private _addStyle<F extends ((...rest: any[]) => string) | string>(
+  private parsersResultHandle<F extends ((...rest: any[]) => string) | string>(
     key: string,
     handle: F,
     ...rest: any[]
@@ -295,14 +296,10 @@ export class WTSC<T extends Parsers<T>> extends Inject {
         this.setCSS(key as any, value)
         return this
       }
-      throw new Warning(
-        "WTSC>addStyle:检测到，处理器传入的类型错误'" + typeof value + "'"
-      )
+      warn("WTSC>addStyle:检测到，处理器传入的类型错误'" + typeof value + "'")
     } catch (E) {
-      if (E instanceof ParserError) {
-        console.error(E.toString())
-      } else if (E instanceof Warning) {
-        console.warn(E.msg)
+      if (E instanceof ParsersError) {
+        warn(E.toString())
       } else {
         throw E
       }
@@ -312,7 +309,6 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * keyToString
-   *
    * @author meke
    * @private
    * @param {CSSKey<T>} cssKey
@@ -334,9 +330,11 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   }
 
   /**
-   *
+   * @author meke
    * @param key "任何stylekey"
    * @param value “任何stylleValue，不会做校验”
+   * @return {*}  {WTSC<T>}
+   * @memberof WTSC
    */
   public addAny(key: string, value: string): WTSC<T> {
     this.setCSS(key as any, value)
@@ -345,9 +343,11 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   }
 
   /**
-   * 拆分方法添加属性
-   *
-   * @private能希望自定义基于Error的异常类型，使得你能够 throw new MyError() 并可以使用 instanceof MyError 来检查
+   * 向style里添加属性
+   * @author meke
+   * @private
+   * @param {CSSKey<T>} cssName
+   * @param {CSSValue} cssValue
    * @memberof WTSC
    */
   private setCSS(cssName: CSSKey<T>, cssValue: CSSValue): void {
@@ -356,9 +356,9 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 检查是否存在此css
-   *
+   * @author meke
    * @param {CSSKey<T>} cssKey
-   * @return {*}
+   * @return {*}  {boolean}
    * @memberof WTSC
    */
   public isExisted(cssKey: CSSKey<T>): boolean {
@@ -368,7 +368,9 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   /**
    * 返回css属性
    * @isClear:boolean 是否清空，默认值true
-   * @return {*}
+   * @author meke
+   * @param {boolean} [isClear=true]
+   * @return {*}  {Style<T>}
    * @memberof WTSC
    */
   public out(isClear: boolean = true): Style<T> {
@@ -381,6 +383,8 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
   /**
    * 清空css
+   * @author meke
+   * @memberof WTSC
    */
   public clear(): void {
     this._style = {} as unknown as Style<T>

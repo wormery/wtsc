@@ -1,17 +1,28 @@
 import { WTSC, RootParsers } from '../core'
 
-export function defineBaseWTSC(): WTSC<BaseParsers> {
-  return new WTSC(new BaseParsers())
-}
-
 /**
  * 基础的代码生成
  * 使用方法
  * getBaseWtsc()
+ * @author meke
+ * @export
+ * @class BaseParsers
+ * @extends {RootParsers}
  */
 export class BaseParsers extends RootParsers {
+  /**
+   * @author meke
+   * @protected
+   * @type {WTSC<BaseParsers>}
+   * @memberof BaseParsers
+   */
   protected wtsc: WTSC<BaseParsers> = {} as unknown as WTSC<BaseParsers>
 
+  /**
+   * Creates an instance of BaseParsers.
+   * @author meke
+   * @memberof BaseParsers
+   */
   constructor() {
     super()
     this.name = 'BaseParsers'

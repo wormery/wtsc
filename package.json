@@ -50,6 +50,6 @@
     "typescript": "^4.5.0"
   },
   "dependencies": {
-    "@wormery/utils": "1.1.1"
+    "@wormery/utils": "1.0.2"
   }
 }
