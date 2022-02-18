@@ -10,6 +10,7 @@ import {
   isThe,
   isUndef,
   getSymbolVal,
+  isNull,
 } from '@wormery/utils'
 
 import ParserError from './error/ParsersError'
@@ -18,6 +19,23 @@ import { Warning } from './error/Warning'
 import { Inject } from './inject'
 
 export const WTSCConstructorID = Symbol('WTSCConstructorID')
+
+/**
+ * css值支持的类型
+ */
+export type CSSValue = string | number
+
+/**
+ * CSSKey Type
+ */
+export type CSSKey<T extends Parsers<T>> = keyof T
+
+/**
+ * style的类型
+ */
+export type Style<T extends Parsers<T>> = {
+  [k in CSSKey<T>]: CSSValue
+}
 
 /**
  * 解析器的返回值必须有toString()方法
@@ -47,25 +65,35 @@ export type ADD<T extends Parsers<T>> = {
     : any[]
 ) => WTSC<T>)
 
-/**
- *  css值支持的类型
- */
-export type CSSValue = string | number
-
-/**
- * CSSKey Type
- */
-export type CSSKey<T extends Parsers<T>> = keyof T
-
-/**
- * style的类型
- */
-export type Style<T extends Parsers<T>> = {
-  [k in CSSKey<T>]: CSSValue
+export function defineWTSC<T extends Parsers<T>>(
+  Parsers: new () => T,
+  cache: boolean = true
+): () => WTSC<T> {
+  if (cache) {
+    let cached: WTSC<T> | null = null
+    return () => {
+      if (isNull(cached)) {
+        cached = new WTSC(new Parsers())
+        return cached
+      } else {
+        return cached
+      }
+    }
+  } else {
+    return () => {
+      return new WTSC(new Parsers())
+    }
+  }
 }
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
+ *
+ * @author meke
+ * @export
+ * @class WTSC
+ * @extends {Inject}
+ * @template T
  */
 export class WTSC<T extends Parsers<T>> extends Inject {
   /**
@@ -77,15 +105,73 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    */
   public WTSCConstructorID: symbol = WTSCConstructorID
 
+  /**
+   * 样式存储存储
+   *
+   * @author meke
+   * @private
+   * @memberof WTSC
+   */
   private _style = {} as unknown as Style<T>
 
+  /**
+   * 处理器方法存储
+   *
+   * @author meke
+   * @type {ADD<T>}
+   * @memberof WTSC
+   */
   public add: ADD<T> = {} as unknown as ADD<T>
-  public parent: WTSC<T> | null = null
-  public children: Array<WTSC<T>> = []
-  public parsers: T = {} as unknown as T
 
+  /**
+   * 父解析器
+   *
+   * @author meke
+   * @type {(WTSC<T> | null)}
+   * @memberof WTSC
+   */
+  public parent: WTSC<T> | null = null
+
+  /**
+   * 子解析器
+   *
+   * @author meke
+   * @type {Array<WTSC<T>>}
+   * @memberof WTSC
+   */
+  public children: Array<WTSC<T>> = []
+
+  /**
+   * 解析器对象
+   *
+   * @author meke
+   * @type {T}
+   * @memberof WTSC
+   */
+  private readonly parsers: T = {} as unknown as T
+
+  /**
+   * Creates an instance of WTSC.
+   * @author meke
+   * @param {T} parsers
+   * @memberof WTSC
+   */
   constructor(parsers: T)
+
+  /**
+   * Creates an instance of WTSC.
+   * @author meke
+   * @param {WTSC<T>} parent
+   * @memberof WTSC
+   */
   constructor(parent: WTSC<T>)
+
+  /**
+   * Creates an instance of WTSC.
+   * @author meke
+   * @param {(WTSC<T> | T)} [p1]
+   * @memberof WTSC
+   */
   constructor(p1?: WTSC<T> | T) {
     super(p1)
 
@@ -109,8 +195,19 @@ export class WTSC<T extends Parsers<T>> extends Inject {
     }
   }
 
+  /**
+   * 定义局部子wtsc
+   *
+   * @author meke
+   * @return {*}  {WTSC<T>}
+   * @memberof WTSC
+   */
   public defChild(): WTSC<T> {
-    return new WTSC(this as any)
+    const w = new WTSC(this as any)
+
+    this.children.push(w)
+
+    return w
   }
 
   /**

@@ -27,7 +27,7 @@ const test = new WTSC({
   },
 })
 
-console.log(test)
+console.log(test.defChild())
 
 // const teststyle = xxx.add
 //   .height(20)
