@@ -103,7 +103,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @type {symbol}
    * @memberof WTSC
    */
-  public WTSCConstructorID: symbol = WTSCConstructorID
+  public readonly WTSCConstructorID: symbol = WTSCConstructorID
 
   /**
    * 样式存储存储
@@ -148,7 +148,8 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @type {T}
    * @memberof WTSC
    */
-  private readonly parsers: T = {} as unknown as T
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly
+  private parsers: T = {} as unknown as T
 
   /**
    * Creates an instance of WTSC.
@@ -360,7 +361,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @return {*}
    * @memberof WTSC
    */
-  public isExistedBeCSS(cssKey: CSSKey<T>): boolean {
+  public isExisted(cssKey: CSSKey<T>): boolean {
     return !!this._style[cssKey]
   }
 
