@@ -1,10 +1,7 @@
-import { Parsers, implReturn, WTSC } from '../../core'
-import { BaseWTSC, DefineBaseParsers } from '../DefineBaseParsers'
+import { WTSC, RootParsers } from '../core'
 
-export function createWTSC(): BaseWTSC {
-  const baseWTSC: BaseWTSC = new WTSC(new BaseParsersImpl())
-
-  return baseWTSC
+export function defineBaseWTSC(): WTSC<BaseParsers> {
+  return new WTSC(new BaseParsers())
 }
 
 /**
@@ -12,11 +9,9 @@ export function createWTSC(): BaseWTSC {
  * 使用方法
  * getBaseWtsc()
  */
-export class BaseParsersImpl
-  extends Parsers
-  implements DefineBaseParsers<implReturn>
-{
-  protected wtsc: BaseWTSC = {} as unknown as BaseWTSC
+export class BaseParsers extends RootParsers {
+  protected wtsc: WTSC<BaseParsers> = {} as unknown as WTSC<BaseParsers>
+
   constructor() {
     super()
     this.name = 'BaseParsers'

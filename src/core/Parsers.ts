@@ -7,7 +7,7 @@ import ParsersError from './error/ParsersError'
  * 这里实现自定义接口要传入函数返回值类型这里规定为implReturn
  *
  */
-export default class RootParsers implements Parsers {
+export class RootParsers implements Parsers {
   /**
    * 这里定义实例类型
    *

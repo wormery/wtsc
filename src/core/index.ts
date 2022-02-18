@@ -1,11 +1,3 @@
-// import Parsers from './Parsers'
-// import ParsersError from './error/ParsersError'
-
-// export { Parsers, ParsersError }
-
-export * from './WTSC'
-export * from './inject'
-
-// export type { DefineParsers, DefineWTSC } from '../core/DefineParsers'
-
-// export type { implReturn } from './Parsers'
+export { WTSC, Parsers } from './WTSC'
+export { Inject, defineInjKey } from './inject'
+export { RootParsers } from './Parsers'

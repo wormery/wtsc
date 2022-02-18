@@ -1,4 +1,3 @@
-import { Inject, Provides } from '.'
 import {
   isEmpty,
   isFunction,
@@ -7,23 +6,36 @@ import {
   isSymbol,
   isUndefAndNull,
   cached,
-  getSymbolStr,
   hasProp,
   isThe,
-} from '../utils/utils'
+  isUndef,
+  getSymbolVal,
+} from '@wormery/utils'
 
 import ParserError from './error/ParsersError'
 
 import { Warning } from './error/Warning'
+import { Inject } from './inject'
 
+export const WTSCConstructorID = Symbol('WTSCConstructorID')
+
+/**
+ * 解析器的返回值必须有toString()方法
+ */
 export interface ParserReturnValue {
   toString: () => string
 }
 
+/**
+ * Parsers 类型
+ */
 export type Parsers<T = {}> = {
   [k in keyof T]: (...rest: any[]) => ParserReturnValue
 }
 
+/**
+ * ADD 的类型
+ */
 export type ADD<T extends Parsers<T>> = {
   [k in keyof T]: T[k] extends (...rest: infer Rest) => ParserReturnValue
     ? (...rest: Rest) => WTSC<T>
@@ -39,6 +51,10 @@ export type ADD<T extends Parsers<T>> = {
  *  css值支持的类型
  */
 export type CSSValue = string | number
+
+/**
+ * CSSKey Type
+ */
 export type CSSKey<T extends Parsers<T>> = keyof T
 
 /**
@@ -52,22 +68,49 @@ export type Style<T extends Parsers<T>> = {
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  */
 export class WTSC<T extends Parsers<T>> extends Inject {
+  /**
+   * 一个symbol值，唯一表定一个构造器
+   *
+   * @author meke
+   * @type {symbol}
+   * @memberof WTSC
+   */
+  public WTSCConstructorID: symbol = WTSCConstructorID
+
   private _style = {} as unknown as Style<T>
 
-  public add: ADD<T>
+  public add: ADD<T> = {} as unknown as ADD<T>
+  public parent: WTSC<T> | null = null
+  public children: Array<WTSC<T>> = []
+  public parsers: T = {} as unknown as T
 
-  constructor(parsers: T, provides?: Provides) {
-    super(provides)
-    // 让add既是函数有是处理数据的对象
-    const addFn = ((key: CSSKey<T>, ...rest: any[]) => {
-      if (hasProp(this.add, key)) {
-        this.add[key](...rest)
+  constructor(parsers: T)
+  constructor(parent: WTSC<T>)
+  constructor(p1?: WTSC<T> | T) {
+    super(p1)
+
+    if (!isUndef(p1)) {
+      if ('WTSCConstructorID' in p1) {
+        this.parsers = p1.parsers
+        this.parent = p1
+      } else {
+        this.parsers = p1
       }
+      // 让add既是函数有是处理数据的对象
+      const addFn = ((key: CSSKey<T>, ...rest: any[]) => {
+        if (hasProp(this.add, key)) {
+          this.add[key](...rest)
+        }
 
-      return this
-    }) as unknown as ADD<T>
+        return this
+      }) as unknown as ADD<T>
 
-    this.add = this.addProxify(parsers, addFn)
+      this.add = this.addProxify(this.parsers, addFn)
+    }
+  }
+
+  public defChild(): WTSC<T> {
+    return new WTSC(this as any)
   }
 
   /**
@@ -183,7 +226,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
       return cssKey
     }
     if (isSymbol(cssKey)) {
-      return getSymbolStr(cssKey)
+      return getSymbolVal(cssKey)
     }
     if (isNumber(cssKey)) {
       return cssKey.toString()
@@ -230,7 +273,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @return {*}
    * @memberof WTSC
    */
-  public output(isClear: boolean = true): Style<T> {
+  public out(isClear: boolean = true): Style<T> {
     const _style = this._style
     if (isClear) {
       this.clear()

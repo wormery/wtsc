@@ -45,14 +45,19 @@ export interface ObjInjectKey {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface InjectKey<E> extends Symbol {}
 
+const injectConstructorID: symbol = Symbol('injectConstructorID')
 export class Inject {
-  provides: Provides
+  private readonly injectConstructorID: symbol = injectConstructorID
 
-  constructor(_privates?: Provides) {
-    if (isUndef(_privates)) {
-      this.provides = Object.create(global)
+  public provides: Provides
+
+  constructor(inject?: any)
+  constructor(inject: Inject)
+  constructor(inject?: Inject | any) {
+    if (!isUndef(inject) && 'injectConstructorID' in inject) {
+      this.provides = Object.create(inject.provide)
     } else {
-      this.provides = _privates
+      this.provides = rootProvides
     }
   }
 
@@ -190,25 +195,6 @@ export function defineInjKey<
   }
   return ret
 }
-const xxx = defineInjKey<'3', string>('3')
-console.log(xxx)
-
-/**
- * 定义注射器
- *
- * @author meke
- * @export
- * @param {Provides} [provides=undefined]
- * @return {*}  {InjWTSC}
- */
-export function defineInject(provides?: Provides): Inject {
-  return new Inject(provides)
-}
-
-/**
- * 全局的一写api
- */
-export const { inject, provide } = defineInject(rootProvides)
 
 /**
  *
