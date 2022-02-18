@@ -1,4 +1,4 @@
-import { InjWTSC, Provides } from '.'
+import { Inject, Provides } from '.'
 import {
   isEmpty,
   isFunction,
@@ -36,9 +36,22 @@ export type ADD<T extends Parsers> = {
 ) => WTSC<T>)
 
 /**
+ *  css值支持的类型
+ */
+export type CSSValue = string | number
+export type CSSKey<T extends Parsers> = keyof T
+
+/**
+ * style的类型
+ */
+export type Style<T extends Parsers> = {
+  [k in CSSKey<T>]: CSSValue
+}
+
+/**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  */
-export class WTSC<T extends Parsers> extends InjWTSC {
+export class WTSC<T extends Parsers> extends Inject {
   private _style = {} as unknown as Style<T>
 
   public add: ADD<T>
@@ -231,17 +244,4 @@ export class WTSC<T extends Parsers> extends InjWTSC {
   public clear(): void {
     this._style = {} as unknown as Style<T>
   }
-}
-
-/**
- *  css值支持的类型
- */
-export type CSSValue = string | number
-export type CSSKey<T extends Parsers> = keyof T
-
-/**
- * style的类型
- */
-type Style<T extends Parsers> = {
-  [k in CSSKey<T>]: CSSValue
 }
