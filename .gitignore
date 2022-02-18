@@ -1,3 +1,5 @@
 node_modules
 **.log
 **tempCodeRunnerFile.ts
+build
+lib
