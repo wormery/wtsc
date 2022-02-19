@@ -1,4 +1,8 @@
 export class ParsersError extends Error {
+  static throw(): never {
+    throw new ParsersError()
+  }
+
   /**
    *
    * @param msg 错误信息
@@ -32,5 +36,18 @@ export class ParsersError extends Error {
       str += "解析器:'" + this.parsersName + "'发生了一个错误\n"
     }
     return str
+  }
+}
+
+export class ParsersSkip extends ParsersError {
+  /**
+   * 就是跳过不做任何处理
+   * @author meke
+   * @static
+   * @return {*}  {never}
+   * @memberof ParsersSkip
+   */
+  static throw(): never {
+    throw new ParsersSkip()
   }
 }
