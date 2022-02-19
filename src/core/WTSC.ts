@@ -216,8 +216,8 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  public defChild(): WTSC<T> {
-    const w = new WTSC(this as any)
+  public defChild(name?: string): WTSC<T> {
+    const w = new WTSC(this as any, name)
 
     this.children.push(w)
 
