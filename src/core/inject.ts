@@ -248,9 +248,10 @@ export class Inject {
       return defaul
     }
 
-    if (isSymbol(key)) {
-      if (!isUndef(this.provides[key])) {
-        return this.provides[key]
+    if (isInjectKey(key)) {
+      const value = this.provides[key.symbol]
+      if (!isUndef(value)) {
+        return value
       } else {
         return defaul
       }
@@ -306,8 +307,8 @@ export class Inject {
     if (isUndef(value)) {
       return
     }
-    if (isSymbol(key)) {
-      this.provides[key] = value
+    if (isInjectKey(key)) {
+      this.provides[key.symbol] = value
     } else if (isObjInjectkey(key)) {
       for (const k in key) {
         if (!isUndef(value) && !isUndef(key[k])) {
