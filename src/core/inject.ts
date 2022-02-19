@@ -1,10 +1,4 @@
-import {
-  isSymbol,
-  isObject,
-  isUndef,
-  isString,
-  getSymbolVal,
-} from '@wormery/utils'
+import { isSymbol, isObject, isUndef, isString } from '@wormery/utils'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类

@@ -15,7 +15,6 @@ import {
 import { ParsersError, ParsersSkip } from './error'
 import { parsersResultHandleWarn, warn } from './warn'
 import { Inject, InjectKey } from './inject'
-import { defineInjKey } from '.'
 
 export const WTSCConstructorID = Symbol('WTSCConstructorID')
 
