@@ -396,6 +396,38 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   }
 
   /**
+   * 保存，默认清空存储样式的变量
+   * @author meke
+   * @return {*}  {InjectKey<Style<T>>}
+   * @memberof WTSC
+   */
+  public save(): InjectKey<Style<T>>
+
+  /**
+   * 保存后清空
+   * @author meke
+   * @param {boolean} isClear
+   * @return {*}  {InjectKey<Style<T>>}
+   * @memberof WTSC
+   */
+  public save(isClear: boolean): InjectKey<Style<T>>
+
+  /**
+   * 保存
+   * @author meke
+   * @param {boolean} [isClear=true]
+   * @return {*}  {InjectKey<Style<T>>}
+   * @memberof WTSC
+   */
+  public save(isClear: boolean = true): InjectKey<Style<T>> {
+    const injectkey = this.provide(this._style)
+    if (isClear) {
+      this.clear()
+    }
+    return injectkey
+  }
+
+  /**
    * 清空css
    * @author meke
    * @memberof WTSC
