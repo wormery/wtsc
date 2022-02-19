@@ -16,7 +16,10 @@
     "build:all": "pnpm rollup -c",
     "format": "prettier --write \"./**/*.{js,jsx,json,yaml}\"",
     "test": "mocha",
-    "unit": "pnpm ts-mocha -p tsconfig.json test/**/*.spec.ts"
+    "unit": "pnpm ts-mocha -p tsconfig.json test/**/*.spec.ts",
+    "release:minor-alpha": "pnpm standard-version --release-as minor --prerelease alpha",
+    "release:major-bate": "pnpm standard-version --release-as major --prerelease bate",
+    "release": "pnpm standard-version"
   },
   "author": "meke",
   "license": "MIT",
