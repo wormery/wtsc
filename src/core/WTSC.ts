@@ -455,9 +455,9 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   public toString(name: string = this.name, prefix: string = ''): string {
     let cssstyle = ''
     if (name === this.name) {
-      cssstyle += name
-    } else {
       cssstyle += '.' + name
+    } else {
+      cssstyle += name
     }
     cssstyle += '{\n'
     for (const key in this._style) {
@@ -466,7 +466,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
         cssstyle += `  ${key}: ${cssValue};\n`
       }
     }
-    cssstyle += '}\n\n'
+    cssstyle += '}\n'
     return cssstyle
   }
 }
