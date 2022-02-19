@@ -112,6 +112,14 @@ export class WTSC<T extends Parsers<T>> extends Inject {
   public readonly WTSCConstructorID: symbol = WTSCConstructorID
 
   /**
+   * 名字
+   * @author meke
+   * @type {string}
+   * @memberof WTSC
+   */
+  public name: string
+
+  /**
    * 样式存储存储
    * @author meke
    * @private
@@ -158,7 +166,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @param {T} parsers
    * @memberof WTSC
    */
-  constructor(parsers: T)
+  constructor(parsers: T, name?: string)
 
   /**
    * Creates an instance of WTSC.
@@ -166,7 +174,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @param {WTSC<T>} parent
    * @memberof WTSC
    */
-  constructor(parent: WTSC<T>)
+  constructor(parent: WTSC<T>, name?: string)
 
   /**
    * Creates an instance of WTSC.
@@ -174,8 +182,9 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    * @param {(WTSC<T> | T)} [p1]
    * @memberof WTSC
    */
-  constructor(p1?: WTSC<T> | T) {
+  constructor(p1?: WTSC<T> | T, name: string = 'wtsc') {
     super(p1)
+    this.name = name
 
     if (!isUndef(p1)) {
       if ('WTSCConstructorID' in p1) {
@@ -276,7 +285,7 @@ export class WTSC<T extends Parsers<T>> extends Inject {
     ...rest: any[]
   ): WTSC<T> {
     try {
-      let value: string | undefined
+      let value: ParserReturnValue | undefined
 
       if (isFunction(handle)) {
         value = handle(...rest)
@@ -388,5 +397,31 @@ export class WTSC<T extends Parsers<T>> extends Inject {
    */
   public clear(): void {
     this._style = {} as unknown as Style<T>
+  }
+
+  /**
+   * 将会以css的形式格式化
+   * @author meke
+   * @param {string} [name=this.name]
+   * @param {string} [prefix='']
+   * @return {*}  {string}
+   * @memberof WTSC
+   */
+  public toString(name: string = this.name, prefix: string = ''): string {
+    let cssstyle = ''
+    if (name === this.name) {
+      cssstyle += name
+    } else {
+      cssstyle += '.' + name
+    }
+    cssstyle += '{\n'
+    for (const key in this._style) {
+      if (Object.prototype.hasOwnProperty.call(this._style, key)) {
+        const cssValue = this._style[key]
+        cssstyle += `  ${key}: ${cssValue};\n`
+      }
+    }
+    cssstyle += '}\n\n'
+    return cssstyle
   }
 }
