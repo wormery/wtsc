@@ -12,6 +12,11 @@ import {
 const injectConstructorID: symbol = Symbol('injectConstructorID')
 
 /**
+ * inject
+ */
+const injectKeyConstructorID: symbol = Symbol('injectConstructorID')
+
+/**
  * inject前缀
  */
 const WTSC_INJECT_KEY_PRE: string = 'WTSCIK:'
@@ -67,7 +72,16 @@ export interface ObjInjectKey {
  * @template E
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface InjectKey<E> extends Symbol {}
+export class InjectKey<E> {
+  key: string
+  symbol: symbol
+  constructor(key: string = 'InjectKey') {
+    this.key = key
+    this.symbol = Symbol(WTSC_INJECT_KEY_PRE + key)
+  }
+
+  injectKeyConstructorID = injectKeyConstructorID
+}
 
 /**
  * 注射器，输入一组api得到对应结果，主要作用为了在全局同一修改颜色
@@ -236,7 +250,7 @@ export class Inject {
     write: boolean = false
   ): GetObjInjectValue<KEYAPI> | undefined {
     if (write) {
-      this.provide(key as any, defaul)
+      this.defineProvide(key as any, defaul)
       return defaul
     }
 
@@ -267,7 +281,7 @@ export class Inject {
    * @param {GetObjInjectValue<KEYAPI>} value
    * @memberof Inject
    */
-  provide<KEYAPI extends ObjInjectKey>(
+  defineProvide<KEYAPI extends ObjInjectKey>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): void
@@ -279,7 +293,7 @@ export class Inject {
    * @param {GetObjInjectValue<KEYAPI>} value
    * @memberof Inject
    */
-  provide<KEYAPI extends InjectKey<any>>(
+  defineProvide<KEYAPI extends InjectKey<any>>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): void
@@ -291,7 +305,7 @@ export class Inject {
    * @param {GetObjInjectValue<KEYAPI>} value
    * @memberof Inject
    */
-  provide<KEYAPI extends InjectKeyApi>(
+  defineProvide<KEYAPI extends InjectKeyApi>(
     key: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): void {
@@ -305,13 +319,19 @@ export class Inject {
         if (!isUndef(value) && !isUndef(key[k])) {
           const apiKey = key[k]
           if (isInjectKey(apiKey)) {
-            this.provide(apiKey, (value as any)[k])
+            this.defineProvide(apiKey, (value as any)[k])
           } else if (isObjInjectkey(apiKey)) {
-            this.provide(apiKey, (value as any)[k])
+            this.defineProvide(apiKey, (value as any)[k])
           }
         }
       }
     }
+  }
+
+  provide<T>(value: T, describe: string = 'Provide'): InjectKey<T> {
+    const injectKey = defineInjKey<T>(describe)
+    this.defineProvide(injectKey, value)
+    return injectKey
   }
 }
 
@@ -344,7 +364,7 @@ export function defineInjKey<T extends { [key: string]: any }>(
  * @param {P} [value]
  * @return {*}  {InjectKey<P>}
  */
-export function defineInjKey<T extends string, P extends unknown>(
+export function defineInjKey<P extends unknown, T extends string = string>(
   key: T,
   value?: P
 ): InjectKey<P>
@@ -372,14 +392,14 @@ export function defineInjKey<
   ? InjectKey<P>
   : GetObjInjectKey<T> {
   if (isString(p1)) {
-    return Symbol(`${WTSC_INJECT_KEY_PRE}${p1}`) as any
+    return new InjectKey(p1) as any
   }
   if (isUndef(p1)) {
-    return Symbol(`${WTSC_INJECT_KEY_PRE}default`) as any
+    return new InjectKey() as any
   }
   const ret: any = {}
   for (const k in p1) {
-    ret[k] = Symbol(`${WTSC_INJECT_KEY_PRE}${k}`)
+    ret[k] = new InjectKey(k)
   }
   return ret
 }
@@ -406,10 +426,11 @@ export function isObjInjectkey(v: unknown): v is ObjInjectKey {
  * @return {*}  {v is InjectKey<any>}
  */
 export function isInjectKey(v: unknown): v is InjectKey<any> {
-  if (isSymbol(v)) {
-    if (getSymbolVal(v).startsWith(WTSC_INJECT_KEY_PRE)) {
-      return true
-    }
+  if (
+    v instanceof InjectKey ||
+    (isObject(v) && 'injectKeyConstructorID' in v)
+  ) {
+    return true
   }
   return false
 }
