@@ -1,4 +1,4 @@
-import { WTSC, RootParsers } from '../core'
+import { WTSC, RootParsers, ParserReturnValue } from '../core'
 
 /**
  * 基础的代码生成
@@ -29,1711 +29,1711 @@ export class BaseParsers extends RootParsers {
     this.id = 1
   }
 
-  WebkitLineClamp(value: string): string {
+  WebkitLineClamp(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  accentColor(value: string): string {
+  accentColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  additiveSymbols(value: string): string {
+  additiveSymbols(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  alignContent(value: string): string {
+  alignContent(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  alignItems(value: string): string {
+  alignItems(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  alignSelf(value: string): string {
+  alignSelf(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  alignTracks(value: string): string {
+  alignTracks(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  all(value: string): string {
+  all(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animation(value: string): string {
+  animation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationDelay(value: string): string {
+  animationDelay(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationDirection(value: string): string {
+  animationDirection(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationDuration(value: string): string {
+  animationDuration(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationFillMode(value: string): string {
+  animationFillMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationIterationCount(value: string): string {
+  animationIterationCount(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationName(value: string): string {
+  animationName(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationPlayState(value: string): string {
+  animationPlayState(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  animationTimingFunction(value: string): string {
+  animationTimingFunction(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  appearance(value: string): string {
+  appearance(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  ascentOverride(value: string): string {
+  ascentOverride(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  aspectRatio(value: string): string {
+  aspectRatio(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backdropFilter(value: string): string {
+  backdropFilter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backfaceVisibility(value: string): string {
+  backfaceVisibility(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  background(value: string): string {
+  background(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundAttachment(value: string): string {
+  backgroundAttachment(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundBlendMode(value: string): string {
+  backgroundBlendMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundClip(value: string): string {
+  backgroundClip(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundColor(value: string): string {
+  backgroundColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundImage(value: string): string {
+  backgroundImage(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundOrigin(value: string): string {
+  backgroundOrigin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundPosition(value: string): string {
+  backgroundPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundPositionX(value: string): string {
+  backgroundPositionX(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundPositionY(value: string): string {
+  backgroundPositionY(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundRepeat(value: string): string {
+  backgroundRepeat(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  backgroundSize(value: string): string {
+  backgroundSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  bleed(value: string): string {
+  bleed(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  blockOverflow(value: string): string {
+  blockOverflow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  blockSize(value: string): string {
+  blockSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  border(value: string): string {
+  border(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlock(value: string): string {
+  borderBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockColor(value: string): string {
+  borderBlockColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockEnd(value: string): string {
+  borderBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockEndColor(value: string): string {
+  borderBlockEndColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockEndStyle(value: string): string {
+  borderBlockEndStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockEndWidth(value: string): string {
+  borderBlockEndWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockStart(value: string): string {
+  borderBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockStartColor(value: string): string {
+  borderBlockStartColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockStartStyle(value: string): string {
+  borderBlockStartStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockStartWidth(value: string): string {
+  borderBlockStartWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockStyle(value: string): string {
+  borderBlockStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBlockWidth(value: string): string {
+  borderBlockWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottom(value: string): string {
+  borderBottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottomColor(value: string): string {
+  borderBottomColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottomLeftRadius(value: string): string {
+  borderBottomLeftRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottomRightRadius(value: string): string {
+  borderBottomRightRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottomStyle(value: string): string {
+  borderBottomStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderBottomWidth(value: string): string {
+  borderBottomWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderCollapse(value: string): string {
+  borderCollapse(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderColor(value: string): string {
+  borderColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderEndEndRadius(value: string): string {
+  borderEndEndRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderEndStartRadius(value: string): string {
+  borderEndStartRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImage(value: string): string {
+  borderImage(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImageOutset(value: string): string {
+  borderImageOutset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImageRepeat(value: string): string {
+  borderImageRepeat(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImageSlice(value: string): string {
+  borderImageSlice(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImageSource(value: string): string {
+  borderImageSource(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderImageWidth(value: string): string {
+  borderImageWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInline(value: string): string {
+  borderInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineColor(value: string): string {
+  borderInlineColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineEnd(value: string): string {
+  borderInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineEndColor(value: string): string {
+  borderInlineEndColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineEndStyle(value: string): string {
+  borderInlineEndStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineEndWidth(value: string): string {
+  borderInlineEndWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineStart(value: string): string {
+  borderInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineStartColor(value: string): string {
+  borderInlineStartColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineStartStyle(value: string): string {
+  borderInlineStartStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineStartWidth(value: string): string {
+  borderInlineStartWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineStyle(value: string): string {
+  borderInlineStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderInlineWidth(value: string): string {
+  borderInlineWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderLeft(value: string): string {
+  borderLeft(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderLeftColor(value: string): string {
+  borderLeftColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderLeftStyle(value: string): string {
+  borderLeftStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderLeftWidth(value: string): string {
+  borderLeftWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderRadius(value: string): string {
+  borderRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderRight(value: string): string {
+  borderRight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderRightColor(value: string): string {
+  borderRightColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderRightStyle(value: string): string {
+  borderRightStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderRightWidth(value: string): string {
+  borderRightWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderSpacing(value: string): string {
+  borderSpacing(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderStartEndRadius(value: string): string {
+  borderStartEndRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderStartStartRadius(value: string): string {
+  borderStartStartRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderStyle(value: string): string {
+  borderStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTop(value: string): string {
+  borderTop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTopColor(value: string): string {
+  borderTopColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTopLeftRadius(value: string): string {
+  borderTopLeftRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTopRightRadius(value: string): string {
+  borderTopRightRadius(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTopStyle(value: string): string {
+  borderTopStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderTopWidth(value: string): string {
+  borderTopWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  borderWidth(value: string): string {
+  borderWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  bottom(value: string): string {
+  bottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  boxDecorationBreak(value: string): string {
+  boxDecorationBreak(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  boxShadow(value: string): string {
+  boxShadow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  boxSizing(value: string): string {
+  boxSizing(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  breakAfter(value: string): string {
+  breakAfter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  breakBefore(value: string): string {
+  breakBefore(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  breakInside(value: string): string {
+  breakInside(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  captionSide(value: string): string {
+  captionSide(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  caretColor(value: string): string {
+  caretColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  clear(value: string): string {
+  clear(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  clip(value: string): string {
+  clip(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  clipPath(value: string): string {
+  clipPath(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  color(value: string): string {
+  color(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  colorAdjust(value: string): string {
+  colorAdjust(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  colorScheme(value: string): string {
+  colorScheme(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnCount(value: string): string {
+  columnCount(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnFill(value: string): string {
+  columnFill(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnGap(value: string): string {
+  columnGap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnRule(value: string): string {
+  columnRule(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnRuleColor(value: string): string {
+  columnRuleColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnRuleStyle(value: string): string {
+  columnRuleStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnRuleWidth(value: string): string {
+  columnRuleWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnSpan(value: string): string {
+  columnSpan(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columnWidth(value: string): string {
+  columnWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  columns(value: string): string {
+  columns(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  contain(value: string): string {
+  contain(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  content(value: string): string {
+  content(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  contentVisibility(value: string): string {
+  contentVisibility(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  counterIncrement(value: string): string {
+  counterIncrement(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  counterReset(value: string): string {
+  counterReset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  counterSet(value: string): string {
+  counterSet(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  cursor(value: string): string {
+  cursor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  descentOverride(value: string): string {
+  descentOverride(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  direction(value: string): string {
+  direction(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  display(value: string): string {
+  display(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  emptyCells(value: string): string {
+  emptyCells(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fallback(value: string): string {
+  fallback(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  filter(value: string): string {
+  filter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flex(value: string): string {
+  flex(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexBasis(value: string): string {
+  flexBasis(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexDirection(value: string): string {
+  flexDirection(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexFlow(value: string): string {
+  flexFlow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexGrow(value: string): string {
+  flexGrow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexShrink(value: string): string {
+  flexShrink(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  flexWrap(value: string): string {
+  flexWrap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  float(value: string): string {
+  float(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  font(value: string): string {
+  font(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontDisplay(value: string): string {
+  fontDisplay(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontFamily(value: string): string {
+  fontFamily(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontFeatureSettings(value: string): string {
+  fontFeatureSettings(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontKerning(value: string): string {
+  fontKerning(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontLanguageOverride(value: string): string {
+  fontLanguageOverride(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontOpticalSizing(value: string): string {
+  fontOpticalSizing(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontSize(value: string): string {
+  fontSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontSizeAdjust(value: string): string {
+  fontSizeAdjust(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontStretch(value: string): string {
+  fontStretch(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontStyle(value: string): string {
+  fontStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontSynthesis(value: string): string {
+  fontSynthesis(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariant(value: string): string {
+  fontVariant(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantAlternates(value: string): string {
+  fontVariantAlternates(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantCaps(value: string): string {
+  fontVariantCaps(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantEastAsian(value: string): string {
+  fontVariantEastAsian(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantLigatures(value: string): string {
+  fontVariantLigatures(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantNumeric(value: string): string {
+  fontVariantNumeric(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariantPosition(value: string): string {
+  fontVariantPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontVariationSettings(value: string): string {
+  fontVariationSettings(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  fontWeight(value: string): string {
+  fontWeight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  forcedColorAdjust(value: string): string {
+  forcedColorAdjust(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gap(value: string): string {
+  gap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  grid(value: string): string {
+  grid(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridArea(value: string): string {
+  gridArea(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridAutoColumns(value: string): string {
+  gridAutoColumns(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridAutoFlow(value: string): string {
+  gridAutoFlow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridAutoRows(value: string): string {
+  gridAutoRows(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridColumn(value: string): string {
+  gridColumn(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridColumnEnd(value: string): string {
+  gridColumnEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridColumnStart(value: string): string {
+  gridColumnStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridRow(value: string): string {
+  gridRow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridRowEnd(value: string): string {
+  gridRowEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridRowStart(value: string): string {
+  gridRowStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridTemplate(value: string): string {
+  gridTemplate(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridTemplateAreas(value: string): string {
+  gridTemplateAreas(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridTemplateColumns(value: string): string {
+  gridTemplateColumns(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  gridTemplateRows(value: string): string {
+  gridTemplateRows(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  hangingPunctuation(value: string): string {
+  hangingPunctuation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  height(value: string): string {
+  height(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  hyphens(value: string): string {
+  hyphens(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  imageOrientation(value: string): string {
+  imageOrientation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  imageRendering(value: string): string {
+  imageRendering(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  imageResolution(value: string): string {
+  imageResolution(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  inherit(value: string): string {
+  inherit(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  inherits(value: string): string {
+  inherits(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  initial(value: string): string {
+  initial(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  initialLetter(value: string): string {
+  initialLetter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  initialLetterAlign(value: string): string {
+  initialLetterAlign(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  initialValue(value: string): string {
+  initialValue(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  inlineSize(value: string): string {
+  inlineSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  inputSecurity(value: string): string {
+  inputSecurity(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  inset(value: string): string {
+  inset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetBlock(value: string): string {
+  insetBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetBlockEnd(value: string): string {
+  insetBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetBlockStart(value: string): string {
+  insetBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetInline(value: string): string {
+  insetInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetInlineEnd(value: string): string {
+  insetInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  insetInlineStart(value: string): string {
+  insetInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  isolation(value: string): string {
+  isolation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  justifyContent(value: string): string {
+  justifyContent(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  justifyItems(value: string): string {
+  justifyItems(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  justifySelf(value: string): string {
+  justifySelf(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  justifyTracks(value: string): string {
+  justifyTracks(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  left(value: string): string {
+  left(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  letterSpacing(value: string): string {
+  letterSpacing(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  lineBreak(value: string): string {
+  lineBreak(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  lineClamp(value: string): string {
+  lineClamp(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  lineGapOverride(value: string): string {
+  lineGapOverride(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  lineHeight(value: string): string {
+  lineHeight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  lineHeightStep(value: string): string {
+  lineHeightStep(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  listStyle(value: string): string {
+  listStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  listStyleImage(value: string): string {
+  listStyleImage(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  listStylePosition(value: string): string {
+  listStylePosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  listStyleType(value: string): string {
+  listStyleType(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  margin(value: string): string {
+  margin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginBlock(value: string): string {
+  marginBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginBlockEnd(value: string): string {
+  marginBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginBlockStart(value: string): string {
+  marginBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginBottom(value: string): string {
+  marginBottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginInline(value: string): string {
+  marginInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginInlineEnd(value: string): string {
+  marginInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginInlineStart(value: string): string {
+  marginInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginLeft(value: string): string {
+  marginLeft(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginRight(value: string): string {
+  marginRight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginTop(value: string): string {
+  marginTop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marginTrim(value: string): string {
+  marginTrim(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  marks(value: string): string {
+  marks(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  mask(value: string): string {
+  mask(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorder(value: string): string {
+  maskBorder(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderMode(value: string): string {
+  maskBorderMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderOutset(value: string): string {
+  maskBorderOutset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderRepeat(value: string): string {
+  maskBorderRepeat(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderSlice(value: string): string {
+  maskBorderSlice(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderSource(value: string): string {
+  maskBorderSource(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskBorderWidth(value: string): string {
+  maskBorderWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskClip(value: string): string {
+  maskClip(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskComposite(value: string): string {
+  maskComposite(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskImage(value: string): string {
+  maskImage(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskMode(value: string): string {
+  maskMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskOrigin(value: string): string {
+  maskOrigin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskPosition(value: string): string {
+  maskPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskRepeat(value: string): string {
+  maskRepeat(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskSize(value: string): string {
+  maskSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maskType(value: string): string {
+  maskType(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  masonryAutoFlow(value: string): string {
+  masonryAutoFlow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  mathStyle(value: string): string {
+  mathStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxBlockSize(value: string): string {
+  maxBlockSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxHeight(value: string): string {
+  maxHeight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxInlineSize(value: string): string {
+  maxInlineSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxLines(value: string): string {
+  maxLines(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxWidth(value: string): string {
+  maxWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  maxZoom(value: string): string {
+  maxZoom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  minBlockSize(value: string): string {
+  minBlockSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  minHeight(value: string): string {
+  minHeight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  minInlineSize(value: string): string {
+  minInlineSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  minWidth(value: string): string {
+  minWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  minZoom(value: string): string {
+  minZoom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  mixBlendMode(value: string): string {
+  mixBlendMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  negative(value: string): string {
+  negative(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  objectFit(value: string): string {
+  objectFit(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  objectPosition(value: string): string {
+  objectPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offset(value: string): string {
+  offset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offsetAnchor(value: string): string {
+  offsetAnchor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offsetDistance(value: string): string {
+  offsetDistance(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offsetPath(value: string): string {
+  offsetPath(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offsetPosition(value: string): string {
+  offsetPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  offsetRotate(value: string): string {
+  offsetRotate(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  opacity(value: string): string {
+  opacity(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  order(value: string): string {
+  order(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  orientation(value: string): string {
+  orientation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  orphans(value: string): string {
+  orphans(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  outline(value: string): string {
+  outline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  outlineColor(value: string): string {
+  outlineColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  outlineOffset(value: string): string {
+  outlineOffset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  outlineStyle(value: string): string {
+  outlineStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  outlineWidth(value: string): string {
+  outlineWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflow(value: string): string {
+  overflow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowAnchor(value: string): string {
+  overflowAnchor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowBlock(value: string): string {
+  overflowBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowClipMargin(value: string): string {
+  overflowClipMargin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowInline(value: string): string {
+  overflowInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowWrap(value: string): string {
+  overflowWrap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowX(value: string): string {
+  overflowX(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overflowY(value: string): string {
+  overflowY(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overscrollBehavior(value: string): string {
+  overscrollBehavior(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overscrollBehaviorBlock(value: string): string {
+  overscrollBehaviorBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overscrollBehaviorInline(value: string): string {
+  overscrollBehaviorInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overscrollBehaviorX(value: string): string {
+  overscrollBehaviorX(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  overscrollBehaviorY(value: string): string {
+  overscrollBehaviorY(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  PseudoClasses(value: string): string {
+  PseudoClasses(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  PseudoElements(value: string): string {
+  PseudoElements(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  pad(value: string): string {
+  pad(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  padding(value: string): string {
+  padding(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingBlock(value: string): string {
+  paddingBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingBlockEnd(value: string): string {
+  paddingBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingBlockStart(value: string): string {
+  paddingBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingBottom(value: string): string {
+  paddingBottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingInline(value: string): string {
+  paddingInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingInlineEnd(value: string): string {
+  paddingInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingInlineStart(value: string): string {
+  paddingInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingLeft(value: string): string {
+  paddingLeft(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingRight(value: string): string {
+  paddingRight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paddingTop(value: string): string {
+  paddingTop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  pageBreakAfter(value: string): string {
+  pageBreakAfter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  pageBreakBefore(value: string): string {
+  pageBreakBefore(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  pageBreakInside(value: string): string {
+  pageBreakInside(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  paintOrder(value: string): string {
+  paintOrder(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  perspective(value: string): string {
+  perspective(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  perspectiveOrigin(value: string): string {
+  perspectiveOrigin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  placeContent(value: string): string {
+  placeContent(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  placeItems(value: string): string {
+  placeItems(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  placeSelf(value: string): string {
+  placeSelf(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  pointerEvents(value: string): string {
+  pointerEvents(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  position(value: string): string {
+  position(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  prefix(value: string): string {
+  prefix(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  quotes(value: string): string {
+  quotes(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  range(value: string): string {
+  range(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  resize(value: string): string {
+  resize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  revert(value: string): string {
+  revert(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  right(value: string): string {
+  right(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  rotate(value: string): string {
+  rotate(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  rowGap(value: string): string {
+  rowGap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  rubyAlign(value: string): string {
+  rubyAlign(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  rubyMerge(value: string): string {
+  rubyMerge(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  rubyPosition(value: string): string {
+  rubyPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scale(value: string): string {
+  scale(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollBehavior(value: string): string {
+  scrollBehavior(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMargin(value: string): string {
+  scrollMargin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginBlock(value: string): string {
+  scrollMarginBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginBlockEnd(value: string): string {
+  scrollMarginBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginBlockStart(value: string): string {
+  scrollMarginBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginBottom(value: string): string {
+  scrollMarginBottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginInline(value: string): string {
+  scrollMarginInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginInlineEnd(value: string): string {
+  scrollMarginInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginInlineStart(value: string): string {
+  scrollMarginInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginLeft(value: string): string {
+  scrollMarginLeft(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginRight(value: string): string {
+  scrollMarginRight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollMarginTop(value: string): string {
+  scrollMarginTop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPadding(value: string): string {
+  scrollPadding(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingBlock(value: string): string {
+  scrollPaddingBlock(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingBlockEnd(value: string): string {
+  scrollPaddingBlockEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingBlockStart(value: string): string {
+  scrollPaddingBlockStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingBottom(value: string): string {
+  scrollPaddingBottom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingInline(value: string): string {
+  scrollPaddingInline(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingInlineEnd(value: string): string {
+  scrollPaddingInlineEnd(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingInlineStart(value: string): string {
+  scrollPaddingInlineStart(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingLeft(value: string): string {
+  scrollPaddingLeft(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingRight(value: string): string {
+  scrollPaddingRight(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollPaddingTop(value: string): string {
+  scrollPaddingTop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollSnapAlign(value: string): string {
+  scrollSnapAlign(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollSnapStop(value: string): string {
+  scrollSnapStop(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollSnapType(value: string): string {
+  scrollSnapType(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollbarColor(value: string): string {
+  scrollbarColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollbarGutter(value: string): string {
+  scrollbarGutter(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  scrollbarWidth(value: string): string {
+  scrollbarWidth(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  shapeImageThreshold(value: string): string {
+  shapeImageThreshold(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  shapeMargin(value: string): string {
+  shapeMargin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  shapeOutside(value: string): string {
+  shapeOutside(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  size(value: string): string {
+  size(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  sizeAdjust(value: string): string {
+  sizeAdjust(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  speakAs(value: string): string {
+  speakAs(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  src(value: string): string {
+  src(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  suffix(value: string): string {
+  suffix(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  symbols(value: string): string {
+  symbols(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  syntax(value: string): string {
+  syntax(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  system(value: string): string {
+  system(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  tabSize(value: string): string {
+  tabSize(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  tableLayout(value: string): string {
+  tableLayout(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textAlign(value: string): string {
+  textAlign(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textAlignLast(value: string): string {
+  textAlignLast(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textCombineUpright(value: string): string {
+  textCombineUpright(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecoration(value: string): string {
+  textDecoration(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationColor(value: string): string {
+  textDecorationColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationLine(value: string): string {
+  textDecorationLine(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationSkip(value: string): string {
+  textDecorationSkip(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationSkipInk(value: string): string {
+  textDecorationSkipInk(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationStyle(value: string): string {
+  textDecorationStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textDecorationThickness(value: string): string {
+  textDecorationThickness(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textEmphasis(value: string): string {
+  textEmphasis(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textEmphasisColor(value: string): string {
+  textEmphasisColor(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textEmphasisPosition(value: string): string {
+  textEmphasisPosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textEmphasisStyle(value: string): string {
+  textEmphasisStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textIndent(value: string): string {
+  textIndent(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textJustify(value: string): string {
+  textJustify(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textOrientation(value: string): string {
+  textOrientation(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textOverflow(value: string): string {
+  textOverflow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textRendering(value: string): string {
+  textRendering(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textShadow(value: string): string {
+  textShadow(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textSizeAdjust(value: string): string {
+  textSizeAdjust(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textTransform(value: string): string {
+  textTransform(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textUnderlineOffset(value: string): string {
+  textUnderlineOffset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  textUnderlinePosition(value: string): string {
+  textUnderlinePosition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  top(value: string): string {
+  top(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  touchAction(value: string): string {
+  touchAction(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transform(value: string): string {
+  transform(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transformBox(value: string): string {
+  transformBox(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transformOrigin(value: string): string {
+  transformOrigin(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transformStyle(value: string): string {
+  transformStyle(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transition(value: string): string {
+  transition(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transitionDelay(value: string): string {
+  transitionDelay(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transitionDuration(value: string): string {
+  transitionDuration(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transitionProperty(value: string): string {
+  transitionProperty(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  transitionTimingFunction(value: string): string {
+  transitionTimingFunction(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  translate(value: string): string {
+  translate(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  unicodeBidi(value: string): string {
+  unicodeBidi(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  unicodeRange(value: string): string {
+  unicodeRange(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  unset(value: string): string {
+  unset(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  userSelect(value: string): string {
+  userSelect(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  userZoom(value: string): string {
+  userZoom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  verticalAlign(value: string): string {
+  verticalAlign(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  viewportFit(value: string): string {
+  viewportFit(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  visibility(value: string): string {
+  visibility(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  whiteSpace(value: string): string {
+  whiteSpace(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  widows(value: string): string {
+  widows(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  width(value: 'inherit' | 'initial' | 'unset' | string): string {
+  width(value: 'inherit' | 'initial' | 'unset' | ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  willChange(value: string): string {
+  willChange(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  wordBreak(value: string): string {
+  wordBreak(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  wordSpacing(value: string): string {
+  wordSpacing(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  wordWrap(value: string): string {
+  wordWrap(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  writingMode(value: string): string {
+  writingMode(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  zIndex(value: string): string {
+  zIndex(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 
-  zoom(value: string): string {
+  zoom(value: ParserReturnValue): ParserReturnValue {
     return value
   }
 }

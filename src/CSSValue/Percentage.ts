@@ -1,5 +1,5 @@
-import { genNewClass } from '../utils/utils'
-import SufUnit from './SufUnit'
+import { newClass } from '../utils/utils'
+import { SufUnit } from './CFn'
 
 /**
  * 百分比对象
@@ -18,4 +18,4 @@ export class Percentage extends SufUnit {
     return this.n.toString() + this.unit
   }
 }
-export const PE = genNewClass(Percentage)
+export const PE = newClass(Percentage)

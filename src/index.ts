@@ -1,12 +1,12 @@
 import { defineWTSC } from './core'
-import { BaseParsers } from './parsers'
+import { ConstraninedParsers } from './parsers'
 
 export * from './core'
 export * as parsers from './parsers'
+export * from './CSSValue'
 
-const defineBaseWTSC = defineWTSC(BaseParsers)
+export const createWTSC = defineWTSC(ConstraninedParsers)
 
-export { defineBaseWTSC as createWTSC }
+export const wtsc = createWTSC()
 
-const wtsc = defineBaseWTSC()
 export default wtsc

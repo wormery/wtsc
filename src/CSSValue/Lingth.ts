@@ -1,4 +1,4 @@
-import SufUnit from './SufUnit'
+import { SufUnit } from './CFn'
 
 export enum LengthUnit {
   cap = 'cap',
@@ -303,7 +303,7 @@ export function Q(l: number): Length {
  * @param {number} l
  * @return {*}  {Length}
  */
-export function inUnit(l: number): Length {
+export function uin(l: number): Length {
   return new Length(l, LengthUnit.IN)
 }
 
