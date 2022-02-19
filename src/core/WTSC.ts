@@ -1,21 +1,21 @@
 import {
-  isEmpty,
   isFunction,
   isNumber,
   isString,
   isSymbol,
-  isUndefAndNull,
   cached,
   hasProp,
   isThe,
   isUndef,
   getSymbolVal,
   isNull,
+  isObject,
 } from '@wormery/utils'
 
-import { ParsersError } from './error'
-import { warn } from './warn'
-import { Inject } from './inject'
+import { ParsersError, ParsersSkip } from './error'
+import { parsersResultHandleWarn, warn } from './warn'
+import { Inject, InjectKey } from './inject'
+import { defineInjKey } from '.'
 
 export const WTSCConstructorID = Symbol('WTSCConstructorID')
 
@@ -294,26 +294,35 @@ export class WTSC<T extends Parsers<T>> extends Inject {
 
       if (isFunction(handle)) {
         value = handle(...rest)
-      } else {
-        if (isString(handle)) {
-          value = handle
+        // 是空的情况是不会处理的
+
+        if (isParserReturnValue(value)) {
+          const cssValue = value.toString()
+          this.setCSS(key as any, cssValue)
+          return this
         }
-      }
 
-      // 是空的情况是不会处理的
-      if (isUndefAndNull(value) || isEmpty(value)) {
-        return this
+        parsersResultHandleWarn(
+          key,
+          '意外的值,本应该是naver，不应该运行到此\n' +
+            '提示贴：如果是你实现了处理器，请查看' +
+            key +
+            '的处理器，查看是否有强制类型转换，处理器parsers如果不需要输出行throw 一个parser错误就可以跳过处理，更多见官方网站;如果和你无关，请反馈到wtsc的Issues;',
+          value
+        )
       }
-
-      // 是str类型才会处理
-      if (isString(value)) {
-        this.setCSS(key as any, value)
-        return this
-      }
-      warn("WTSC>addStyle:检测到，处理器传入的类型错误'" + typeof value + "'")
+      parsersResultHandleWarn(
+        key,
+        '发现处理器不是一个Function\n提示贴：如果是你实现了处理器，请查看' +
+          key +
+          '的处理器，如果和你无关，请反馈到wtsc的Issues'
+      )
     } catch (E) {
-      if (E instanceof ParsersError) {
+      if (E instanceof ParsersSkip) {
+        return this
+      } else if (E instanceof ParsersError) {
         warn(E.toString())
+        return this
       } else {
         throw E
       }
