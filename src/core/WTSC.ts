@@ -41,10 +41,10 @@ export type Style<T extends Parsers<T>> = {
 export interface ParserReturnValue {
   toString: () => string
 }
-export function isParserReturnValue<T extends any>(
+export function isParserReturnValue<T extends unknown>(
   v: T
 ): v is T & { toString: () => string } {
-  return isObject(v) && 'toString' in v
+  return isString(v) || (isObject(v) && 'toString' in v)
 }
 
 /**
