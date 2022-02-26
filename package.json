@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "2.0.0-bate.1",
+  "version": "2.0.0-bate.2",
   "description": "Generate vue style value using TS",
   "main": "./lib/wtsc.common.js",
   "module": "lib/wtsc.esm.js",
@@ -19,7 +19,7 @@
     "unit": "pnpm ts-mocha -p tsconfig.json test/**/*.spec.ts",
     "release:minor-alpha": "pnpm build && pnpm standard-version --release-as minor --prerelease alpha",
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
-    "release:bate": "pnpm build && pnpm standard-version --prerelease bate",
+    "release:bate": "pnpm unit && pnpm build && pnpm standard-version --prerelease bate",
     "release": "pnpm build && pnpm standard-version"
   },
   "author": "meke",

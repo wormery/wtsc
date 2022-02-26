@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.2](https://github.com/wormery/wtsc/compare/v2.0.0-bate.1...v2.0.0-bate.2) (2022-02-26)
+
+
+### Features
+
+* add some cssvalue keywarld ([aaec71e](https://github.com/wormery/wtsc/commit/aaec71ea36b273912b0d624d2a02252c7ec4ce92))
+
 ## [2.0.0-bate.1](https://github.com/wormery/wtsc/compare/v2.0.0-bate.0...v2.0.0-bate.1) (2022-02-19)
 
 ## [2.0.0-bate.0](https://github.com/wormery/wtsc/compare/v1.0.1...v2.0.0-bate.0) (2022-02-19)
