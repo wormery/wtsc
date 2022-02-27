@@ -18,7 +18,7 @@ export class RootParsers implements Parsers {
    * @type {WTSC<RootParsers>}
    * @memberof RootParsers
    */
-  protected wtsc: WTSC<RootParsers> = {} as unknown as WTSC<RootParsers>
+  protected wtsc!: WTSC<RootParsers>
 
   /**
    * parsers名字
@@ -49,4 +49,7 @@ export class RootParsers implements Parsers {
   protected error(msg: string, cssName: string): void {
     throw new ParsersError(msg, cssName, this.name)
   }
+}
+export interface RootParsersOptions<WTSC> {
+  wtsc: WTSC
 }

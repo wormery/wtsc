@@ -1,5 +1,4 @@
 import { WTSC, RootParsers, ParserReturnValue } from '../core'
-
 /**
  * 基础的代码生成
  * 使用方法
@@ -11,12 +10,14 @@ import { WTSC, RootParsers, ParserReturnValue } from '../core'
  */
 export class BaseParsers extends RootParsers {
   /**
+   *
+   *
    * @author meke
    * @protected
    * @type {WTSC<BaseParsers>}
    * @memberof BaseParsers
    */
-  protected wtsc: WTSC<BaseParsers> = {} as unknown as WTSC<BaseParsers>
+  protected wtsc!: WTSC<BaseParsers>
 
   /**
    * Creates an instance of BaseParsers.
@@ -1705,7 +1706,9 @@ export class BaseParsers extends RootParsers {
     return value
   }
 
-  width(value: 'inherit' | 'initial' | 'unset' | ParserReturnValue): ParserReturnValue {
+  width(
+    value: 'inherit' | 'initial' | 'unset' | ParserReturnValue
+  ): ParserReturnValue {
     return value
   }
 

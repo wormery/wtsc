@@ -1,16 +1,16 @@
-import { Inject, defineInjKey, isInjectKey } from '../../../src/core/inject'
+import { Inject, defInjKey, isInjectKey } from '../../../src/core/inject'
 import { describe, it } from 'mocha'
 import assert from 'assert'
 
 describe('inject', function () {
   describe('#defineInjKey()', function () {
     it('不应该报错', () => {
-      defineInjKey<string>('3')
+      defInjKey<string>('3')
     })
   })
   describe('#isInjectKey()', function () {
     it('给一个InjectKey应该是true', () => {
-      const injectKey = defineInjKey<string>('3')
+      const injectKey = defInjKey<string>('3')
 
       assert.equal(isInjectKey(injectKey), true)
     })
@@ -35,7 +35,7 @@ describe('inject', function () {
       it('不应该报错', () => {
         const inject = new Inject()
         const injectKey = inject.provide('1')
-        inject.inject(injectKey)
+        inject.depInject(injectKey)
       })
       it('得到的值不正确', () => {
         const inject = new Inject()
@@ -45,7 +45,7 @@ describe('inject', function () {
       })
       it('默认值检测', () => {
         const inject = new Inject()
-        const injectKey = defineInjKey<string>('')
+        const injectKey = defInjKey<string>('')
 
         const value = inject.inject(injectKey, '2')
         assert.deepEqual(value, '2')

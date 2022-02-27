@@ -2,7 +2,7 @@ import { WTSC } from '../../../src/core/WTSC'
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defineInjKey } from '../../../src'
+import { defInjKey } from '../../../src'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
@@ -11,11 +11,13 @@ describe('wtsc', function () {
 
     it('new WTSC():Shoud not report Error', () => {
       wtsc = new WTSC({
-        height() {
-          return '30px'
-        },
-        width(value: string) {
-          return value
+        parsers: {
+          height() {
+            return '30px'
+          },
+          width(value: string) {
+            return value
+          },
         },
       })
     })
@@ -44,11 +46,11 @@ describe('wtsc', function () {
       })
     })
     it(`#wtsc.defChild()`, () => {
-      assert.deepEqual(wtsc.defChild('wtsc1').name, 'wtsc1')
+      assert.deepEqual(wtsc.defChild({ name: 'wtsc1' }).name, 'wtsc1')
     })
-    it(`#defin()`, () => {
-      const injectKey = defineInjKey<number>('3')
-      wtsc.defineProvide(injectKey, 333)
+    it(`#definjectKey()`, () => {
+      const injectKey = defInjKey<number>('3')
+      wtsc.provide(injectKey, '3')
     })
     it(`#provide()`, () => {
       wtsc.provide('你好啊')
@@ -62,15 +64,16 @@ describe('wtsc', function () {
 
     it('#defChild():It should be isolated', () => {
       const testvalue = '你好啊'
-      const injectkey = wtsc.provide(testvalue)
+      const childWtsc = wtsc.defChild({ name: 'ww' })
 
-      const childWtsc = wtsc.defChild()
+      const injectkey = childWtsc.provide(testvalue)
 
       const value1 = wtsc.inject(injectkey)
-      assert.equal(testvalue, value1)
+      assert.ok(isUndef(value1))
 
       const value2 = childWtsc.inject(injectkey)
-      assert.ok(isUndef(value2))
+
+      assert.equal(testvalue, value2)
     })
 
     it('#isExisted()', () => {
@@ -104,6 +107,13 @@ describe('wtsc', function () {
       wtsc1.add.height()
 
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n  height: 30px;\n}\n')
+    })
+    describe('自动解包InjectKey', function () {
+      it('InjectKey自动解包', () => {
+        const key = wtsc.provide('你好啊')
+        wtsc.add.width(key)
+        assert.deepEqual(wtsc.out(), { width: '你好啊' })
+      })
     })
   })
 })

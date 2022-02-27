@@ -151,4 +151,8 @@ export class ConstraninedParsers extends BaseParsers {
   display(value: ParserReturnValue): ParserReturnValue {
     return value
   }
+
+  zIndex(value: number): ParserReturnValue {
+    return value
+  }
 }
