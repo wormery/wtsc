@@ -4,10 +4,10 @@ import { InjectOptions } from '.'
 /**
  * 类唯一辨认属性等于它代表就是这个类
  */
-const injectConstructorID: symbol = Symbol('injectConstructorID')
+export const injectObject = Symbol('injectObject')
 
-const IK = Symbol('WTSCIK')
-const IV = Symbol('WTSCIV')
+export const IK = Symbol('WTSCIK')
+export const IV = Symbol('WTSCIV')
 
 /**
  * 传入obj ,obj的值将会被转换为InjectKey<value>类型
@@ -84,7 +84,7 @@ export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
  * @class Inject
  */
 export class Inject {
-  private readonly injectConstructorID: symbol = injectConstructorID
+  private readonly [injectObject] = true
 
   /**
    * 这里可以重写来达成响应式
@@ -260,4 +260,7 @@ export function isInjectKey(v: unknown): v is InjectKey<any> {
     return true
   }
   return false
+}
+export function isInject(v: unknown): v is Inject {
+  return isObject(v) && injectObject in v
 }

@@ -50,6 +50,3 @@ export class RootParsers implements Parsers {
     throw new ParsersError(msg, cssName, this.name)
   }
 }
-export interface RootParsersOptions<WTSC> {
-  wtsc: WTSC
-}

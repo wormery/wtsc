@@ -15,7 +15,7 @@ import { parsersResultHandleWarn, warn } from './warn'
 import { Inject, InjectKey } from './inject'
 import { DefWTSCAPIOptions, WTSCOptions } from '.'
 
-export const WTSCConstructorID = Symbol('WTSCConstructorID')
+export const WTSCObject = Symbol('WTSCObject')
 
 /**
  * css值支持的类型
@@ -114,12 +114,12 @@ export function defWTSCAPI<MyParsers extends Parsers<MyParsers>>(
  */
 export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
   /**
-   * 一个symbol值，唯一表定一个构造器
+   * 一个symbol值，表示是一个WTSC对象
    * @author meke
    * @type {symbol}
    * @memberof WTSC
    */
-  public readonly WTSCConstructorID: symbol = WTSCConstructorID
+  public readonly [WTSCObject] = true
 
   /**
    * 名字
@@ -464,4 +464,15 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
     cssstyle += '}\n'
     return cssstyle
   }
+}
+
+/**
+ * 是一个WTSC对象返回true
+ * @author meke
+ * @export
+ * @param {unknown} v
+ * @return {*}  {v is WTSC<any>}
+ */
+export function isWTSC(v: unknown): v is WTSC<any> {
+  return isObject(v) && WTSCObject in v
 }
