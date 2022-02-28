@@ -6,13 +6,17 @@ import { DefProvider } from './inject'
  * @author meke
  * @export
  * @interface DefWTSCAPIOptions
- * @extends {WTSCOptions<WT>}
- * @template WT
+ * @extends {WTSCOptions<MyParsers>}
+ * @template MyParsers
  */
-export interface DefWTSCAPIOptions<WT extends Parsers<WT>>
-  extends WTSCOptions<WT> {
-  Parsers?: new (...ar: any) => WT
-  defWTSC?: (opt: any) => WTSC<WT>
+export interface DefWTSCAPIOptions<MyParsers extends Parsers<MyParsers>>
+  extends WTSCOptions<MyParsers> {
+  Parsers?: new () => MyParsers
+  defWTSC?: (opt: any) => WTSC<MyParsers>
+}
+export interface WTSCAPI<MyParsers extends Parsers<MyParsers>>
+  extends DefWTSCAPIOptions<MyParsers> {
+  defWTSC: (opt?: WTSCOptions<MyParsers>) => WTSC<MyParsers>
 }
 
 export interface WTSCOptions<MyParsers extends Parsers<MyParsers>>

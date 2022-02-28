@@ -6,8 +6,8 @@ import assert from 'assert'
 describe('parsers', () => {
   describe('BaseParsers', () => {
     it('创建BaseWTSC不应该报错', () => {
-      const createBaseWtsc = defWTSCAPI({ Parsers: BaseParsers })
-      const wtsc = createBaseWtsc()
+      const WTSCAPI = defWTSCAPI({ Parsers: BaseParsers })
+      const wtsc = WTSCAPI.defWTSC()
 
       describe('#height()', () => {
         it('查看运行是否正常', () => {

@@ -8,12 +8,14 @@ import {
   isThe,
   getSymbolVal,
   isObject,
+  isUndef,
 } from '@wormery/utils'
 
 import { ParsersError, ParsersSkip } from './error'
 import { parsersResultHandleWarn, warn } from './warn'
 import { Inject, InjectKey } from './inject'
-import { DefWTSCAPIOptions, WTSCOptions } from '.'
+import { DefWTSCAPIOptions, isInjectKey, WTSCAPI, WTSCOptions } from '.'
+import { parsers } from '../../'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -87,21 +89,25 @@ export type DefWTSC<MyParsers extends Parsers<MyParsers>> = (
  * @param {boolean} [cache=true]
  * @return {*}  {() => WTSC<T>}
  */
-export function defWTSCAPI<MyParsers extends Parsers<MyParsers>>(
-  createWTSCAPIOptions: DefWTSCAPIOptions<MyParsers>
-): DefWTSC<MyParsers> {
+export function defWTSCAPI<
+  MyParsers extends Parsers<MyParsers> = parsers.ConstraninedParsers
+>(createWTSCAPIOptions: DefWTSCAPIOptions<MyParsers> = {}): WTSCAPI<MyParsers> {
   createWTSCAPIOptions.parsers ??
     (createWTSCAPIOptions.parsers =
-      createWTSCAPIOptions.Parsers && new createWTSCAPIOptions.Parsers())
+      (createWTSCAPIOptions.Parsers ??
+        (createWTSCAPIOptions.Parsers = parsers.ConstraninedParsers as any)) &&
+      new createWTSCAPIOptions.Parsers())
 
-  return (createWTSCAPIOptions.defWTSC = function defWTSC(
+  createWTSCAPIOptions.defWTSC = function defWTSC(
     createWTSCOoptions?: WTSCOptions<MyParsers>
   ) {
     return new WTSC({
       ...createWTSCAPIOptions,
       ...createWTSCOoptions,
     })
-  })
+  }
+
+  return createWTSCAPIOptions as WTSCAPI<MyParsers>
 }
 
 /**
@@ -114,7 +120,7 @@ export function defWTSCAPI<MyParsers extends Parsers<MyParsers>>(
  */
 export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
   /**
-   * 一个symbol值，表示是一个WTSC对象
+   * 一个symbol值，表示是一个WTSC
    * @author meke
    * @type {symbol}
    * @memberof WTSC
@@ -199,14 +205,15 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
   /**
    * 定义局部子wtsc
    * @author meke
-   * @return {*}  {WTSC<T>}
+   * @param {WTSCOptions<MyParsers>} [options={}]
+   * @return {*}  {WTSC<MyParsers>}
    * @memberof WTSC
    */
   public defChild(options: WTSCOptions<MyParsers> = {}): WTSC<MyParsers> {
     const _options = { parent: this, ...options }
     const w =
       this.options.defWTSC?.(_options) ??
-      (this.options.defWTSC = defWTSCAPI(this.options))(_options)
+      (this.options.defWTSC = defWTSCAPI(this.options).defWTSC)(_options)
 
     this.children.push(w)
 
@@ -231,12 +238,21 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
     const parsersHandler = cached((prop: string, key: CSSKey<MyParsers>) => {
       return function (this: MyParsers, ...rest: any[]): WTSC<MyParsers> {
         // 过滤掉InjectKey为值
-        const r = that.depInject(rest)
+        for (let i = 0; i < rest.length; i++) {
+          const r = rest[i]
+          if (isInjectKey(r)) {
+            rest[i] = that.inject(r)
+            if (isUndef(rest[i])) {
+              // 遇到任何undefined就跳过处理
+              ParsersSkip.throw()
+            }
+          }
+        }
 
         that.parsersResultHandle(
           that.keyToString(key),
           (parsers as any)[key],
-          ...r
+          ...rest
         )
         // 永远返回this
         return that
