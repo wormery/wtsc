@@ -1,4 +1,4 @@
-import { isObject, isArray, isSymbol, getSymbolVal } from '@wormery/utils'
+import { isObject, isArray } from '@wormery/utils'
 import { InjectOptions } from '.'
 
 /**
@@ -6,10 +6,8 @@ import { InjectOptions } from '.'
  */
 const injectConstructorID: symbol = Symbol('injectConstructorID')
 
-/**
- * inject前缀
- */
-const WTSC_INJECT_KEY_PRE: string = 'WTSCIK:'
+const IK = Symbol('WTSCIK')
+const IV = Symbol('WTSCIV')
 
 /**
  * 传入obj ,obj的值将会被转换为InjectKey<value>类型
@@ -52,8 +50,8 @@ export type ObjInjectKey = InjectKey<any> | Array<InjectKey<any> | any> | object
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface InjectKey<E> {
-  symbol: symbol
-  value?: E
+  [IK]: symbol
+  [IV]?: E
 }
 
 export interface Provider {
@@ -71,10 +69,10 @@ export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
   return {
     provides: parent?.provides ? Object.create(parent.provides) : {},
     set(key, value) {
-      this.provides[key.symbol] = value
+      this.provides[key[IK]] = value
     },
     get(key) {
-      return this.provides[key.symbol]
+      return this.provides[key[IK]]
     },
   }
 }
@@ -242,7 +240,8 @@ export class Inject {
  */
 export function defInjKey<T>(describe?: string, value?: T): InjectKey<T> {
   return {
-    symbol: Symbol(`${WTSC_INJECT_KEY_PRE}${describe ?? ''}`),
+    [IK]: Symbol(describe),
+    [IV]: value,
   }
 }
 
@@ -257,7 +256,7 @@ export function isInjectKey<T>(v: unknown): v is InjectKey<T>
  * @return {*}  {v is InjectKey<any>}
  */
 export function isInjectKey(v: unknown): v is InjectKey<any> {
-  if (isObject(v) && 'symbol' in v) {
+  if (isObject(v) && IK in v) {
     return true
   }
   return false

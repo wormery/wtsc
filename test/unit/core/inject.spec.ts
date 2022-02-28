@@ -15,11 +15,9 @@ describe('inject', function () {
       assert.equal(isInjectKey(injectKey), true)
     })
     it('给其他值应该是false', () => {
-      assert.equal(isInjectKey(''), false)
+      console.log('InjectKey应该是false', isInjectKey(undefined))
+
       assert.equal(isInjectKey({}), false)
-      assert.equal(isInjectKey(Symbol(33)), false)
-      assert.equal(isInjectKey(3), false)
-      assert.equal(isInjectKey(false), false)
       assert.equal(isInjectKey(undefined), false)
       assert.equal(isInjectKey(null), false)
     })
