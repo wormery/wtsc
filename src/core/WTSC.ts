@@ -91,7 +91,7 @@ export type DefWTSC<MyParsers extends Parsers<MyParsers>> = (
  */
 export function defWTSCAPI<
   MyParsers extends Parsers<MyParsers> = parsers.ConstraninedParsers
->(createWTSCAPIOptions: DefWTSCAPIOptions<MyParsers> = {}): WTSCAPI<MyParsers> {
+>(createWTSCAPIOptions: DefWTSCAPIOptions<MyParsers> = {}): WTSC<MyParsers> {
   createWTSCAPIOptions.parsers ??
     (createWTSCAPIOptions.parsers =
       (createWTSCAPIOptions.Parsers ??
@@ -107,7 +107,7 @@ export function defWTSCAPI<
     })
   }
 
-  return createWTSCAPIOptions as WTSCAPI<MyParsers>
+  return (createWTSCAPIOptions as any).defWTSC()
 }
 
 /**
