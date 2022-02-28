@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.4](https://github.com/wormery/wtsc/compare/v2.0.0-bate.3...v2.0.0-bate.4) (2022-02-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* 重构WTSCAPI feat: documents
+
+### Features
+
+* add isWTSC&isInject ([cae392a](https://github.com/wormery/wtsc/commit/cae392add23d5924275eb1e1ce13c4b9185568f4))
+
+
+### rest
+
+* 重构WTSCAPI feat: documents ([9430797](https://github.com/wormery/wtsc/commit/943079704041980b455cf6b892a8e1692ddb9374))
+
 ## [2.0.0-bate.3](https://github.com/wormery/wtsc/compare/v2.0.0-bate.2...v2.0.0-bate.3) (2022-02-27)
 
 ## [2.0.0-bate.2](https://github.com/wormery/wtsc/compare/v2.0.0-bate.1...v2.0.0-bate.2) (2022-02-26)
