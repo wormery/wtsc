@@ -1,4 +1,4 @@
-import { WTSC, RootParsers, ParserReturnValue } from '../core'
+import { WTSC, RootParsers, ParserReturnValue, WTSCOptions } from '../core'
 /**
  * 基础的代码生成
  * 使用方法
@@ -9,16 +9,6 @@ import { WTSC, RootParsers, ParserReturnValue } from '../core'
  * @extends {RootParsers}
  */
 export class BaseParsers extends RootParsers {
-  /**
-   *
-   *
-   * @author meke
-   * @protected
-   * @type {WTSC<BaseParsers>}
-   * @memberof BaseParsers
-   */
-  protected wtsc!: WTSC<BaseParsers>
-
   /**
    * Creates an instance of BaseParsers.
    * @author meke

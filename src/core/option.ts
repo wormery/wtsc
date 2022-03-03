@@ -1,3 +1,4 @@
+import { parsers } from 'src'
 import { Inject, Parsers, WTSC } from '.'
 import { DefProvider } from './inject'
 
@@ -9,24 +10,47 @@ import { DefProvider } from './inject'
  * @extends {WTSCOptions<MyParsers>}
  * @template MyParsers
  */
-export interface DefWTSCAPIOptions<MyParsers extends Parsers<MyParsers>>
-  extends WTSCOptions<MyParsers> {
-  Parsers?: new () => MyParsers
-  defWTSC?: (opt: any) => WTSC<MyParsers>
-}
-export interface WTSCAPI<MyParsers extends Parsers<MyParsers>>
-  extends DefWTSCAPIOptions<MyParsers> {
-  defWTSC: (opt?: WTSCOptions<MyParsers>) => WTSC<MyParsers>
+export interface DefWTSCAPIOptions<Options extends DefWTSCAPIOptions<Options>>
+  extends WTSCBaseOptions<Options> {
+  Parsers?: new () => Parsers
 }
 
-export interface WTSCOptions<MyParsers extends Parsers<MyParsers>>
+export type Get$defWTSCOfWTSCAPI<Options extends WTSCBaseOptions<Options>> = (
+  opt?: WTSCBaseOptions<Options>
+) => WTSC<WTSCOptions<Options>>
+
+export interface WTSCAPI<Options extends WTSCBaseOptions<Options>>
+  extends WTSCOptions<Options> {
+  defWTSC: (opt?: WTSCOptions<Options>) => WTSC<WTSCOptions<Options>>
+}
+
+export type Get$parsers<
+  _DefWTSCAPIOptions extends WTSCBaseOptions<_DefWTSCAPIOptions>
+> = _DefWTSCAPIOptions['parsers'] extends Parsers<_DefWTSCAPIOptions['parsers']>
+  ? _DefWTSCAPIOptions['parsers']
+  : Parsers<{}>
+
+export interface WTSCBaseOptions<Options extends WTSCBaseOptions<Options>>
   extends InjectOptions {
-  parsers?: MyParsers
+  parsers?: Get$parsers<Options>
   name?: string
-  parent?: WTSC<MyParsers>
+}
+
+export type Get$defWTSCOfWTSCOptions<Options extends WTSCOptions<Options>> = (
+  opt?: any
+) => WTSC<Options>
+
+export interface WTSCOptions<Options extends WTSCBaseOptions<Options>>
+  extends WTSCBaseOptions<Options> {
+  defWTSC: Get$defWTSCOfWTSCOptions<WTSCOptions<Options>>
+  parent?: Get$WTSC<Options>
 }
 
 export interface InjectOptions {
   parent?: Inject
   defProvider?: DefProvider
 }
+
+export type Get$WTSC<Options extends WTSCBaseOptions<Options>> = WTSC<
+  WTSCOptions<Options>
+>

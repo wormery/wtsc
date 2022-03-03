@@ -1,6 +1,7 @@
 export {
   WTSC,
   Parsers,
+  defWTSC,
   defWTSCAPI,
   ParserReturnValue,
   WTSCObject,

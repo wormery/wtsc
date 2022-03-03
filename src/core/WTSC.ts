@@ -14,7 +14,15 @@ import {
 import { ParsersError, ParsersSkip } from './error'
 import { parsersResultHandleWarn, warn } from './warn'
 import { Inject, InjectKey } from './inject'
-import { DefWTSCAPIOptions, isInjectKey, WTSCAPI, WTSCOptions } from '.'
+import {
+  DefWTSCAPIOptions,
+  Get$parsers,
+  Get$WTSC,
+  isInjectKey,
+  WTSCAPI,
+  WTSCBaseOptions,
+  WTSCOptions,
+} from '.'
 import { parsers } from '../../'
 
 export const WTSCObject = Symbol('WTSCObject')
@@ -27,13 +35,14 @@ export type CSSValue = string | number
 /**
  * CSSKey Type
  */
-export type CSSKey<T extends Parsers> = keyof T
+export type CSSKey<Options extends WTSCOptions<Options>> =
+  keyof Get$parsers<Options>
 
 /**
  * style的类型
  */
-export type Style<T extends Parsers> = {
-  [k in CSSKey<T>]?: CSSValue
+export type Style<Option extends WTSCOptions<Option>> = {
+  [k in CSSKey<Option>]?: CSSValue
 }
 
 /**
@@ -58,8 +67,10 @@ export type Parsers<MyParsers = {}> = {
 /**
  * ADD 的类型
  */
-export type ADD<T extends Parsers<T>> = {
-  [k in keyof T]: T[k] extends (...rest: infer Rest) => ParserReturnValue
+export type ADD<Options extends WTSCOptions<Options>> = {
+  [k in keyof Get$parsers<Options>]: Get$parsers<Options>[k] extends (
+    ...rest: infer Rest
+  ) => ParserReturnValue
     ? (
         ...rest:
           | {
@@ -68,18 +79,27 @@ export type ADD<T extends Parsers<T>> = {
                 : never
             }
           | Rest
-      ) => WTSC<T>
+      ) => WTSC<Options>
     : never
-} & (<K extends keyof T>(
+} & (<K extends keyof Get$parsers<Options>>(
   key: K,
-  ...rest: T[K] extends (...rest: infer Rest) => ParserReturnValue
+  ...rest: Get$parsers<Options>[K] extends (
+    ...rest: infer Rest
+  ) => ParserReturnValue
     ? Rest
     : any[]
-) => WTSC<T>)
+) => WTSC<Options>)
 
-export type DefWTSC<MyParsers extends Parsers<MyParsers>> = (
-  defWTSCOoptions?: WTSCOptions<MyParsers>
-) => WTSC<MyParsers>
+export type DefWTSC<Options extends WTSCOptions<Options>> = (
+  defWTSCOoptions?: WTSCBaseOptions<Options>
+) => WTSC<Options>
+
+export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
+  defWTSCAPIOptions: Options = {} as Options
+): Get$WTSC<Options> {
+  return defWTSCAPI(defWTSCAPIOptions).defWTSC()
+}
+
 /**
  * 生成一个定义WTSC的函数 传入一个类名
  * @author meke
@@ -89,25 +109,26 @@ export type DefWTSC<MyParsers extends Parsers<MyParsers>> = (
  * @param {boolean} [cache=true]
  * @return {*}  {() => WTSC<T>}
  */
-export function defWTSCAPI<
-  MyParsers extends Parsers<MyParsers> = parsers.ConstraninedParsers
->(createWTSCAPIOptions: DefWTSCAPIOptions<MyParsers> = {}): WTSC<MyParsers> {
-  createWTSCAPIOptions.parsers ??
-    (createWTSCAPIOptions.parsers =
-      (createWTSCAPIOptions.Parsers ??
-        (createWTSCAPIOptions.Parsers = parsers.ConstraninedParsers as any)) &&
-      new createWTSCAPIOptions.Parsers())
+export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
+  defWTSCAPIOptions: Options
+): WTSCAPI<Options> {
+  defWTSCAPIOptions.parsers ??
+    (defWTSCAPIOptions.parsers =
+      (defWTSCAPIOptions.Parsers ??
+        (defWTSCAPIOptions.Parsers = parsers.ConstraninedParsers as any)) &&
+      new defWTSCAPIOptions.Parsers())
 
-  createWTSCAPIOptions.defWTSC = function defWTSC(
-    createWTSCOoptions?: WTSCOptions<MyParsers>
-  ) {
-    return new WTSC({
-      ...createWTSCAPIOptions,
-      ...createWTSCOoptions,
-    })
+  return {
+    ...(defWTSCAPIOptions as any),
+    defWTSC(defWTSCOoptions?: WTSCBaseOptions<Options>) {
+      const wtscOptions = {
+        ...this,
+        ...defWTSCOoptions,
+      } as WTSCOptions<Options>
+
+      return new WTSC(wtscOptions)
+    },
   }
-
-  return (createWTSCAPIOptions as any).defWTSC()
 }
 
 /**
@@ -116,9 +137,9 @@ export function defWTSCAPI<
  * @export
  * @class WTSC
  * @extends {Inject}
- * @template MyParsers
+ * @template _Parsers
  */
-export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
+export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
   /**
    * 一个symbol值，表示是一个WTSC
    * @author meke
@@ -135,7 +156,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    */
   public name: string
 
-  private readonly options: DefWTSCAPIOptions<MyParsers>
+  private readonly options: Options
 
   /**
    * 样式存储存储
@@ -143,61 +164,61 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @private
    * @memberof WTSC
    */
-  private _style: Style<MyParsers> = {}
+  private _style: Style<Options> = {}
 
   /**
    * 处理器方法存储
    * @author meke
-   * @type {ADD<MyParsers>}
+   * @type {ADD<_Parsers>}
    * @memberof WTSC
    */
-  public add: ADD<MyParsers>
+  public add: ADD<Options>
 
   /**
    * 父解析器
    * @author meke
-   * @type {(WTSC<MyParsers> | null)}
+   * @type {(WTSC<_Parsers> | null)}
    * @memberof WTSC
    */
-  public parent: WTSC<MyParsers> | null
+  public parent: Get$WTSC<Options> | null
 
   /**
    * 子解析器
    * @author meke
-   * @type {Array<WTSC<MyParsers>>}
+   * @type {Array<WTSC<_Parsers>>}
    * @memberof WTSC
    */
-  public children: Array<WTSC<MyParsers>> = []
+  public children: Array<WTSC<Options>> = []
 
   /**
    * 解析器对象
    * @author meke
-   * @type {MyParsers}
+   * @type {_Parsers}
    * @memberof WTSC
    */
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
-  private parsers: MyParsers
+  private parsers: Get$parsers<Options>
 
   /**
    * Creates an instance of WTSC.
    * @author meke
-   * @param {(WTSC<MyParsers> | MyParsers)} [p1]
+   * @param {(WTSC<_Parsers> | _Parsers)} [p1]
    * @memberof WTSC
    */
-  constructor(options: WTSCOptions<MyParsers> = {}) {
+  constructor(options: Options) {
     super(options)
     this.name = options.name ?? 'wtsc'
-    this.parsers = options.parsers ?? ({} as any as MyParsers)
+    this.parsers = options.parsers ?? {}
     this.parent = options.parent ?? null
     this.options = options
 
-    const addFn = ((key: CSSKey<MyParsers>, ...rest: any[]) => {
+    const addFn = ((key: CSSKey<Options>, ...rest: any[]) => {
       if (hasProp(this.add, key)) {
         this.add[key](...rest)
       }
 
       return this
-    }) as unknown as ADD<MyParsers>
+    }) as unknown as ADD<Options>
 
     this.add = this.addProxify(this.parsers, addFn)
   }
@@ -205,19 +226,17 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
   /**
    * 定义局部子wtsc
    * @author meke
-   * @param {WTSCOptions<MyParsers>} [options={}]
+   * @param {WTSCBaseOptions<_Parsers>} [options={}]
    * @return {*}  {WTSC<MyParsers>}
    * @memberof WTSC
    */
-  public defChild(options: WTSCOptions<MyParsers> = {}): WTSC<MyParsers> {
+  public defChild(options: WTSCBaseOptions<Options> = {}): WTSC<Options> {
     const _options = { parent: this, ...options }
-    const w =
-      this.options.defWTSC?.(_options) ??
-      (this.options.defWTSC = defWTSCAPI(this.options).defWTSC)(_options)
+    const w = this.options.defWTSC(_options)
 
-    this.children.push(w)
+    this.children.push(w as any)
 
-    return w
+    return w as WTSC<Options>
   }
 
   /**
@@ -226,17 +245,17 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @param handle
    * @returns
    */
-  private addProxify<M extends MyParsers>(
+  private addProxify<M extends Get$parsers<Options>>(
     parsers: M,
     addFn: any
-  ): ADD<MyParsers> {
+  ): ADD<Options> {
     const that = this
     const isWtsc = isThe('wtsc')
     /**
      * 缓存处理函数
      */
-    const parsersHandler = cached((prop: string, key: CSSKey<MyParsers>) => {
-      return function (this: MyParsers, ...rest: any[]): WTSC<MyParsers> {
+    const parsersHandler = cached((prop: string, key: CSSKey<Options>) => {
+      return function (...rest: any[]): WTSC<Options> {
         // 过滤掉InjectKey为值
         for (let i = 0; i < rest.length; i++) {
           const r = rest[i]
@@ -281,7 +300,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
       },
     }
 
-    return new Proxy(addFn, handle) as unknown as ADD<MyParsers>
+    return new Proxy(addFn, handle) as unknown as ADD<Options>
   }
 
   /**
@@ -298,7 +317,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
     key: string,
     handle: F,
     ...rest: any[]
-  ): WTSC<MyParsers> {
+  ): WTSC<Options> {
     try {
       let value: ParserReturnValue | undefined
 
@@ -344,11 +363,11 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * keyToString
    * @author meke
    * @private
-   * @param {CSSKey<MyParsers>} cssKey
+   * @param {CSSKey<_Parsers>} cssKey
    * @return {*}  {string}
    * @memberof WTSC
    */
-  private keyToString(cssKey: CSSKey<MyParsers>): string {
+  private keyToString(cssKey: CSSKey<Options>): string {
     if (isString(cssKey)) {
       return cssKey
     }
@@ -369,7 +388,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  public addAny(key: string, value: string): WTSC<MyParsers> {
+  public addAny(key: string, value: string): WTSC<Options> {
     this.setCSS(key as any, value)
 
     return this
@@ -379,22 +398,22 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * 向style里添加属性
    * @author meke
    * @private
-   * @param {CSSKey<MyParsers>} cssName
+   * @param {CSSKey<_Parsers>} cssName
    * @param {CSSValue} cssValue
    * @memberof WTSC
    */
-  private setCSS(cssName: CSSKey<MyParsers>, cssValue: CSSValue): void {
+  private setCSS(cssName: CSSKey<Options>, cssValue: CSSValue): void {
     this._style[cssName] = cssValue
   }
 
   /**
    * 检查是否存在此css
    * @author meke
-   * @param {CSSKey<MyParsers>} cssKey
+   * @param {CSSKey<_Parsers>} cssKey
    * @return {*}  {boolean}
    * @memberof WTSC
    */
-  public isExisted(cssKey: CSSKey<MyParsers>): boolean {
+  public isExisted(cssKey: CSSKey<Options>): boolean {
     return !!this._style[cssKey]
   }
 
@@ -406,7 +425,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @return {*}  {Style<T>}
    * @memberof WTSC
    */
-  public out(isClear: boolean = true): Style<MyParsers> {
+  public out(isClear: boolean = true): Style<Options> {
     const _style = this._style
     if (isClear) {
       this.clear()
@@ -420,7 +439,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  public save(): InjectKey<Style<MyParsers>>
+  public save(): InjectKey<Style<Options>>
 
   /**
    * 保存后清空
@@ -429,7 +448,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  public save(isClear: boolean): InjectKey<Style<MyParsers>>
+  public save(isClear: boolean): InjectKey<Style<Options>>
 
   /**
    * 保存
@@ -438,7 +457,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  public save(isClear: boolean = true): InjectKey<Style<MyParsers>> {
+  public save(isClear: boolean = true): InjectKey<Style<Options>> {
     const injectkey = this.provide(this._style, this.name + '>save')
     if (isClear) {
       this.clear()
@@ -452,7 +471,7 @@ export class WTSC<MyParsers extends Parsers<MyParsers> = {}> extends Inject {
    * @memberof WTSC
    */
   public clear(): void {
-    this._style = {} as unknown as Style<MyParsers>
+    this._style = {} as unknown as Style<Options>
   }
 
   /**

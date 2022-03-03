@@ -1,4 +1,4 @@
-import { Parsers, WTSC } from '.'
+import { Get$parsers, Parsers, WTSC, WTSCBaseOptions, WTSCOptions } from '.'
 import { ParsersError } from './error'
 
 /**
@@ -18,7 +18,7 @@ export class RootParsers implements Parsers {
    * @type {WTSC<RootParsers>}
    * @memberof RootParsers
    */
-  protected wtsc!: WTSC<RootParsers>
+  protected wtsc!: WTSC<WTSCOptions<{ parsers: RootParsers }>>
 
   /**
    * parsers名字

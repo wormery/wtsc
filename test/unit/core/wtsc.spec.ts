@@ -2,24 +2,19 @@ import { WTSC } from '../../../src/core/WTSC'
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defInjKey } from '../../../src'
+import { defInjKey, defWTSC } from '../../../src'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
-    let wtsc: WTSC<{ height: () => string; width: (value: string) => string }> =
-      null
-
-    it('new WTSC():Shoud not report Error', () => {
-      wtsc = new WTSC({
-        parsers: {
-          height() {
-            return '30px'
-          },
-          width(value: string) {
-            return value
-          },
+    const wtsc = defWTSC({
+      parsers: {
+        height() {
+          return '30px'
         },
-      })
+        width(value: string) {
+          return value
+        },
+      },
     })
 
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
