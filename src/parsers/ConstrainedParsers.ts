@@ -1,4 +1,4 @@
-import { ParserReturnValue } from 'src'
+import { ParserReturnValue } from 'src/core/WTSC/types'
 import {
   CssAllValueType,
   CSSSizeTypes,

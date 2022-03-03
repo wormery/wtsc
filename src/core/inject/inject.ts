@@ -1,5 +1,13 @@
 import { isObject, isArray } from '@wormery/utils'
-import { InjectOptions } from '.'
+import { InjectOptions } from './option'
+import {
+  GetObjInjectReturn,
+  GetObjInjectValue,
+  InjectKey,
+  ObjInjectKey,
+  Provider,
+} from './types'
+import { defDefluatProvider } from './api'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -15,74 +23,6 @@ export const IK = Symbol('WTSCIK')
  * InjectKey值 主要是存储类型的，没有类型接收，很多类型运算都失效了，目前不传这个参数也不会出现问题
  */
 export const IV = Symbol('WTSCIV')
-
-/**
- * 传入obj ,obj的值将会被转换为InjectKey<value>类型
- */
-export type GetObjInjectKey<T> = {
-  [k in keyof T]: T[k] extends infer V ? InjectKey<V> : never
-}
-
-/**
- * 传入{[string]:DefineKey<T>}返回{[string]:T},
- * 传入DefineKey<T> 返回T，这个就是解包的
- */
-export type GetObjInjectValue<T> = T extends InjectKey<infer P>
-  ? P
-  : T extends ObjInjectKey
-  ? {
-      [k in keyof T]: GetObjInjectValue<T[k]>
-    }
-  : T
-
-export type GetObjInjectReturn<T> = T extends InjectKey<infer P>
-  ? P | undefined
-  : T extends ObjInjectKey
-  ? {
-      [k in keyof T]: GetObjInjectValue<T[k]>
-    }
-  : T
-
-/**
- * ObjInjectKey
- */
-export type ObjInjectKey = InjectKey<any> | Array<InjectKey<any> | any> | object
-
-/**
- * @author meke
- * @export
- * @interface InjectKey
- * @extends {Symbol}
- * @template E
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface InjectKey<E> {
-  [IK]: symbol
-  [IV]?: E
-}
-
-export interface Provider {
-  set: <E>(key: InjectKey<E>, value: E) => void
-  get: <E>(key: InjectKey<E>) => E | undefined
-}
-
-export type DefProvider = <E extends Provider>(parent?: E) => E
-export type Provides = Record<symbol, any>
-export interface DefluatProvider extends Provider {
-  provides: Provides
-}
-
-export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
-  return {
-    provides: parent?.provides ? Object.create(parent.provides) : {},
-    set(key, value) {
-      this.provides[key[IK]] = value
-    },
-    get(key) {
-      return this.provides[key[IK]]
-    },
-  }
-}
 
 /**
  * 注射器，输入一组api得到对应结果，主要作用为了在全局同一修改颜色

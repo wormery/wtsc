@@ -1,12 +1,13 @@
 import { BaseParsers } from '../../../src/parsers/BaseParsers'
 import { describe, it } from 'mocha'
-import { defWTSCAPI } from '../../../src/core/WTSC'
 import assert from 'assert'
+import { defWTSCAPI } from '../../../src'
 
 describe('parsers', () => {
   describe('BaseParsers', () => {
     it('创建BaseWTSC不应该报错', () => {
-      const WTSCAPI = defWTSCAPI({ Parsers: BaseParsers })
+      const WTSCAPI = defWTSCAPI({ parsers: new BaseParsers() })
+
       const wtsc = WTSCAPI.defWTSC()
 
       describe('#height()', () => {

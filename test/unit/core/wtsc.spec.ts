@@ -1,8 +1,8 @@
-import { WTSC } from '../../../src/core/WTSC'
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defInjKey, defWTSC } from '../../../src'
+import { defWTSC } from '../../../src'
+import { defInjKey, isInjectKey } from '../../../src/core/inject/inject'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
@@ -16,7 +16,6 @@ describe('wtsc', function () {
         },
       },
     })
-
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height()
       wtsc.add.width('30px')
@@ -109,6 +108,67 @@ describe('wtsc', function () {
         wtsc.add.width(key)
         assert.deepEqual(wtsc.out(), { width: '你好啊' })
       })
+    })
+    describe('主题模块', function () {
+      const wtsc = defWTSC({
+        defThemeKeys(inject) {
+          return { name: inject.provide('default'), age: inject.provide(3) }
+        },
+        themeList: {
+          dark: { test1: { name: 'test1', age: 21 } },
+          bright: { test2: { name: 'test2', age: 22 } },
+        },
+      })
+      it('它应该是一个InjectKey', function () {
+        assert.equal(isInjectKey(wtsc.the.name), true)
+      })
+      describe('获取', function () {
+        it('它应该能拿到默认的主题', function () {
+          const value = wtsc.inject(wtsc.the.age)
+          assert.equal(value, 3)
+          const value1 = wtsc.inject(wtsc.the.name)
+          assert.equal(value1, 'default')
+        })
+      })
+      describe('更换主题', function () {
+        it('它应该能选中暗色主题', function () {
+          wtsc.setTheme('dark')
+          const v1 = wtsc.inject(wtsc.the.name)
+          assert.equal(v1, 'test1')
+          const v2 = wtsc.inject(wtsc.the.age)
+          assert.equal(v2, 21)
+        })
+        it('它应该能选中亮色主题', function () {
+          wtsc.setTheme('bright')
+          const v1 = wtsc.inject(wtsc.the.name)
+          assert.equal(v1, 'test2')
+          const v2 = wtsc.inject(wtsc.the.age)
+          assert.equal(v2, 22)
+        })
+        it('它应该能直接选中test1主题', function () {
+          wtsc.setTheme('test1')
+          const v1 = wtsc.inject(wtsc.the.name)
+
+          assert.equal(v1, 'test1')
+          const v2 = wtsc.inject(wtsc.the.age)
+          assert.equal(v2, 21)
+        })
+        it('它应该能直接选中test2主题', function () {
+          wtsc.setTheme('test2')
+          const v1 = wtsc.inject(wtsc.the.name)
+          assert.equal(v1, 'test2')
+          const v2 = wtsc.inject(wtsc.the.age)
+          assert.equal(v2, 22)
+        })
+        it('它应该能从暗色主题中筛选得到某一个主题', function () {
+          wtsc.setTheme('dark', 'test1')
+          const v1 = wtsc.inject(wtsc.the.name)
+          assert.equal(v1, 'test1')
+          const v2 = wtsc.inject(wtsc.the.age)
+          assert.equal(v2, 21)
+        })
+      })
+      describe('更换主题', function () {})
     })
   })
 })

@@ -11,125 +11,29 @@ import {
   isUndef,
 } from '@wormery/utils'
 
-import { ParsersError, ParsersSkip } from './error'
-import { parsersResultHandleWarn, warn } from './warn'
-import { Inject, InjectKey } from './inject'
+import { ParsersError, ParsersSkip } from '../api/error'
+import { Inject } from '../inject/inject'
+import { Theme } from '../theme/theme'
+import { isInjectKey } from '../inject/inject'
+import { parsersResultHandleWarn, warn } from '../api'
 import {
   DefWTSCAPIOptions,
   Get$parsers,
   Get$WTSC,
-  isInjectKey,
   WTSCAPI,
-  WTSCBaseOptions,
   WTSCOptions,
-} from '.'
-import { parsers } from '../../'
+} from './option'
+import {
+  ADD,
+  CSSKey,
+  CSSValue,
+  isParserReturnValue,
+  ParserReturnValue,
+  Style,
+} from './types'
+import { InjectKey } from '../inject/types'
 
 export const WTSCObject = Symbol('WTSCObject')
-
-/**
- * css值支持的类型
- */
-export type CSSValue = string | number
-
-/**
- * CSSKey Type
- */
-export type CSSKey<Options extends WTSCOptions<Options>> =
-  keyof Get$parsers<Options>
-
-/**
- * style的类型
- */
-export type Style<Option extends WTSCOptions<Option>> = {
-  [k in CSSKey<Option>]?: CSSValue
-}
-
-/**
- * 解析器的返回值必须有toString()方法
- */
-export interface ParserReturnValue {
-  toString: () => string
-}
-export function isParserReturnValue<T extends unknown>(
-  v: T
-): v is T & { toString: () => string } {
-  return isString(v) || (isObject(v) && 'toString' in v)
-}
-
-/**
- * Parsers 类型
- */
-export type Parsers<MyParsers = {}> = {
-  [k in keyof MyParsers]: (...rest: any[]) => ParserReturnValue
-}
-
-/**
- * ADD 的类型
- */
-export type ADD<Options extends WTSCOptions<Options>> = {
-  [k in keyof Get$parsers<Options>]: Get$parsers<Options>[k] extends (
-    ...rest: infer Rest
-  ) => ParserReturnValue
-    ? (
-        ...rest:
-          | {
-              [arrk in keyof Rest]: Rest[arrk] extends infer x
-                ? InjectKey<x>
-                : never
-            }
-          | Rest
-      ) => WTSC<Options>
-    : never
-} & (<K extends keyof Get$parsers<Options>>(
-  key: K,
-  ...rest: Get$parsers<Options>[K] extends (
-    ...rest: infer Rest
-  ) => ParserReturnValue
-    ? Rest
-    : any[]
-) => WTSC<Options>)
-
-export type DefWTSC<Options extends WTSCOptions<Options>> = (
-  defWTSCOoptions?: WTSCBaseOptions<Options>
-) => WTSC<Options>
-
-export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
-  defWTSCAPIOptions: Options = {} as Options
-): Get$WTSC<Options> {
-  return defWTSCAPI(defWTSCAPIOptions).defWTSC()
-}
-
-/**
- * 生成一个定义WTSC的函数 传入一个类名
- * @author meke
- * @export
- * @template MyParsers
- * @param {new () => MyParsers} Parsers
- * @param {boolean} [cache=true]
- * @return {*}  {() => WTSC<T>}
- */
-export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
-  defWTSCAPIOptions: Options
-): WTSCAPI<Options> {
-  defWTSCAPIOptions.parsers ??
-    (defWTSCAPIOptions.parsers =
-      (defWTSCAPIOptions.Parsers ??
-        (defWTSCAPIOptions.Parsers = parsers.ConstraninedParsers as any)) &&
-      new defWTSCAPIOptions.Parsers())
-
-  return {
-    ...(defWTSCAPIOptions as any),
-    defWTSC(defWTSCOoptions?: WTSCBaseOptions<Options>) {
-      const wtscOptions = {
-        ...this,
-        ...defWTSCOoptions,
-      } as WTSCOptions<Options>
-
-      return new WTSC(wtscOptions)
-    },
-  }
-}
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
@@ -139,7 +43,7 @@ export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
  * @extends {Inject}
  * @template _Parsers
  */
-export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
+export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
   /**
    * 一个symbol值，表示是一个WTSC
    * @author meke
@@ -157,6 +61,7 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
   public name: string
 
   private readonly options: Options
+  // private readonly defWTSC!: DefWTSC<Options>
 
   /**
    * 样式存储存储
@@ -208,7 +113,7 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
   constructor(options: Options) {
     super(options)
     this.name = options.name ?? 'wtsc'
-    this.parsers = options.parsers ?? {}
+    this.parsers = options.parsers ?? ({} as any)
     this.parent = options.parent ?? null
     this.options = options
 
@@ -226,13 +131,13 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
   /**
    * 定义局部子wtsc
    * @author meke
-   * @param {WTSCBaseOptions<_Parsers>} [options={}]
+   * @param {WTSCOptions<_Parsers>} [options={}]
    * @return {*}  {WTSC<MyParsers>}
    * @memberof WTSC
    */
-  public defChild(options: WTSCBaseOptions<Options> = {}): WTSC<Options> {
-    const _options = { parent: this, ...options }
-    const w = this.options.defWTSC(_options)
+  public defChild(options: WTSCOptions<Options> = {} as any): WTSC<Options> {
+    const _options = { parent: this, ...options } as WTSCOptions<Options>
+    const w = this.options.defWTSC?.(_options)
 
     this.children.push(w as any)
 
@@ -499,15 +404,4 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Inject {
     cssstyle += '}\n'
     return cssstyle
   }
-}
-
-/**
- * 是一个WTSC对象返回true
- * @author meke
- * @export
- * @param {unknown} v
- * @return {*}  {v is WTSC<any>}
- */
-export function isWTSC(v: unknown): v is WTSC<any> {
-  return isObject(v) && WTSCObject in v
 }

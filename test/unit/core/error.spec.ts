@@ -1,4 +1,4 @@
-import { ParsersSkip } from '../../../src/core/error'
+import { ParsersSkip } from '../../../src/core/api/error'
 import { describe, it } from 'mocha'
 
 describe('error', () => {

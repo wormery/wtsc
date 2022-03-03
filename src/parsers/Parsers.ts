@@ -1,5 +1,7 @@
-import { Get$parsers, Parsers, WTSC, WTSCBaseOptions, WTSCOptions } from '.'
-import { ParsersError } from './error'
+import { WTSC } from '../core/WTSC/WTSC'
+import { ParsersError } from '../core/api/error'
+import { Parsers } from '../core/WTSC/types'
+import { WTSCOptions } from '../core/WTSC/option'
 
 /**
  * 这是一个样例
@@ -18,7 +20,7 @@ export class RootParsers implements Parsers {
    * @type {WTSC<RootParsers>}
    * @memberof RootParsers
    */
-  protected wtsc!: WTSC<WTSCOptions<{ parsers: RootParsers }>>
+  protected wtsc!: WTSC<WTSCOptions<{}>>
 
   /**
    * parsers名字
