@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.6](https://github.com/wormery/wtsc/compare/v2.0.0-bate.5...v2.0.0-bate.6) (2022-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* 为了增加功能,以及项目稳定对整个项目文件分割做改变,并添加了若干功能,主题切换,现在可以在全局作用域内更换主题,主题切换从没这么简单
+
+### Bug Fixes
+
+* 打包时发现有一个引入错误打包失败,已修复 ([a99012b](https://github.com/wormery/wtsc/commit/a99012bda5002bf160be2f3376074fdd00c771c5))
+
+
+### rest
+
+* 为了增加功能,以及项目稳定对整个项目文件分割做改变,并添加了若干功能,主题切换,现在可以在全局作用域内更换主题,主题切换从没这么简单 ([39c7849](https://github.com/wormery/wtsc/commit/39c784906866400d026874155c9b32303d61e203))
+
 ## [2.0.0-bate.5](https://github.com/wormery/wtsc/compare/v2.0.0-bate.4...v2.0.0-bate.5) (2022-03-03)
 
 
