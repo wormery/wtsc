@@ -1,8 +1,8 @@
 import { newClass } from '../utils/utils'
 
-import { ParserReturnValue } from 'src'
 import { isString, isUndef } from '@wormery/utils'
 import { Length, Percentage } from '.'
+import { ParserReturnValue } from 'src/core/WTSC/types'
 
 export class SufUnit implements ParserReturnValue {
   constructor(public num: number, public unit: string) {}
