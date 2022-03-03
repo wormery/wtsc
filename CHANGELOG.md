@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.5](https://github.com/wormery/wtsc/compare/v2.0.0-bate.4...v2.0.0-bate.5) (2022-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* api更改,使用不变,类型重构,思维更流程更容易理解,parsers中的wtsc重构
+
+### Features
+
+* add theme.ts ([8ba8a15](https://github.com/wormery/wtsc/commit/8ba8a152a59ccf908ff4df3b922ceb39e95560b0))
+
+
+### rest
+
+* api更改,使用不变,类型重构,思维更流程更容易理解,parsers中的wtsc重构 ([2fbdcda](https://github.com/wormery/wtsc/commit/2fbdcda67fae81da3455b3a1a740523bf290b487))
+
 ## [2.0.0-bate.4](https://github.com/wormery/wtsc/compare/v2.0.0-bate.3...v2.0.0-bate.4) (2022-02-28)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "2.0.0-bate.4",
+  "version": "2.0.0-bate.5",
   "description": "Generate vue style value using TS",
   "main": "./lib/wtsc.common.js",
   "module": "lib/wtsc.esm.js",
@@ -57,7 +57,8 @@
     "rollup-plugin-typescript2": "^0.31.1",
     "ts-mocha": "^9.0.2",
     "ts-toolbelt": "^9.6.0",
-    "typescript": "~4.4.0"
+    "typescript": "~4.4.0",
+    "standard-version": "^9.3.2"
   },
   "dependencies": {
     "@wormery/utils": "1.0.1"
