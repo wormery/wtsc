@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.7](https://github.com/wormery/wtsc/compare/v2.0.0-bate.6...v2.0.0-bate.7) (2022-03-04)
+
+
+### Features
+
+* __DEV__ 开发环境识别 ([38fc27e](https://github.com/wormery/wtsc/commit/38fc27e840966979b15f06ddaa4651615bd8fb36))
+* doc update ([435e1a3](https://github.com/wormery/wtsc/commit/435e1a320afa15758a92d6ba64a6bd04977ec613))
+* more comments ([6ddfcc7](https://github.com/wormery/wtsc/commit/6ddfcc716aa55ca7ab18ea8e5bfb43ce0d2916de))
+* more comments on cssvalue types ([6102e9e](https://github.com/wormery/wtsc/commit/6102e9eba680f1a9579795b612bed18d68446343))
+* 全局csskey获得,方法virtualWorld ([a89ab88](https://github.com/wormery/wtsc/commit/a89ab88c6e29920b5a97cad1c061984ea572bfad))
+
 ## [2.0.0-bate.6](https://github.com/wormery/wtsc/compare/v2.0.0-bate.5...v2.0.0-bate.6) (2022-03-03)
 
 
