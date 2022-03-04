@@ -7,7 +7,7 @@ import {
   ObjInjectKey,
   Provider,
 } from './types'
-import { defDefluatProvider } from './api'
+import { defDefluatProvider, defInjKey, isInjectKey } from './api'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -237,40 +237,4 @@ export class Inject {
   ): InjectKey<T> {
     return defInjKey(describe, value)
   }
-}
-
-/**
- * 生成InjKey
- * @author meke
- * @export
- * @template T
- * @param {string} [describe]
- * @param {T} [value]
- * @return {*}  {InjectKey<T>}
- */
-export function defInjKey<T>(describe?: string, value?: T): InjectKey<T> {
-  return {
-    [IK]: Symbol(describe),
-    [IV]: value,
-  }
-}
-
-export function isInjectKey<T>(v: InjectKey<T>): v is InjectKey<T>
-export function isInjectKey<T>(v: unknown): v is InjectKey<T>
-
-/**
- * 检查是不是 @InjectKey 类型
- * @author meke
- * @export
- * @param {unknown} v
- * @return {*}  {v is InjectKey<any>}
- */
-export function isInjectKey(v: unknown): v is InjectKey<any> {
-  if (isObject(v) && IK in v) {
-    return true
-  }
-  return false
-}
-export function isInject(v: unknown): v is Inject {
-  return isObject(v) && injectObject in v
 }

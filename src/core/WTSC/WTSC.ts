@@ -14,7 +14,7 @@ import {
 import { ParsersError, ParsersSkip } from '../api/error'
 import { Inject } from '../inject/inject'
 import { Theme } from '../theme/theme'
-import { isInjectKey } from '../inject/inject'
+import { isInjectKey } from '../inject/api'
 import { parsersResultHandleWarn, warn } from '../api'
 import {
   DefWTSCAPIOptions,

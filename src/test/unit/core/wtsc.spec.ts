@@ -1,8 +1,8 @@
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defWTSC } from '../../../src'
-import { defInjKey, isInjectKey } from '../../../src/core/inject/inject'
+import { defWTSC } from '../../..'
+import { defInjKey, isInjectKey } from '../../..'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {

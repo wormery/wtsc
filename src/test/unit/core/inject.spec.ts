@@ -1,4 +1,4 @@
-import { Inject, defInjKey, isInjectKey } from '../../../src/core/inject/inject'
+import { Inject, defInjKey, isInjectKey } from '../../..'
 import { describe, it } from 'mocha'
 import assert from 'assert'
 

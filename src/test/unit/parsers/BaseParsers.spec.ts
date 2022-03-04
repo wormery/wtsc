@@ -1,7 +1,7 @@
-import { BaseParsers } from '../../../src/parsers/BaseParsers'
+import { BaseParsers } from '../../..'
 import { describe, it } from 'mocha'
 import assert from 'assert'
-import { defWTSCAPI } from '../../../src'
+import { defWTSCAPI } from '../../..'
 
 describe('parsers', () => {
   describe('BaseParsers', () => {

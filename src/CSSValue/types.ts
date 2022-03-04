@@ -38,25 +38,40 @@ export type fill = 'fill'
 export type borderBox = 'border-box'
 export type contentBox = 'content-box'
 
-export type PositionType = _static | relative | absolute | sticky | fixed
-
 export type _static = 'static'
 export type relative = 'relative'
 export type absolute = 'absolute'
 export type fixed = 'fixed'
 export type sticky = 'sticky'
 
-export type DisplayBoxType = contents
+/**
+ * position的值
+ */
+export type PositionType = _static | relative | absolute | sticky | fixed
+
 export type contents = 'contents'
 export type none = 'none'
 
+export type DisplayBoxType = contents
+
+/**
+ * 全局cssvalue,都可能用得上的值
+ */
 export type GlobalCSSValues = inherit | initial | unset | revert | CVar
 
+/**
+ * css尺寸相关的类型
+ */
 export type CSSSizeTypes = Length | Percentage | GlobalCSSValues | CMin | CMax
 
-
+/**
+ *
+ */
 export type CssAllValueType = inherit | initial | unset | revert
 
+/**
+ * 高宽的类型
+ */
 export type CSSHWType =
   | Length
   | Percentage
