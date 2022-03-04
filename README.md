@@ -1,12 +1,14 @@
 # 简介
 
-这个项目帮助你生成 vue StyleValue 对象，更简单的使用它
+WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你切换主题后，不管是 React 还是 vue2 vue3 都可以响应更改主题，未来会增加的功能中还会有自动生成对应的 wtsc 声名等功能
 
 # 预览
 
 可以补全您的代码
 
 如图：
+
+注：此预览图是多版本之前
 
 ![AutomatiCompletion](https://raw.githubusercontent.com/wormery/wtsc/main/doc/imgs/AutomatiCompletion.png)
 
@@ -26,16 +28,86 @@
 
 ```typescript
 //引入
-import { defWTSC } from '@wormery/wtsc'
+import { defWTSC, ConstraninedParsers } from '@wormery/wtsc'
 
-//定义WTSC
-const wtsc = defWTSC()
+//定义WTSC,
+//这里没有默认值了是因为类型嵌套太多导致运行的不是太流畅，重构的自己都不知道之前怎么写的了
+//第二增加了一个主题的功能，这的肯定是要手动定义的了
+const wtsc = defWTSC({
+  parsers: new ConstraninedParsers(),
+})
 
 //使用测试
 const style = wtsc.add.width(px(20)).add.height(PE(30)).out()
 //打印测试
 console.log(style)
 //printed: { width: '20px', height: '30%' }
+```
+
+## 主题
+
+主题必须要在 wtsc 声明前定义才会有类型补充（ts 局限）
+
+- 简单定义
+
+定义过程和使用过程都有完整的类型声明
+
+```typescript
+const wtsc = defWTSC({
+  parsers: new ConstraninedParsers(),
+  defThemeKeys(inject: Inject) {
+    // 这里推荐用provide,这样有个默认值使用过程就不会undefined
+    // 然后wtsc默认就会忽略掉undefined的项目
+    return {
+      mainColor: inject.provide(rgb(255, 255, 255)),
+      mainFontColor: inject.provide(rgb(14, 14, 14)),
+    }
+  },
+  themeList: {
+    dark: {
+      theme1: {
+        mainColor: rgb(20, 20, 20),
+        mainFontColor: rgb(220, 220, 220),
+      },
+    },
+    bright:
+      theme2: {
+        mainColor: rgb(255, 255, 255),
+        mainFontColor: rgb(0, 0, 0),
+      },
+  },
+})
+```
+
+- 简单使用
+
+```typescript
+const the = wtsc.mainColor
+wtsc.add.background(the.mainColor)
+
+const value = wtsc.inject(the.mainFontColor)
+console.log(value) // 'rgb(14, 14, 14)'
+```
+
+- 简单切换主题
+
+setTheme 函数中是有类型自动完成的，您不用担心您输入错误，可以放心大胆的切换主题，错误会得到一个警告不用担心，生产环境警告是会被删除的
+
+```typescript
+//根据上面定义，下面这句代码类型推演里只有 `'dark’` `'bright'` `'theme1'` `'theme2'`
+//默认第一层主题色系在前面
+//输入下面会选中暗色主题
+//单独输入暗色主题不会修改暗色系中的主题选中情况，下面将默认选中暗色中的第一个主题，如果您以前已经选择了第二个，就会选中第二个主题
+wtsc.setTheme('dark')
+
+//输入这个就会选中 `theme1` 主题
+wtsc.setTheme('theme1')
+
+//当您在第一个里没输入 dark,第二个只会有 `theme1` 这个选项
+wtsc.setTheme('dark', 'theme1')
+
+//当您第一个选中任何一个具体主题后，第二个选项输入任何内容都会报错，如下
+wtsc.setTheme('theme2', 任何内容) // 会报错，没有对应的重载
 ```
 
 ## inject()
@@ -216,6 +288,8 @@ out:
 
 ......
 
-更多用法见以后更新
+更多用法和功能见以后更新
 
 ### [更新记录](./CHANGELOG.md)
+
+注意：无法打开的话请进入 git 仓库然后点击就可以了
