@@ -39,7 +39,8 @@ export class ParsersError extends Error {
   }
 }
 
-export class ParsersSkip extends ParsersError {
+export class ParsersSkip {
+  constructor(public msg: string = '') {}
   /**
    * 就是跳过不做任何处理
    * @author meke
@@ -47,7 +48,7 @@ export class ParsersSkip extends ParsersError {
    * @return {*}  {never}
    * @memberof ParsersSkip
    */
-  static throw(): never {
-    throw new ParsersSkip()
+  static throw(msg: string = '跳过'): never {
+    throw new ParsersSkip('msg')
   }
 }

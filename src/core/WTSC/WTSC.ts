@@ -32,6 +32,7 @@ import {
   Style,
 } from './types'
 import { InjectKey } from '../inject/types'
+import { __DEV__ } from '../../setupEnvironment'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -161,18 +162,6 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
      */
     const parsersHandler = cached((prop: string, key: CSSKey<Options>) => {
       return function (...rest: any[]): WTSC<Options> {
-        // 过滤掉InjectKey为值
-        for (let i = 0; i < rest.length; i++) {
-          const r = rest[i]
-          if (isInjectKey(r)) {
-            rest[i] = that.inject(r)
-            if (isUndef(rest[i])) {
-              // 遇到任何undefined就跳过处理
-              ParsersSkip.throw()
-            }
-          }
-        }
-
         that.parsersResultHandle(
           that.keyToString(key),
           (parsers as any)[key],
@@ -227,6 +216,18 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
       let value: ParserReturnValue | undefined
 
       if (isFunction(handle)) {
+        // 过滤掉InjectKey为值,手动得到也是为了更多效率选择
+        for (let i = 0; i < rest.length; i++) {
+          const r = rest[i]
+          if (isInjectKey(r)) {
+            rest[i] = this.inject(r)
+            if (isUndef(rest[i])) {
+              // 遇到任何undefined就跳过处理
+              ParsersSkip.throw()
+            }
+          }
+        }
+
         value = handle(...rest)
         // 是空的情况是不会处理的
 
@@ -253,12 +254,15 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
       )
     } catch (E) {
       if (E instanceof ParsersSkip) {
-        return this
+        if (__DEV__) {
+          parsersResultHandleWarn(key, '使用了跳过')
+        }
       } else if (E instanceof ParsersError) {
         warn(E.toString())
-        return this
       } else {
-        throw E
+        if (__DEV__) {
+          throw E
+        }
       }
     }
     return this

@@ -1,5 +1,9 @@
+import { __DEV__ } from '../..'
+
 export function warn(msg: string, ...args: any[]): void {
-  console.warn(msg, ...args)
+  if (__DEV__) {
+    console.warn(msg, ...args)
+  }
 }
 export function parsersResultHandleWarn(
   key: string,
