@@ -1,6 +1,6 @@
 import { ParserReturnValue } from 'src/core/WTSC/types'
 import { WTSC, WTSCOptions } from '../core'
-import { RootParsers } from './Parsers'
+import { RootParsers } from '../core/parser/Parsers'
 /**
  * 基础的代码生成
  * 使用方法

@@ -33,6 +33,7 @@ import {
 } from './types'
 import { InjectKey } from '../inject/types'
 import { __DEV__ } from '../../setupEnvironment'
+import { virtualWorld } from '../parser/preParser'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -162,11 +163,10 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
      */
     const parsersHandler = cached((prop: string, key: CSSKey<Options>) => {
       return function (...rest: any[]): WTSC<Options> {
-        that.parsersResultHandle(
-          that.keyToString(key),
-          (parsers as any)[key],
-          ...rest
-        )
+        const cssKey = that.keyToString(key)
+        virtualWorld(cssKey, () => {
+          that.parsersResultHandle(cssKey, (parsers as any)[key], ...rest)
+        })
         // 永远返回this
         return that
       }
@@ -254,9 +254,7 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
       )
     } catch (E) {
       if (E instanceof ParsersSkip) {
-        if (__DEV__) {
-          parsersResultHandleWarn(key, '使用了跳过')
-        }
+        parsersResultHandleWarn('使用了跳过')
       } else if (E instanceof ParsersError) {
         warn(E.toString())
       } else {

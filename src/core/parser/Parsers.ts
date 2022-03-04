@@ -1,7 +1,8 @@
-import { WTSC } from '../core/WTSC/WTSC'
-import { ParsersError } from '../core/api/error'
-import { Parsers } from '../core/WTSC/types'
-import { WTSCOptions } from '../core/WTSC/option'
+import { WTSC } from '../WTSC/WTSC'
+import { ParsersError } from '../api/error'
+import { Parsers } from '../WTSC/types'
+import { WTSCOptions } from '../WTSC/option'
+import { getCurrCSSKey } from './preParser'
 
 /**
  * 这是一个样例
@@ -48,7 +49,7 @@ export class RootParsers implements Parsers {
    * @param {string} cssName
    * @memberof RootParsers
    */
-  protected error(msg: string, cssName: string): void {
-    throw new ParsersError(msg, cssName, this.name)
+  protected error(msg: string): void {
+    throw new ParsersError(msg, getCurrCSSKey(), this.name)
   }
 }

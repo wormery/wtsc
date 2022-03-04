@@ -1,3 +1,4 @@
+import { getCurrCSSKey } from '../parser/preParser'
 import { __DEV__ } from '../..'
 
 export function warn(msg: string, ...args: any[]): void {
@@ -5,10 +6,6 @@ export function warn(msg: string, ...args: any[]): void {
     console.warn(msg, ...args)
   }
 }
-export function parsersResultHandleWarn(
-  key: string,
-  msg: string,
-  ...args: any[]
-): void {
-  warn(`WTSC>parsersResultHandle>${key}: ${msg}`, ...args)
+export function parsersResultHandleWarn(msg: string, ...args: any[]): void {
+  warn(`WTSC>parsersResultHandle>${getCurrCSSKey()}: ${msg}`, ...args)
 }

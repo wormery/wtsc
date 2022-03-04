@@ -16,7 +16,7 @@
     "build:all": "pnpm rollup -c",
     "format": "prettier --write \"./**/*.{js,jsx,json,yaml}\"",
     "test": "mocha",
-    "unit": "pnpm ts-mocha -p tsconfig.json **/test/unit/**/*.spec.ts",
+    "unit": "pnpm ts-mocha -p tsconfig.json **/unit/**/*.spec.ts",
     "release:minor-alpha": "pnpm build && pnpm standard-version --release-as minor --prerelease alpha",
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
     "release:bate": "pnpm unit && pnpm build && pnpm standard-version --prerelease bate",
