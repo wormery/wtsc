@@ -65,7 +65,7 @@ export type GlobalCSSValues = inherit | initial | unset | revert | CVar
 export type CSSSizeTypes = Length | Percentage | GlobalCSSValues | CMin | CMax
 
 /**
- *
+ * css属性all的值类型
  */
 export type CssAllValueType = inherit | initial | unset | revert
 
