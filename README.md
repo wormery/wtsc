@@ -248,6 +248,8 @@ wtsc.inject(childInjectKey) // undefined
 
 作用是定义一个 InjectKey
 
+更建议使用包装后的 provide()和 depProvide()这两个 api 你可以当做有默认生成 InjectKey 的功能，provide 自动生成，depProvide 树状结构生成，它们都是从输入的值类型中推断 InjectKey 的类型
+
 - defInjKey
 - @author meke
 - @export
@@ -259,6 +261,46 @@ wtsc.inject(childInjectKey) // undefined
 ```typescript
 const key = wtsc.defInjKey<string>()
 console.log(typeof key) // injectkey<string>
+```
+
+## provide()
+
+- 传入一个值返回一个{InjectKey}
+- @author meke
+- @template T
+- @param {T} value
+- @param {InjectKey<T>} [injectKey=defInjKey('provide')]
+- 可以传入一个自定义 Injectkey 这样你可以输入描述等信息
+- @return {\*} {InjectKey<T>}
+- @memberof Inject
+
+### 简单使用：
+
+```typescript
+const key = wtsc.provide('你好')
+typeof key //InjectKey<string>
+wtsc.inject(key) // '你好'
+```
+
+### 约束类型
+
+```typescript
+const key = wtsc.provide('你好' as '你好')
+typeof key //InjectKey<‘你好’>
+wtsc.inject(key) // '你好'
+
+const key1 = wtsc.provide(3 as 3)
+//请注意我们告诉了它类型为3，意思就是这个变量只可能是3，其他结果（4，5）都不符合
+//更多类型相关 tslang.cn
+typeof key1 //InjectKey<3>
+```
+
+### 带描述的 key
+
+```typescript
+const key = wtsc.provide('你好帅', defInject('我好ai'))
+key.[IK].toString() // Symbol(我好ai)
+// 想啥呢
 ```
 
 ## add()

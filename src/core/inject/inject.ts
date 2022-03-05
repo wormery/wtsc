@@ -98,7 +98,7 @@ export class Inject {
   public provide<T>(value: T): InjectKey<T>
 
   /**
-   * 传入一个值返回一个{InjectKey}  可以传入一个描述
+   * 传入一个值返回一个{InjectKey} 第二个参数可以传入一个自定义 Injectkey 这样你可以输入描述等信息
    * @author meke
    * @template T
    * @param {T} value
@@ -180,11 +180,30 @@ export class Inject {
       return objKey
     }
   }
+
+  /**
+   * 如果使用此重载，更建议使用provide
+   * @template T
+   * @param {T} value
+   * @param {InjectKey<T>} objKey
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
   public depProvide<T>(value: T, objKey: InjectKey<T>): InjectKey<T>
+
+  /**
+   * 树状推断InjectKey类型
+   * @template T
+   * @param {T} value
+   * @param {InjectKey<T>} objKey
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
   public depProvide<
     KEYAPI extends ObjInjectKey,
     T extends GetObjInjectValue<KEYAPI>
   >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T>
+
   /**
    * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储
    * @author meke
@@ -194,12 +213,9 @@ export class Inject {
    * @return {*}  {KEYAPI}
    * @memberof Inject
    */
-  public depProvide<
-    KEYAPI extends ObjInjectKey,
-    T extends GetObjInjectValue<KEYAPI>
-  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T> {
+  public depProvide(value: any, objKey: any): any {
     this._depProvide(objKey, value)
-    return objKey as getReturnOfdepProvide<KEYAPI, T>
+    return objKey
   }
 
   /**
