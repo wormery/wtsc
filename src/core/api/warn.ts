@@ -1,5 +1,4 @@
 import { getCurrCSSKey } from '../parser/preParser'
-import { __DEV__ } from '../..'
 
 export function warn(msg: string, ...args: any[]): void {
   if (__DEV__) {

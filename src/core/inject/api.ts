@@ -1,7 +1,6 @@
 import { isObject, isUndef } from '@wormery/utils'
 import { Inject, IK, injectObject, IV } from './inject'
 import { DefluatProvider, InjectKey, RefProvider } from './types'
-import { ref } from 'vue'
 
 export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
   return {
@@ -22,14 +21,14 @@ export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
  * @param {typeof ref} _ref
  * @return {*}
  */
-export function defRefProviderAPI(_ref: typeof ref) {
+export function defRefProviderAPI(_ref: <T>(value: T) => { value: T }) {
   return (parent?: RefProvider): RefProvider => {
     return {
       provides: parent?.provides ? Object.create(parent.provides) : {},
       set(key, value) {
         const o = this.provides[key[IK]]
         if (isUndef(o)) {
-          this.provides[key[IK]] = ref(value)
+          this.provides[key[IK]] = _ref(value)
         } else {
           o.value = value
         }

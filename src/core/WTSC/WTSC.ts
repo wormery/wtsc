@@ -7,22 +7,14 @@ import {
   hasProp,
   isThe,
   getSymbolVal,
-  isObject,
   isUndef,
 } from '@wormery/utils'
 
 import { ParsersError, ParsersSkip } from '../api/error'
-import { Inject } from '../inject/inject'
 import { Theme } from '../theme/theme'
 import { isInjectKey } from '../inject/api'
 import { parsersResultHandleWarn, warn } from '../api'
-import {
-  DefWTSCAPIOptions,
-  Get$parsers,
-  Get$WTSC,
-  WTSCAPI,
-  WTSCOptions,
-} from './option'
+import { Get$parsers, Get$WTSC, WTSCOptions } from './option'
 import {
   ADD,
   CSSKey,
@@ -32,7 +24,6 @@ import {
   Style,
 } from './types'
 import { InjectKey } from '../inject/types'
-import { __DEV__ } from '../../setupEnvironment'
 import { virtualWorld } from '../parser/preParser'
 
 export const WTSCObject = Symbol('WTSCObject')
@@ -365,7 +356,10 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    * @memberof WTSC
    */
   public save(isClear: boolean = true): InjectKey<Style<Options>> {
-    const injectkey = this.provide(this._style, this.name + '>save')
+    const injectkey = this.provide(
+      this._style,
+      this.defInjKey(this.name + '>save')
+    )
     if (isClear) {
       this.clear()
     }

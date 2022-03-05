@@ -1,89 +1,88 @@
 import resolve from '@rollup/plugin-node-resolve'
-// import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
+import commonjs from '@rollup/plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
 import path from 'path'
-import packageJSON from './package.json'
+import { babel } from '@rollup/plugin-babel'
 
 const getPath = (_path) => path.resolve(__dirname, _path)
 
-const extensions = ['.js', '.ts', '.tsx']
+const buildOptions = ['cjs', 'esm', 'iife']
+
+function genFileName(format, name, isProd) {
+  const prefix = getPath('dist')
+  const middle = `.${format}`
+  const suffix = isProd ? '.prod.js' : '.js'
+  return path.resolve(prefix, name + middle + suffix)
+}
+
+function createConfig(format, isProd = false) {
+  const name = 'wtsc'
+
+  const output = {
+    file: genFileName(format, name, isProd),
+    format: format,
+    name,
+  }
+
+  return {
+    input: getPath('./src/index.ts'),
+    plugins: createPlugin(name, isProd),
+    output,
+  }
+}
 
 // // ts
 const tsPlugin = ts({
   tsconfig: getPath('./tsconfig.esm.json'), // 导入本地ts配置
-  extensions,
+  exclude: ['src/test/**'],
 })
-
-const resolvePlugin = resolve(extensions)
-// const commonjsPlugin = commonjs()
-
-const commonConf = {
-  input: getPath('./src/index.ts'),
-  plugins: [tsPlugin, resolvePlugin],
-  output: {
-    name: packageJSON.name,
-  },
-}
-const preOutName = 'wtsc'
-const output = (type, preName = preOutName) =>
-  path.resolve(__dirname, 'lib', `${preName}.${type}.js`)
-
-const OutputFormat = {
-  //  异步模块定义，用于像RequireJS这样的模块加载器
-  AMD: 'amd',
-  // CommonJS，适用于 Node 和 Browserify/Webpack
-  CJS: 'cjs',
-  ESM: 'esm',
-  IIFE: 'iife',
-  UMD: 'umd',
-  SYSTEM: 'system',
-}
-function genOutPut(type) {
-  return {
-    output: {
-      format: type,
-      file: output(type),
-    },
-  }
-}
-
-const builds = [
-  {
-    output: {
-      file: packageJSON.main,
-      format: OutputFormat.CJS,
-    },
-  },
-  {
-    output: {
-      file: packageJSON.module,
-      format: OutputFormat.ESM,
-    },
-  },
-  {
-    output: {
-      name: packageJSON.name,
-      file: packageJSON.unpkg,
-      format: OutputFormat.UMD,
-    },
-  },
-  {
-    output: {
-      file: packageJSON.jsdelivr,
-      format: OutputFormat.IIFE,
-    },
-  },
-  genOutPut(OutputFormat.AMD),
-  genOutPut(OutputFormat.SYSTEM),
-]
-
-const buildConf = (options) => {
-  return {
-    ...commonConf,
-    ...options,
-  }
-}
-
-export default builds.map((output) => {
-  return buildConf(output)
+const commonjsPlugin = commonjs({
+  sourceMap: false,
 })
+const babelPlugin = babel({})
+
+function createPlugin(format, isProd) {
+  return [
+    tsPlugin,
+    resolve(['js', 'ts', 'json']),
+    createReplacePlugin(isProd),
+    // babelPlugin,
+    commonjsPlugin,
+    ...(isProd
+      ? [
+          terser({
+            module: /esm/.test(format),
+            compress: {
+              ecma: 2015,
+              pure_getters: true,
+            },
+            safari10: true,
+            format: {
+              comments: function () {
+                return false
+              },
+            },
+          }),
+        ]
+      : []),
+  ]
+}
+const buildConfig = []
+function createConfigList(isProd = false) {
+  buildOptions.forEach((format) => {
+    buildConfig.push(createConfig(format, isProd))
+  })
+}
+if (process.env.NODE_ENV === 'production') {
+  createConfigList(true)
+} else {
+  createConfigList(false)
+}
+
+export default buildConfig
+
+function createReplacePlugin(isProd) {
+  return replace({ values: { __DEV__: isProd } })
+}

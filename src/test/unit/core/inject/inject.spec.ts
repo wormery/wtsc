@@ -1,4 +1,5 @@
-import { Inject, defInjKey, isInjectKey } from '../../../..'
+// import { Inject, defInjKey, isInjectKey } from '../../../../'
+import { Inject, defInjKey, isInjectKey } from '../../../../'
 import { describe, it } from 'mocha'
 import assert from 'assert'
 import { is } from 'bluebird'

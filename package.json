@@ -2,30 +2,38 @@
   "name": "@wormery/wtsc",
   "version": "2.0.0-bate.8",
   "description": "Generate vue style value using TS",
-  "main": "./lib/wtsc.common.js",
-  "module": "lib/wtsc.esm.js",
-  "unpkg": "lib/wtsc.umd.js",
-  "jsdelivr": "lib/wtsc.iife.js",
-  "types": "./src/index.ts",
+  "main": "index.js",
+  "types": "src/index.ts",
+  "module": "dist/wtsc.esm.js",
+  "unpkg": "dist/wtsc.iife.js",
+  "jsdelivr": "dist/wtsc.iife.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/wormery/wtsc"
   },
   "scripts": {
-    "build": "pnpm build:all",
-    "build:all": "pnpm rollup -c",
+    "build": "pnpm build:all && pnpm link .",
+    "build:all": "pnpm build:dev && pnpm build:prod",
+    "build:prod": "pnpm rollup -c --environment NODE_ENV:production",
+    "build:dev": "pnpm rollup -c --environment NODE_ENV:development",
     "format": "prettier --write \"./**/*.{js,jsx,json,yaml}\"",
-    "test": "mocha",
-    "unit": "pnpm ts-mocha -p tsconfig.json **/unit/**/*.spec.ts",
+    "test": "ts-jest",
+    "unit": "pnpm ts-mocha -p tsconfig.json **/unit/**/*.spec.ts ",
     "release:minor-alpha": "pnpm build && pnpm standard-version --release-as minor --prerelease alpha",
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
     "release:bate": "pnpm unit && pnpm build && pnpm standard-version --prerelease bate",
     "release": "pnpm build && pnpm standard-version"
   },
-  "author": "meke",
+  "author": {
+    "name": "meke",
+    "email": "mekefly@qq.com",
+    "url": "https://github.com/mekefly"
+  },
   "license": "MIT",
   "files": [
-    "lib",
+    "dist",
+    "index.js",
+    "index.mjs",
     "src"
   ],
   "publishConfig": {
@@ -34,11 +42,18 @@
   "keywords": [
     "vue",
     "style",
-    "styleValue"
+    "styleValue",
+    "ThemeManagement",
+    "CSS"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.2",
+    "@rollup/plugin-replace": "^4.0.0",
     "@types/bluebird": "*",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^9.1.0",
@@ -51,17 +66,21 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^8.4.0",
+    "jest": "^27.5.1",
     "mocha": "^9.2.0",
     "prettier": "^2.5.1",
     "rollup": "^2.63.0",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.1",
     "standard-version": "^9.3.2",
+    "ts-jest": "^27.1.3",
     "ts-mocha": "^9.0.2",
     "ts-toolbelt": "^9.6.0",
     "typescript": "~4.4.0",
     "vue": "^3.0.0"
   },
   "dependencies": {
-    "@wormery/utils": "1.0.1"
+    "@wormery/utils": "1.0.1",
+    "core-js": "^3.21.1"
   }
 }
