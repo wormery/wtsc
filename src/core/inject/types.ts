@@ -50,8 +50,11 @@ export interface Provider {
   get: <E>(key: InjectKey<E>) => E | undefined
 }
 
-export type DefProvider = <E extends Provider>(parent?: E) => E
+export type DefProvider = (parent: any) => Provider
 export type Provides = Record<symbol, any>
 export interface DefluatProvider extends Provider {
+  provides: Provides
+}
+export interface RefProvider extends Provider {
   provides: Provides
 }

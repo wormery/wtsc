@@ -44,6 +44,52 @@ console.log(style)
 //printed: { width: '20px', height: '30%' }
 ```
 
+## 响应化
+
+响应化 api 的生成函数需要您把对应的响应 ref 函数传入进来，未来会增加 reactive 的响应 api 以及 vue2 的响应生成器
+
+语法:
+
+```typescript
+import { ref } from 'vue'
+import { defRefProviderAPI } from '@wormery/wtsc'
+const defRefProvider = defRefProviderAPI(ref)
+```
+
+得到的是一个 provider 的生成函数
+
+具体简单使用:
+
+下面用 vue3 的计算属性做简要测试
+
+```typescript
+import { computed, ref } from 'vue'
+import { defRefProviderAPI, defWTSC } from '@wormery/wtsc'
+
+const wtsc = defWTSC({
+  defProvider: defRefProviderAPI(ref),
+})
+
+const key = wtsc.provide('测试1')
+
+//我们定义一个计算属性
+const comV = computed(() => {
+  return wtsc.inject(key)
+})
+
+//得到计算属性的值
+console.log(comV.value) // 测试1
+
+//我们给provide一个新值
+//发现了一个霸哥，下一个版本揍他
+wtsc.depProvide({ k: key }, { k: '测试2' })
+
+console.log(comV.value) // 测试2
+//代表响应被监听,comV的值因为我们set了一个v2而改变
+```
+
+此测试是通过的
+
 ## 主题
 
 主题必须要在 wtsc 声明前定义才会有类型补充（ts 局限）

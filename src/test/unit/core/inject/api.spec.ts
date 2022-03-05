@@ -2,7 +2,12 @@ import { isFunction } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { computed, ref } from 'vue'
-import { defInjKey, defDefluatProvider, defRefProviderAPI } from '../../../..'
+import {
+  defInjKey,
+  defDefluatProvider,
+  defRefProviderAPI,
+  defWTSC,
+} from '../../../..'
 
 describe('defDefluatProvider()', function () {
   it('它应该是一个provider生成函数', () => {
@@ -67,5 +72,27 @@ describe('defRefProviderAPI()', function () {
     assert.equal(comV.value, v1)
     provider.set(key, v2)
     assert.equal(comV.value, v2)
+  })
+  it('查看wtsc是不是依然运行正常', () => {
+    const wtsc = defWTSC({
+      defProvider: defRefProviderAPI(ref),
+    })
+
+    const key = wtsc.provide('测试1')
+
+    //我们定义一个计算属性
+    const comV = computed(() => {
+      return wtsc.inject(key)
+    })
+
+    //得到计算属性的值
+    console.log(comV.value) // 测试1
+    assert.equal(comV.value, '测试1')
+
+    //我们给provide一个新值
+    wtsc.depProvide({ k: key }, { k: '测试2' })
+
+    assert.equal(comV.value, '测试2')
+    //代表响应被监听, comV的值因为我们set了一个v2而改变
   })
 })

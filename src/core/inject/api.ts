@@ -1,6 +1,6 @@
 import { isObject, isUndef } from '@wormery/utils'
 import { Inject, IK, injectObject, IV } from './inject'
-import { DefluatProvider, InjectKey } from './types'
+import { DefluatProvider, InjectKey, RefProvider } from './types'
 import { ref } from 'vue'
 
 export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
@@ -23,7 +23,7 @@ export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
  * @return {*}
  */
 export function defRefProviderAPI(_ref: typeof ref) {
-  return (parent?: DefluatProvider): DefluatProvider => {
+  return (parent?: RefProvider): RefProvider => {
     return {
       provides: parent?.provides ? Object.create(parent.provides) : {},
       set(key, value) {
