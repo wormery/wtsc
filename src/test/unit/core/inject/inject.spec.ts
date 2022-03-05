@@ -1,6 +1,7 @@
 import { Inject, defInjKey, isInjectKey } from '../../../..'
 import { describe, it } from 'mocha'
 import assert from 'assert'
+import { is } from 'bluebird'
 
 describe('inject', function () {
   describe('#defineInjKey()', function () {
@@ -23,22 +24,6 @@ describe('inject', function () {
     })
   })
   describe('Inject', function () {
-    describe('#provide()', function () {
-      it('provide会自动生成key', () => {
-        const inject = new Inject()
-        const key = inject.provide('1')
-        assert.ok(isInjectKey(key))
-      })
-      it('向provide提供一个key默认就是向这个key修改值', () => {
-        const inject = new Inject()
-        const key = inject.provide('1')
-
-        assert.equal(inject.inject(key), '1')
-        inject.provide('2', key)
-
-        assert.equal(inject.inject(key), '2')
-      })
-    })
     describe('#inject()', function () {
       it('不应该报错', () => {
         const inject = new Inject()
@@ -59,9 +44,32 @@ describe('inject', function () {
         assert.deepEqual(value, '2')
       })
     })
-    it('#inject()', () => {
-      const inject = new Inject()
-      inject.provide('1')
+    describe('#provide()', function () {
+      it('provide会自动生成key', () => {
+        const inject = new Inject()
+        const key = inject.provide('1')
+        assert.ok(isInjectKey(key))
+      })
+      it('向provide提供一个key默认就是向这个key修改值', () => {
+        const inject = new Inject()
+        const key = inject.provide('1')
+
+        assert.equal(inject.inject(key), '1')
+        inject.provide('2', key)
+
+        assert.equal(inject.inject(key), '2')
+      })
+    })
+    describe('depProvide()', function () {
+      it('不报错', () => {
+        const inject = new Inject()
+        const key = inject.depProvide(
+          { name: '23' as '23' | '33', tt: '', value: { name: {} } },
+          { name: defInjKey(), value: { name: defInjKey() } }
+        )
+        assert.ok(isInjectKey(key.name))
+        assert.ok(isInjectKey(key.value.name))
+      })
     })
   })
 })

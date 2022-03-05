@@ -58,3 +58,14 @@ export interface DefluatProvider extends Provider {
 export interface RefProvider extends Provider {
   provides: Provides
 }
+
+export type getReturnOfdepProvide<
+  KEYAPI extends ObjInjectKey,
+  T extends GetObjInjectValue<KEYAPI>
+> = {
+  [k in keyof KEYAPI]: KEYAPI[k] extends InjectKey<any>
+    ? InjectKey<T[k]>
+    : KEYAPI[k] extends ObjInjectKey
+    ? getReturnOfdepProvide<KEYAPI[k], T[k]>
+    : never
+}

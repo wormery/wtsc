@@ -3,6 +3,7 @@ import { InjectOptions } from './option'
 import {
   GetObjInjectReturn,
   GetObjInjectValue,
+  getReturnOfdepProvide,
   InjectKey,
   ObjInjectKey,
   Provider,
@@ -179,7 +180,11 @@ export class Inject {
       return objKey
     }
   }
-
+  public depProvide<T>(value: T, objKey: InjectKey<T>): InjectKey<T>
+  public depProvide<
+    KEYAPI extends ObjInjectKey,
+    T extends GetObjInjectValue<KEYAPI>
+  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T>
   /**
    * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储
    * @author meke
@@ -189,12 +194,12 @@ export class Inject {
    * @return {*}  {KEYAPI}
    * @memberof Inject
    */
-  public depProvide<KEYAPI extends ObjInjectKey>(
-    objKey: KEYAPI,
-    value: GetObjInjectValue<KEYAPI>
-  ): KEYAPI {
+  public depProvide<
+    KEYAPI extends ObjInjectKey,
+    T extends GetObjInjectValue<KEYAPI>
+  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T> {
     this._depProvide(objKey, value)
-    return objKey
+    return objKey as getReturnOfdepProvide<KEYAPI, T>
   }
 
   /**

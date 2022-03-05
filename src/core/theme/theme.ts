@@ -103,6 +103,6 @@ export class Theme<Options extends ThemeOptions<Options>> extends Inject {
   }
 
   setup(theme: GetObjInjectValue<GetThemeKeys<Options>>): void {
-    this.depProvide(this.the as any, theme)
+    this.depProvide(theme, this.the as any)
   }
 }
