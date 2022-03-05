@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.8](https://github.com/wormery/wtsc/compare/v2.0.0-bate.7...v2.0.0-bate.8) (2022-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* rest depProvide(key,value) =>
+* 忘记给provide留一个key的输入接口,这个接口之前不能修改值
+
+### Features
+
+* update reactive readme.md ([a8531f8](https://github.com/wormery/wtsc/commit/a8531f8429c240bc8395d1f83539118740465172))
+* 响应式 provider api生成器 defRefProviderAPI() ([01f6ecc](https://github.com/wormery/wtsc/commit/01f6ecc3d7183ec31df58c510cc3d1669753f518))
+* 增加更多文档和注释 ([cfd6a53](https://github.com/wormery/wtsc/commit/cfd6a5330090c56913dc53dd2fc189870e190792))
+
+
+### Bug Fixes
+
+* 忘记给provide留一个key的输入接口,这个接口之前不能修改值 ([2ef2390](https://github.com/wormery/wtsc/commit/2ef2390a33247d857fef0ca16e3ea7bb838be679))
+
+
+### rest
+
+* rest depProvide(key,value) => ([7966c20](https://github.com/wormery/wtsc/commit/7966c205e67ce2d6f2a6a307069661dd43c23a0d))
+
 ## [2.0.0-bate.7](https://github.com/wormery/wtsc/compare/v2.0.0-bate.6...v2.0.0-bate.7) (2022-03-04)
 
 
