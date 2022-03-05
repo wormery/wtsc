@@ -80,7 +80,9 @@
     "vue": "^3.0.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@wormery/utils": "1.0.1",
-    "core-js": "^3.21.1"
+    "core-js": "^3.21.1",
+    "regenerator-runtime": "^0.13.9"
   }
 }

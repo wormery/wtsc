@@ -38,18 +38,20 @@ const tsPlugin = ts({
   tsconfig: getPath('./tsconfig.esm.json'), // 导入本地ts配置
   exclude: ['src/test/**'],
 })
-const commonjsPlugin = commonjs({
-  sourceMap: false,
-})
-const babelPlugin = babel({})
 
+const babelPlugin = babel({
+  babelHelpers: 'bundled',
+  exclude: 'node_modules/**',
+})
 function createPlugin(format, isProd) {
   return [
     tsPlugin,
     resolve(['js', 'ts', 'json']),
     createReplacePlugin(isProd),
-    // babelPlugin,
-    commonjsPlugin,
+    commonjs({
+      sourceMap: !isProd,
+    }),
+    babelPlugin,
     ...(isProd
       ? [
           terser({
