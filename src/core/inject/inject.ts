@@ -101,23 +101,25 @@ export class Inject {
    * @author meke
    * @template T
    * @param {T} value
-   * @param {string} describe
+   * @param {InjectKey<T>} [injectKey=defInjKey('provide')]
    * @return {*}  {InjectKey<T>}
    * @memberof Inject
    */
-  public provide<T>(value: T, describe: string): InjectKey<T>
+  public provide<T>(value: T, InjectKey: InjectKey<T>): InjectKey<T>
 
   /**
    * 给一个数据存入一个数据传出key
    * @author meke
    * @template T
    * @param {T} value
-   * @param {string} [describe='Provide']
+   * @param {InjectKey<T>} [injectKey=defInjKey('provide')]
    * @return {*}  {InjectKey<T>}
    * @memberof Inject
    */
-  public provide<T>(value: T, describe: string = 'Provide'): InjectKey<T> {
-    const injectKey = defInjKey<T>(describe)
+  public provide<T>(
+    value: T,
+    injectKey: InjectKey<T> = defInjKey<T>('provide')
+  ): InjectKey<T> {
     this.provider.set(injectKey, value)
     return injectKey
   }
@@ -187,7 +189,7 @@ export class Inject {
    * @return {*}  {KEYAPI}
    * @memberof Inject
    */
-  depProvide<KEYAPI extends ObjInjectKey>(
+  public depProvide<KEYAPI extends ObjInjectKey>(
     objKey: KEYAPI,
     value: GetObjInjectValue<KEYAPI>
   ): KEYAPI {

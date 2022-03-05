@@ -90,7 +90,7 @@ describe('defRefProviderAPI()', function () {
     assert.equal(comV.value, '测试1')
 
     //我们给provide一个新值
-    wtsc.depProvide({ k: key }, { k: '测试2' })
+    wtsc.provide('测试2', key)
 
     assert.equal(comV.value, '测试2')
     //代表响应被监听, comV的值因为我们set了一个v2而改变

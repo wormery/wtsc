@@ -24,9 +24,19 @@ describe('inject', function () {
   })
   describe('Inject', function () {
     describe('#provide()', function () {
-      it('不应该报错', () => {
+      it('provide会自动生成key', () => {
         const inject = new Inject()
-        inject.provide('1')
+        const key = inject.provide('1')
+        assert.ok(isInjectKey(key))
+      })
+      it('向provide提供一个key默认就是向这个key修改值', () => {
+        const inject = new Inject()
+        const key = inject.provide('1')
+
+        assert.equal(inject.inject(key), '1')
+        inject.provide('2', key)
+
+        assert.equal(inject.inject(key), '2')
       })
     })
     describe('#inject()', function () {

@@ -81,8 +81,7 @@ const comV = computed(() => {
 console.log(comV.value) // 测试1
 
 //我们给provide一个新值
-//发现了一个霸哥，下一个版本揍他
-wtsc.depProvide({ k: key }, { k: '测试2' })
+wtsc.provide('测试2', key)
 
 console.log(comV.value) // 测试2
 //代表响应被监听,comV的值因为我们set了一个v2而改变
