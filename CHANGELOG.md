@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.9](https://github.com/wormery/wtsc/compare/v2.0.0-bate.8...v2.0.0-bate.9) (2022-03-05)
+
+
+### Features
+
+* 增加babel 理论可以兼容到chrome49版本 ([b2b9f59](https://github.com/wormery/wtsc/commit/b2b9f59f1478f732abcee475bd8a8b170b800fdd))
+
 ## [2.0.0-bate.8](https://github.com/wormery/wtsc/compare/v2.0.0-bate.7...v2.0.0-bate.8) (2022-03-05)
 
 
