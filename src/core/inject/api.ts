@@ -52,7 +52,7 @@ export function defRefProviderAPI(_ref: <T>(value: T) => { value: T }) {
  */
 export function defInjKey<T>(describe?: string, value?: T): InjectKey<T> {
   return {
-    [IK]: Symbol(describe),
+    [IK]: Symbol(__DEV__ ? describe : ''),
     [IV]: value,
   }
 }

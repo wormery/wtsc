@@ -14,8 +14,8 @@
   "scripts": {
     "build": "pnpm build:all && pnpm link .",
     "build:all": "pnpm build:dev && pnpm build:prod",
-    "build:prod": "pnpm rollup -c --environment NODE_ENV:production",
-    "build:dev": "pnpm rollup -c --environment NODE_ENV:development",
+    "build:prod": "pnpm rollup -c ./configs/rollup.config.js --environment NODE_ENV:production",
+    "build:dev": "pnpm rollup -c ./configs/rollup.config.js --environment NODE_ENV:development",
     "format": "prettier --write \"./**/*.{js,jsx,json,yaml}\"",
     "test": "ts-jest",
     "unit": "pnpm ts-mocha -p tsconfig.json **/unit/**/*.spec.ts ",
