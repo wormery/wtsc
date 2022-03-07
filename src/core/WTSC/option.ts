@@ -1,10 +1,6 @@
-import { WTSC, WTSCObject } from './WTSC'
+import { WTSC } from './WTSC'
 import { ThemeOptions } from '../theme/option'
-import { Parsers } from './types'
-import { ConstraninedParsers } from 'src/parsers'
-import { defWTSCAPI } from '.'
-
-type defultOptions = { parsers: ConstraninedParsers }
+import { Parser } from './types'
 
 export interface WTSCOptions<Options extends WTSCOptions<Options>>
   extends ThemeOptions<Options> {
@@ -24,10 +20,13 @@ export type Get$defWTSCOfWTSCOptions<Options extends WTSCOptions<Options>> = (
 
 export type Get$WTSC<Options extends WTSCOptions<Options>> = WTSC<Options>
 
-export type Get$parsers<Options extends WTSCOptions<Options>> =
-  Options['parsers'] extends Parsers<Options['parsers']>
-    ? Options['parsers']
-    : Parsers<{}>
+export type Get$parsers<Options extends WTSCOptions<Options>> = {
+  [k in keyof Options['parsers']]: k extends string
+    ? Options['parsers'][k] extends Parser
+      ? Options['parsers'][k]
+      : Parser
+    : '开发者提示：这里只能用string来自定义键名，这个k值就是我们生成后的csskey'
+}
 
 /**
  * Option api 类型

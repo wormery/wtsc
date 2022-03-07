@@ -37,6 +37,7 @@ export function isParserReturnValue<T extends unknown>(
 export type Parsers<MyParsers = {}> = {
   [k in keyof MyParsers]: (...rest: any[]) => ParserReturnValue
 }
+export type Parser = (...rest: any) => ParserReturnValue
 
 /**
  * ADD 的类型

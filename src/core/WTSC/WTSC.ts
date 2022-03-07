@@ -1,30 +1,13 @@
-import {
-  isFunction,
-  isNumber,
-  isString,
-  isSymbol,
-  cached,
-  hasProp,
-  isThe,
-  getSymbolVal,
-  isUndef,
-} from '@wormery/utils'
+import { cached } from '@wormery/utils'
 
-import { ParsersError, ParsersSkip } from '../api/error'
 import { Theme } from '../theme/theme'
-import { isInjectKey } from '../inject/api'
-import { parsersResultHandleWarn, warn } from '../api'
 import { Get$parsers, Get$WTSC, WTSCOptions } from './option'
-import {
-  ADD,
-  CSSKey,
-  CSSValue,
-  isParserReturnValue,
-  ParserReturnValue,
-  Style,
-} from './types'
+import { ADD, CSSKey, CSSValue, Style } from './types'
 import { InjectKey } from '../inject/types'
 import { virtualWorld } from '../parser/preParser'
+import { styleToString } from './styleTostringApi'
+import { SaveApi } from './saveApi'
+import { parsersResultHandle } from './parserResultHandleApi'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -36,7 +19,10 @@ export const WTSCObject = Symbol('WTSCObject')
  * @extends {Inject}
  * @template _Parsers
  */
-export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
+export class WTSC<Options extends WTSCOptions<Options> = {}>
+  extends Theme<Options>
+  implements SaveApi<Options>
+{
   /**
    * 一个symbol值，表示是一个WTSC
    * @author meke
@@ -109,16 +95,9 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
     this.parsers = options.parsers ?? ({} as any)
     this.parent = options.parent ?? null
     this.options = options
+    ;(this.parsers as unknown as any).wtsc = this
 
-    const addFn = ((key: CSSKey<Options>, ...rest: any[]) => {
-      if (hasProp(this.add, key)) {
-        this.add[key](...rest)
-      }
-
-      return this
-    }) as unknown as ADD<Options>
-
-    this.add = this.addProxify(this.parsers, addFn)
+    this.add = this.defAdd()
   }
 
   /**
@@ -129,7 +108,7 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    * @memberof WTSC
    */
   public defChild(options: WTSCOptions<Options> = {} as any): WTSC<Options> {
-    const _options = { parent: this, ...options } as WTSCOptions<Options>
+    const _options = { parent: this, ...options } as any as WTSCOptions<Options>
     const w = this.options.defWTSC?.(_options)
 
     this.children.push(w as any)
@@ -143,49 +122,28 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    * @param handle
    * @returns
    */
-  private addProxify<M extends Get$parsers<Options>>(
-    parsers: M,
-    addFn: any
-  ): ADD<Options> {
-    const that = this
-    const isWtsc = isThe('wtsc')
+  private defAdd(): ADD<Options> {
+    const addFn = (key: string, ...rest: any[]): WTSC<Options> => {
+      this.parsersResultHandle(key, this.parsers, ...rest)
+      return this
+    }
     /**
      * 缓存处理函数
      */
-    const parsersHandler = cached((prop: string, key: CSSKey<Options>) => {
-      return function (...rest: any[]): WTSC<Options> {
-        const cssKey = that.keyToString(key)
-        virtualWorld(cssKey, () => {
-          that.parsersResultHandle(cssKey, (parsers as any)[key], ...rest)
-        })
+    const parsersHandler = cached((key: string) => {
+      return (...rest: any[]): WTSC<Options> => {
+        this.parsersResultHandle(key, this.parsers, ...rest)
         // 永远返回this
-        return that
+        return this
       }
     })
 
-    const handle: ProxyHandler<M> = {
+    return new Proxy(addFn, {
       get(target, prop) {
-        // 检测到如果是函数的话就会认为是parser
-        // parser会被代理并将返回结果变为<WTSC<T,P>>this,
-        // 并将返回结果变为css的值,以函数名作为css的属性名
-        if (hasProp(addFn, prop)) {
-          return that
-        } else if (hasProp(parsers, prop)) {
-          if (isFunction(parsers[prop])) {
-            return parsersHandler(prop.toString(), prop as any)
-          } else if (isWtsc(prop)) {
-            return that
-          } else {
-            // 这里可能在访问自身的属性
-            return (parsers as any)[prop]
-          }
-        } else {
-          return undefined
-        }
+        // 不做任何处理，默认相信用户，有类型检查无效key理论不应该发生
+        return parsersHandler(prop as string)
       },
-    }
-
-    return new Proxy(addFn, handle) as unknown as ADD<Options>
+    }) as unknown as ADD<Options>
   }
 
   /**
@@ -198,85 +156,10 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  private parsersResultHandle<F extends ((...rest: any[]) => string) | string>(
-    key: string,
-    handle: F,
-    ...rest: any[]
-  ): WTSC<Options> {
-    try {
-      let value: ParserReturnValue | undefined
-
-      if (isFunction(handle)) {
-        // 过滤掉InjectKey为值,手动得到也是为了更多效率选择
-        for (let i = 0; i < rest.length; i++) {
-          const r = rest[i]
-          if (isInjectKey(r)) {
-            rest[i] = this.inject(r)
-            if (isUndef(rest[i])) {
-              // 遇到任何undefined就跳过处理
-              ParsersSkip.throw()
-            }
-          }
-        }
-
-        value = handle(...rest)
-        // 是空的情况是不会处理的
-
-        if (isParserReturnValue(value)) {
-          const cssValue = value.toString()
-          this.setCSS(key as any, cssValue)
-          return this
-        }
-
-        parsersResultHandleWarn(
-          key,
-          '意外的值,本应该是naver，不应该运行到此\n' +
-            '提示贴：如果是你实现了处理器，请查看' +
-            key +
-            '的处理器，查看是否有强制类型转换，处理器parsers如果不需要输出行throw 一个parser错误就可以跳过处理，更多见官方网站;如果和你无关，请反馈到wtsc的Issues;',
-          value
-        )
-      }
-      parsersResultHandleWarn(
-        key,
-        '发现处理器不是一个Function\n提示贴：如果是你实现了处理器，请查看' +
-          key +
-          '的处理器，如果和你无关，请反馈到wtsc的Issues'
-      )
-    } catch (E) {
-      if (E instanceof ParsersSkip) {
-        parsersResultHandleWarn('使用了跳过')
-      } else if (E instanceof ParsersError) {
-        warn(E.toString())
-      } else {
-        if (__DEV__) {
-          throw E
-        }
-      }
-    }
-    return this
-  }
-
-  /**
-   * keyToString
-   * @author meke
-   * @private
-   * @param {CSSKey<_Parsers>} cssKey
-   * @return {*}  {string}
-   * @memberof WTSC
-   */
-  private keyToString(cssKey: CSSKey<Options>): string {
-    if (isString(cssKey)) {
-      return cssKey
-    }
-    if (isSymbol(cssKey)) {
-      return getSymbolVal(cssKey)
-    }
-    if (isNumber(cssKey)) {
-      return cssKey.toString()
-    }
-
-    return ''
+  private parsersResultHandle(key: string, parsers: any, ...rest: any[]): void {
+    virtualWorld(key, () => {
+      parsersResultHandle(this, key, parsers, ...rest)
+    })
   }
 
   /**
@@ -288,7 +171,6 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    */
   public addAny(key: string, value: string): WTSC<Options> {
     this.setCSS(key as any, value)
-
     return this
   }
 
@@ -332,23 +214,6 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
   }
 
   /**
-   * 保存，默认清空存储样式的变量
-   * @author meke
-   * @return {*}  {InjectKey<Style<T>>}
-   * @memberof WTSC
-   */
-  public save(): InjectKey<Style<Options>>
-
-  /**
-   * 保存后清空
-   * @author meke
-   * @param {boolean} isClear
-   * @return {*}  {InjectKey<Style<T>>}
-   * @memberof WTSC
-   */
-  public save(isClear: boolean): InjectKey<Style<Options>>
-
-  /**
    * 保存
    * @author meke
    * @param {boolean} [isClear=true]
@@ -358,11 +223,9 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
   public save(isClear: boolean = true): InjectKey<Style<Options>> {
     const injectkey = this.provide(
       this._style,
-      this.defInjKey(this.name + '>save')
+      this.defInjKey(__DEV__ ? this.name + '>save' : '')
     )
-    if (isClear) {
-      this.clear()
-    }
+    isClear && this.clear()
     return injectkey
   }
 
@@ -384,20 +247,9 @@ export class WTSC<Options extends WTSCOptions<Options>> extends Theme<Options> {
    * @memberof WTSC
    */
   public toString(name: string = this.name, prefix: string = ''): string {
-    let cssstyle = ''
     if (name === this.name) {
-      cssstyle += '.' + name
-    } else {
-      cssstyle += name
+      name = '.' + name
     }
-    cssstyle += '{\n'
-    for (const key in this._style) {
-      if (Object.prototype.hasOwnProperty.call(this._style, key)) {
-        const cssValue = this._style[key]
-        cssstyle += `  ${key}: ${cssValue ?? ''};\n`
-      }
-    }
-    cssstyle += '}\n'
-    return cssstyle
+    return styleToString(name, this._style as any, prefix)
   }
 }

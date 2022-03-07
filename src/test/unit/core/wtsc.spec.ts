@@ -1,13 +1,13 @@
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defWTSC } from '../../..'
-import { defInjKey, isInjectKey } from '../../..'
+import { defWTSC, defInjKey, isInjectKey } from '../../../'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defWTSC({
       parsers: {
+        [3]() {},
         height() {
           return '30px'
         },
@@ -44,7 +44,7 @@ describe('wtsc', function () {
     })
     it(`#definjectKey()`, () => {
       const injectKey = defInjKey<number>('3')
-      wtsc.provide(injectKey, '3')
+      wtsc.provide(3, injectKey)
     })
     it(`#provide()`, () => {
       wtsc.provide('你好啊')

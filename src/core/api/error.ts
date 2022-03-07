@@ -1,3 +1,5 @@
+import { parsersResultHandleWarn, warn } from '.'
+
 export class ParsersError extends Error {
   static throw(): never {
     throw new ParsersError()
@@ -50,5 +52,26 @@ export class ParsersSkip {
    */
   static throw(msg: string = '跳过'): never {
     throw new ParsersSkip('msg')
+  }
+}
+
+export function gtry(
+  f: (...rest: any) => void,
+  catchf: (E: any) => boolean
+): void {
+  try {
+    f()
+  } catch (E) {
+    if (__DEV__) {
+      if (E instanceof ParsersSkip) {
+        parsersResultHandleWarn('使用了跳过')
+      } else if (E instanceof ParsersError) {
+        warn(E.toString())
+      } else {
+        if (!catchf(E)) {
+          throw E
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { isObject } from '@wormery/utils'
 import { WTSC, WTSCObject } from './WTSC'
-import { DefWTSCAPIOptions, Get$WTSC, WTSCAPI, WTSCOptions } from './option'
+import { DefWTSCAPIOptions, WTSCAPI, WTSCOptions } from './option'
 import { ConstraninedParsers } from '../../parsers/ConstrainedParsers'
 
 /**
@@ -15,12 +15,11 @@ export function isWTSC(v: unknown): v is WTSC<any> {
 }
 
 export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
-  defWTSCAPIOptions: Options = {} as Options
+  defWTSCAPIOptions: Options = {} as any as Options
 ): WTSC<Options> {
   return defWTSCAPI(defWTSCAPIOptions).defWTSC()
 }
 
-type xxxx = ConstraninedParsers extends (...rest: any) => any ? true : false
 /**
  * 生成一个定义WTSC的函数 传入一个类名
  * @author meke
@@ -31,7 +30,7 @@ type xxxx = ConstraninedParsers extends (...rest: any) => any ? true : false
  * @return {*}  {() => WTSC<T>}
  */
 export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
-  options: Options = {} as Options
+  options: Options = {} as any as Options
 ): WTSCAPI<Options> {
   options.parsers ?? (options.parsers = new ConstraninedParsers() as any)
 
@@ -41,7 +40,7 @@ export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
       const wtscOptions = {
         ...this,
         ...defWTSCOoptions,
-      } as Options
+      } as any as Options
 
       return new WTSC(wtscOptions)
     },

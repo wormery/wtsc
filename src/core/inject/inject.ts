@@ -9,6 +9,9 @@ import {
   Provider,
 } from './types'
 import { defDefluatProvider, defInjKey, isInjectKey } from './api'
+import { ProvideApi } from './provideApi'
+import { InjectApi } from './injectApi'
+import { ProviderImpl } from './providerApi'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -31,16 +34,8 @@ export const IV = Symbol('WTSCIV')
  * @export
  * @class Inject
  */
-export class Inject {
+export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
   private readonly [injectObject] = true
-
-  /**
-   * 这里可以重写来达成响应式
-   * @author meke
-   * @type {Provider}
-   * @memberof Inject
-   */
-  public provider: Provider
 
   /**
    * Creates an instance of Inject.
@@ -49,30 +44,8 @@ export class Inject {
    * @memberof Inject
    */
   constructor(options: InjectOptions = {}) {
-    this.provider =
-      options.defProvider?.(options.parent?.provider) ?? defDefluatProvider()
+    super(options)
   }
-
-  /**
-   * inject 是一个注入器， 可以简单的注入需要的内容
-   * @author meke
-   * @template R
-   * @param {InjectKey<R>} injectKey
-   * @return {*}  {(R | undefined)} 没有传默认值可能会返回undefined
-   * @memberof Inject
-   */
-  inject<R = any>(injectKey: InjectKey<R>): R | undefined
-
-  /**
-   * inject 是一个注入器， 可以简单的注入需要的内容
-   * @author meke
-   * @template R
-   * @param {InjectKey<R>} injectKey
-   * @param {R} defau 传入默认值不会返回undefined
-   * @return {*}  {R}
-   * @memberof Inject
-   */
-  inject<R = any>(injectKey: InjectKey<R>, defau: R): R
 
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容
@@ -88,27 +61,6 @@ export class Inject {
   }
 
   /**
-   * 传入一个值返回一个{InjectKey}
-   * @author meke
-   * @template T
-   * @param {T} value
-   * @return {*}  {InjectKey<T>}
-   * @memberof Inject
-   */
-  public provide<T>(value: T): InjectKey<T>
-
-  /**
-   * 传入一个值返回一个{InjectKey} 第二个参数可以传入一个自定义 Injectkey 这样你可以输入描述等信息
-   * @author meke
-   * @template T
-   * @param {T} value
-   * @param {InjectKey<T>} [injectKey=defInjKey('provide')]
-   * @return {*}  {InjectKey<T>}
-   * @memberof Inject
-   */
-  public provide<T>(value: T, InjectKey: InjectKey<T>): InjectKey<T>
-
-  /**
    * 给一个数据存入一个数据传出key
    * @author meke
    * @template T
@@ -119,7 +71,7 @@ export class Inject {
    */
   public provide<T>(
     value: T,
-    injectKey: InjectKey<T> = defInjKey<T>('provide')
+    injectKey: InjectKey<T> = defInjKey<T>(__DEV__ ? 'provide' : '')
   ): InjectKey<T> {
     this.provider.set(injectKey, value)
     return injectKey
@@ -137,6 +89,27 @@ export class Inject {
     objKey: ObjKey
   ): GetObjInjectReturn<ObjKey> {
     return this._depInject(objKey)
+  }
+
+  /**
+   * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储
+   * @author meke
+   * @template KEYAPI
+   * @param {KEYAPI} objKey
+   * @param {GetObjInjectValue<KEYAPI>} value
+   * @return {*}  {KEYAPI}
+   * @memberof Inject
+   */
+  public depProvide(value: any, objKey: any): any {
+    this._depProvide(objKey, value)
+    return objKey
+  }
+
+  public defInjKey<T>(
+    describe: string = 'defWTSCApi',
+    value?: T
+  ): InjectKey<T> {
+    return defInjKey(describe, value)
   }
 
   /**
@@ -182,43 +155,6 @@ export class Inject {
   }
 
   /**
-   * 如果使用此重载，更建议使用provide
-   * @template T
-   * @param {T} value
-   * @param {InjectKey<T>} objKey
-   * @return {*}  {InjectKey<T>}
-   * @memberof Inject
-   */
-  public depProvide<T>(value: T, objKey: InjectKey<T>): InjectKey<T>
-
-  /**
-   * 树状推断InjectKey类型
-   * @template T
-   * @param {T} value
-   * @param {InjectKey<T>} objKey
-   * @return {*}  {InjectKey<T>}
-   * @memberof Inject
-   */
-  public depProvide<
-    KEYAPI extends ObjInjectKey,
-    T extends GetObjInjectValue<KEYAPI>
-  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T>
-
-  /**
-   * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储
-   * @author meke
-   * @template KEYAPI
-   * @param {KEYAPI} objKey
-   * @param {GetObjInjectValue<KEYAPI>} value
-   * @return {*}  {KEYAPI}
-   * @memberof Inject
-   */
-  public depProvide(value: any, objKey: any): any {
-    this._depProvide(objKey, value)
-    return objKey
-  }
-
-  /**
    * @author meke
    * @template KEYAPI
    * @param {KEYAPI} objKey
@@ -252,12 +188,5 @@ export class Inject {
         this._depProvide(objKey[k] as any, value[k], memory)
       }
     }
-  }
-
-  public defInjKey<T>(
-    describe: string = 'defWTSCApi',
-    value?: T
-  ): InjectKey<T> {
-    return defInjKey(describe, value)
   }
 }

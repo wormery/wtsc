@@ -15,6 +15,7 @@
     // 禁止强制类型转换
     "@typescript-eslint/strict-boolean-expressions": "off",
     //允许this使用其他别名（const _this = this）
-    "@typescript-eslint/no-this-alias": "off"
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/method-signature-style": "off"
   }
 }

@@ -1,7 +1,6 @@
 import { Inject } from './inject'
-import { DefProvider } from './types'
+import { ProviderOptions } from './providerApi'
 
-export interface InjectOptions {
+export interface InjectOptions extends ProviderOptions {
   parent?: Inject
-  defProvider?: DefProvider
 }
