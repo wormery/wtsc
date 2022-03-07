@@ -3,15 +3,17 @@ import { InjectOptions } from './option'
 import {
   GetObjInjectReturn,
   GetObjInjectValue,
-  getReturnOfdepProvide,
   InjectKey,
   ObjInjectKey,
-  Provider,
 } from './types'
-import { defDefluatProvider, defInjKey, isInjectKey } from './api'
+import { defInjKey, isInjectKey } from './api'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
-import { ProviderImpl } from './providerApi'
+import {
+  ProviderImpl,
+  ProviderStorage,
+  ProviderStorageAPI,
+} from './providerApi'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -34,7 +36,10 @@ export const IV = Symbol('WTSCIV')
  * @export
  * @class Inject
  */
-export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
+export class Inject
+  extends ProviderImpl
+  implements ProvideApi, InjectApi, ProviderStorageAPI
+{
   private readonly [injectObject] = true
 
   /**
@@ -43,8 +48,8 @@ export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
    * @param {(Inject | any)} [inject]
    * @memberof Inject
    */
-  constructor(options: InjectOptions = {}) {
-    super(options)
+  constructor(options: InjectOptions = {}, storage: ProviderStorage) {
+    super(options, storage)
   }
 
   /**
@@ -57,7 +62,19 @@ export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
    * @memberof Inject
    */
   inject<R = any>(injectKey: InjectKey<R>, defau?: R): R | undefined {
-    return this.provider.get(injectKey) ?? defau
+    return this._inject(injectKey, this.storage) ?? defau
+  }
+
+  private _inject(injectKey: InjectKey<any>, storage: ProviderStorage): any {
+    const v = storage.inject(injectKey)
+    if (v) {
+      return v
+    } else {
+      const _storage = storage.parent
+      if (_storage) {
+        return this._inject(injectKey, _storage)
+      }
+    }
   }
 
   /**
@@ -73,7 +90,7 @@ export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
     value: T,
     injectKey: InjectKey<T> = defInjKey<T>(__DEV__ ? 'provide' : '')
   ): InjectKey<T> {
-    this.provider.set(injectKey, value)
+    this.storage.provide(injectKey, value)
     return injectKey
   }
 
@@ -167,7 +184,7 @@ export class Inject extends ProviderImpl implements ProvideApi, InjectApi {
     memory: WeakMap<any, any> = new WeakMap()
   ): void {
     if (isInjectKey(objKey)) {
-      this.provider.set(objKey, value)
+      this.storage.provide(objKey, value)
     } else if (isObject(objKey)) {
       // dep memory, Prevent circulation
       if (memory.get(objKey)) {

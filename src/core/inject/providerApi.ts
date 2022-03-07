@@ -1,37 +1,29 @@
-import { defDefluatProvider } from '.'
 import { DefProvider, Provider } from './types'
 
-export interface ProviderApi {
-  /**
-   * 这里可以重写来达成响应式
-   * @author meke
-   * @type {Provider}
-   * @memberof Inject
-   */
-  provider: Provider
+export interface ProviderStorage extends Provider {
+  parent?: ProviderStorage
 }
 
 export interface ProviderOptions {
   defProvider?: DefProvider
-  parent?: ProviderImpl
 }
 
-export class ProviderImpl implements ProviderApi {
+export class ProviderImpl {
   /**
    * 这里可以重写来达成响应式
    * @author meke
-   * @type {Provider}
+   * @type {protected}
    * @memberof Inject
    */
-  public provider: Provider
+  protected storage: ProviderStorage
+
   /**
    * Creates an instance of Inject.
    * @author meke
    * @param {(Inject | any)} [inject]
    * @memberof Inject
    */
-  constructor(options: ProviderOptions = {}) {
-    this.provider =
-      options.defProvider?.(options.parent?.provider) ?? defDefluatProvider()
+  constructor(options: ProviderOptions = {}, storage: ProviderStorage) {
+    this.storage = storage
   }
 }

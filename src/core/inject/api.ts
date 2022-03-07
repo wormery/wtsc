@@ -1,15 +1,15 @@
 import { isObject, isUndef } from '@wormery/utils'
 import { Inject, IK, injectObject, IV } from './inject'
-import { DefluatProvider, InjectKey, RefProvider } from './types'
+import { Data, InjectKey, Provider } from './types'
 
-export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
+export function defDefluatProvider(): Provider {
+  const provides: Data<symbol, any> = {}
   return {
-    provides: parent?.provides ? Object.create(parent.provides) : {},
-    set(key, value) {
-      this.provides[key[IK]] = value
+    provide(key, value) {
+      provides[key[IK]] = value
     },
-    get(key) {
-      return this.provides[key[IK]]
+    inject(key) {
+      return provides[key[IK]]
     },
   }
 }
@@ -22,20 +22,19 @@ export function defDefluatProvider(parent?: DefluatProvider): DefluatProvider {
  * @return {*}
  */
 export function defRefProviderAPI(_ref: <T>(value: T) => { value: T }) {
-  return (parent?: RefProvider): RefProvider => {
+  return (): Provider => {
+    const provides: Data<symbol, any> = {}
     return {
-      provides: parent?.provides ? Object.create(parent.provides) : {},
-      set(key, value) {
-        const o = this.provides[key[IK]]
+      provide: (key, value) => {
+        const o = provides[key[IK]]
         if (isUndef(o)) {
-          this.provides[key[IK]] = _ref(value)
+          provides[key[IK]] = _ref(value)
         } else {
           o.value = value
         }
       },
-      get(key) {
-        const v = this.provides[key[IK]]
-        return v && v.value
+      inject(key) {
+        return provides[key[IK]]?.value
       },
     }
   }

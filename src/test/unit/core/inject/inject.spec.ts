@@ -3,6 +3,7 @@ import { Inject, defInjKey, isInjectKey } from '../../../../'
 import { describe, it } from 'mocha'
 import assert from 'assert'
 import { is } from 'bluebird'
+import { defWTSCStorageAPI } from '../../../../core/WTSC/storage'
 
 describe('inject', function () {
   describe('#defineInjKey()', function () {
@@ -25,20 +26,21 @@ describe('inject', function () {
     })
   })
   describe('Inject', function () {
+    const defWTSCStorage = defWTSCStorageAPI({})
     describe('#inject()', function () {
       it('不应该报错', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const injectKey = inject.provide('1')
         inject.depInject(injectKey)
       })
       it('得到的值不正确', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const injectKey = inject.provide('1')
         const value = inject.inject(injectKey)
         assert.deepEqual(value, '1')
       })
       it('默认值检测', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const injectKey = defInjKey<string>('')
 
         const value = inject.inject(injectKey, '2')
@@ -47,12 +49,12 @@ describe('inject', function () {
     })
     describe('#provide()', function () {
       it('provide会自动生成key', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const key = inject.provide('1')
         assert.ok(isInjectKey(key))
       })
       it('向provide提供一个key默认就是向这个key修改值', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const key = inject.provide('1')
 
         assert.equal(inject.inject(key), '1')
@@ -63,7 +65,7 @@ describe('inject', function () {
     })
     describe('depProvide()', function () {
       it('不报错', () => {
-        const inject = new Inject()
+        const inject = new Inject({}, defWTSCStorage())
         const key = inject.depProvide(
           { name: '23' as '23' | '33', tt: '', value: { name: {} } },
           { name: defInjKey(), value: { name: defInjKey() } }

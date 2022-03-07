@@ -2,6 +2,7 @@ import { isObject } from '@wormery/utils'
 import { WTSC, WTSCObject } from './WTSC'
 import { DefWTSCAPIOptions, WTSCAPI, WTSCOptions } from './option'
 import { ConstraninedParsers } from '../../parsers/ConstrainedParsers'
+import { defWTSCStorageAPI } from './storage'
 
 /**
  * 是一个WTSC对象返回true
@@ -34,6 +35,7 @@ export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
 ): WTSCAPI<Options> {
   options.parsers ?? (options.parsers = new ConstraninedParsers() as any)
 
+  const defWTSCStorage = defWTSCStorageAPI(options)
   return {
     ...(options as any),
     defWTSC(defWTSCOoptions?: WTSCOptions<Options>) {
@@ -42,7 +44,7 @@ export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
         ...defWTSCOoptions,
       } as any as Options
 
-      return new WTSC(wtscOptions)
+      return new WTSC(wtscOptions, defWTSCStorage)
     },
   }
 }

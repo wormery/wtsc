@@ -2,6 +2,7 @@ import { warn } from '..'
 import { Inject } from '../inject/inject'
 import { GetObjInjectValue } from '../inject/types'
 import { SetThemeApi } from './SetThemeApi'
+import { ProviderStorage } from '../inject/providerApi'
 import {
   ThemeOptions,
   GetThemeKeys,
@@ -18,8 +19,8 @@ export class Theme<Options extends ThemeOptions<Options>>
 {
   the: GetThemeKeys<Options>
   themeList: GetThemeList<Options>
-  constructor(options: Options) {
-    super(options)
+  constructor(options: Options, storage: ProviderStorage) {
+    super(options, storage)
     this.the = (options.defThemeKeys?.(this) ?? {}) as any
 
     const defaul = this.depInject(this.the as any)

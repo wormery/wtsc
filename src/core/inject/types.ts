@@ -46,18 +46,14 @@ export interface InjectKey<E> {
 }
 
 export interface Provider {
-  set: <E>(key: InjectKey<E>, value: E) => void
-  get: <E>(key: InjectKey<E>) => E | undefined
+  provide: <E>(key: InjectKey<E>, value: E) => void
+  inject: <E>(key: InjectKey<E>) => E | undefined
 }
 
-export type DefProvider = (parent: any) => Provider
+export type DefProvider = () => Provider
 export type Provides = Record<symbol, any>
-export interface DefluatProvider extends Provider {
-  provides: Provides
-}
-export interface RefProvider extends Provider {
-  provides: Provides
-}
+export interface DefluatProvider extends Provider {}
+export interface RefProvider extends Provider {}
 
 export type getReturnOfdepProvide<
   KEYAPI extends ObjInjectKey,
@@ -69,3 +65,4 @@ export type getReturnOfdepProvide<
     ? getReturnOfdepProvide<KEYAPI[k], T[k]>
     : never
 }
+export type Data<K extends string | symbol | number, V> = { [k in K]: V }

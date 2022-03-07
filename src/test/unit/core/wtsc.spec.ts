@@ -7,7 +7,6 @@ describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defWTSC({
       parsers: {
-        [3]() {},
         height() {
           return '30px'
         },
@@ -95,7 +94,7 @@ describe('wtsc', function () {
     it('toString()', () => {
       const wtsc1 = wtsc.defChild()
 
-      assert.deepEqual(wtsc1.toString(), '.wtsc{\n}\n')
+      assert.deepEqual(wtsc1.toString(), '.root{\n}\n')
       assert.deepEqual(wtsc1.toString('div'), 'div{\n}\n')
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n}\n')
       wtsc1.add.height()
