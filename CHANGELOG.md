@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.10](https://github.com/wormery/wtsc/compare/v2.0.0-bate.9...v2.0.0-bate.10) (2022-03-07)
+
+
+### Features
+
+* add sham() real() shandbox() 等低消耗api ([1a3f9ef](https://github.com/wormery/wtsc/commit/1a3f9ef12efca365683e28831c7633bb99d111e4))
+* storage ([655e3df](https://github.com/wormery/wtsc/commit/655e3df54fc7c614141b3ff383798bec0e770c44))
+* TASK.md ([d33772a](https://github.com/wormery/wtsc/commit/d33772a1b7c6fea468f127cedca071ec3941ae51))
+
 ## [2.0.0-bate.9](https://github.com/wormery/wtsc/compare/v2.0.0-bate.8...v2.0.0-bate.9) (2022-03-05)
 
 
