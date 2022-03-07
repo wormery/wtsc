@@ -68,6 +68,20 @@ describe('wtsc', function () {
 
       assert.equal(testvalue, value2)
     })
+    describe('#shandbox()隔离', () => {
+      it('#shandbox()', () => {
+        wtsc.shandbox(() => {
+          assert.equal(wtsc.name, 'sham')
+        })
+      })
+    })
+    it('#sham()和real的隔离作用，应该管用', () => {
+      wtsc.add('height').sham('sham1')
+      assert.equal(wtsc.name, 'sham1')
+      assert.deepEqual(wtsc.out(), {})
+      wtsc.real()
+      assert.deepEqual(wtsc.out(), { height: '30px' })
+    })
 
     it('#isExisted()', () => {
       const childWtsc = wtsc.defChild()

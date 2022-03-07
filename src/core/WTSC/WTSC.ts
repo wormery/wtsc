@@ -2,16 +2,18 @@ import { cached } from '@wormery/utils'
 
 import { Theme } from '../theme/theme'
 import { Get$parsers, Get$WTSC, WTSCOptions } from './option'
-import { ADD, CSSKey, CSSValue, Style } from './types'
+import { ADD, CSSValue, Style } from './types'
 import { InjectKey } from '../inject/types'
 import { virtualWorld } from '../parser/preParser'
 import { styleToString } from './styleTostringApi'
 import { SaveApi } from './saveApi'
 import { parsersResultHandle } from './parserResultHandleApi'
-import { ProviderStorage } from '../inject/providerApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
+import { warn } from '..'
 
 export const WTSCObject = Symbol('WTSCObject')
+
+export const last: WTSC | null = null
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
@@ -34,20 +36,33 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
   public readonly [WTSCObject] = true
 
   private readonly options: Options
-  // private readonly defWTSC!: DefWTSC<Options>
+  /**
+   * 生成storage存储对象
+   * @private
+   * @type {DefWTSCStorage}
+   * @memberof WTSC
+   */
+  private readonly defStorage: DefWTSCStorage
+
+  /**
+   * 存储
+   * @protected
+   * @type {WTSCStorage}
+   * @memberof WTSC
+   */
   protected storage: WTSCStorage
+
+  /**
+   * 栈
+   * @private
+   * @type {WTSCStorage[]}
+   * @memberof WTSC
+   */
+  private readonly word: WTSCStorage[] = []
 
   public get name(): string {
     return this.storage.name
   }
-
-  /**
-   * 样式存储存储
-   * @author meke
-   * @private
-   * @memberof WTSC
-   */
-  private _style: Style<Options> = {}
 
   /**
    * 处理器方法存储
@@ -63,7 +78,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {(WTSC<_Parsers> | null)}
    * @memberof WTSC
    */
-  public parent: Get$WTSC<Options> | null
+  private readonly parent: Get$WTSC<Options> | null
 
   /**
    * 子解析器
@@ -71,7 +86,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {Array<WTSC<_Parsers>>}
    * @memberof WTSC
    */
-  public children: Array<WTSC<Options>> = []
+  private readonly children: Array<WTSC<Options>> = []
 
   /**
    * 解析器对象
@@ -81,7 +96,6 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    */
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
   private parsers: Get$parsers<Options>
-  private readonly defStorage: DefWTSCStorage
 
   /**
    * Creates an instance of WTSC.
@@ -113,8 +127,6 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   public defChild(options: WTSCOptions<Options> = {} as any): WTSC<Options> {
-    // const storage = this.defStorage(options.name, this.storage)
-
     // this.storage = storage
     const _options = { parent: this, ...options } as any as WTSCOptions<Options>
     const w = this.options.defWTSC?.(_options)
@@ -122,6 +134,57 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
     this.children.push(w as any)
     ;(w as any).storage.parent = this.storage
     return w as WTSC<Options>
+  }
+
+  /**
+   * 沙盒：进入沙盒中的操作不会干扰正常的wtsc，但是消耗性能很少，正常隔离推荐
+   * 原理：我们将存储用的storage对象重新创建放到栈里面，用完再退栈，只占用了创建一个对象的时间，
+   * 如果创建一个子wtsc将会创建很多很多对象，但是一定不要退多了，也不要忘记退出，所以使用包装好的
+   * 沙盒，里面的内容出错也能正常退栈，但是使用会麻烦点
+   * @param {(wtsc: WTSC<Options>) => void} sand
+   * @memberof WTSC
+   */
+  public shandbox<R>(sand: (wtsc: WTSC<Options>) => R): R {
+    try {
+      this.sham()
+      return sand(this)
+    } catch (E) {
+      throw E as any
+    } finally {
+      this.real()
+    }
+  }
+
+  /**
+   * 入栈：入栈后一定要退栈，这是吧wtsc的storage放如栈内做到的，你可以使用打包api shandbox自动退栈
+   * @param {string} [name='sham']
+   * @return {*}  {WTSC<Options>}
+   * @memberof WTSC
+   */
+  public sham(name: string = 'sham'): WTSC<Options> {
+    const storage = this.defStorage(name, this.storage)
+    this.word.push(this.storage)
+    this.storage = storage
+    return this
+  }
+
+  /**
+   * 退栈
+   * @memberof WTSC
+   */
+  public real(): void {
+    const storage = this.word.pop()
+    if (storage) {
+      this.storage = storage
+    } else {
+      if (__DEV__) {
+        if (this.storage.name === 'root') {
+          warn('你应该在root层')
+        } else {
+          warn('您可能已经在栈顶了,退栈失败')
+        }
+      }
+    }
   }
 
   /**
@@ -190,8 +253,8 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @param {CSSValue} cssValue
    * @memberof WTSC
    */
-  private setCSS(cssName: CSSKey<Options>, cssValue: CSSValue): void {
-    this._style[cssName] = cssValue
+  private setCSS(cssName: string, cssValue: CSSValue): void {
+    this.storage.style[cssName] = cssValue
   }
 
   /**
@@ -201,8 +264,8 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {boolean}
    * @memberof WTSC
    */
-  public isExisted(cssKey: CSSKey<Options>): boolean {
-    return !!this._style[cssKey]
+  public isExisted(cssKey: string): boolean {
+    return !!this.storage.style[cssKey]
   }
 
   /**
@@ -214,7 +277,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   public out(isClear: boolean = true): Style<Options> {
-    const _style = this._style
+    const _style = this.storage.style
     if (isClear) {
       this.clear()
     }
@@ -230,7 +293,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    */
   public save(isClear: boolean = true): InjectKey<Style<Options>> {
     const injectkey = this.provide(
-      this._style,
+      this.storage.style,
       this.defInjKey(__DEV__ ? this.storage.name + '>save' : '')
     )
     isClear && this.clear()
@@ -243,7 +306,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   public clear(): void {
-    this._style = {} as unknown as Style<Options>
+    this.storage.style = {} as unknown as Style<Options>
   }
 
   /**
@@ -261,6 +324,6 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
     if (name === this.storage.name) {
       name = '.' + name
     }
-    return styleToString(name, this._style as any, prefix)
+    return styleToString(name, this.storage.style as any, prefix)
   }
 }

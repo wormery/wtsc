@@ -6,7 +6,7 @@ import { InjectKey } from '../inject/types'
 /**
  * css值支持的类型
  */
-export type CSSValue = string | number
+export type CSSValue = string
 /**
  * CSSKey Type
  */
@@ -16,7 +16,7 @@ export type CSSKey<Options extends WTSCOptions<Options>> =
  * style的类型
  */
 export type Style<Option extends WTSCOptions<Option>> = {
-  [k in CSSKey<Option>]?: CSSValue
+  [k in string]: CSSValue
 }
 
 /**
