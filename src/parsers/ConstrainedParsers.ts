@@ -1,10 +1,5 @@
 import { ToString } from 'src/core/WTSC/types'
-import {
-  CssAllValueType,
-  CSSSizeTypes,
-  CSSHWType,
-  PositionType,
-} from '../CSSValue'
+import { CssAllValueType, CSSSizeTypes, PositionType } from '../CSSValue'
 import { BaseParsers } from './BaseParsers'
 import { FlexGrow } from './interface/flex'
 import { HeightValue } from './interface/height'
