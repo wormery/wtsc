@@ -2,6 +2,7 @@ import { ToString } from '../../../core/WTSC/types'
 import { Length } from '../../../CSSValue/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 import {
+  GlobalCSSValues,
   auto,
   none,
   maxContent,
@@ -10,6 +11,7 @@ import {
 } from '../../../CSSValue/types'
 
 export type MinHeightValue =
+  | GlobalCSSValues
   | Length
   | Percentage
   | auto
