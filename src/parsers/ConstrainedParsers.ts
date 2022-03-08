@@ -8,6 +8,7 @@ import {
 } from '../CSSValue'
 import { BaseParsers } from './BaseParsers'
 import { FlexGrow } from './interface/flex'
+import { HeightValue } from './interface/height'
 import { TypeParsersInterface } from './interface/TypeParsers'
 class ConstraninedParsers extends BaseParsers implements TypeParsersInterface {
   flex(...rest: any[]): ToString {
@@ -30,7 +31,7 @@ class ConstraninedParsers extends BaseParsers implements TypeParsersInterface {
     return value
   }
 
-  height(value: CSSHWType): ToString {
+  height(value: HeightValue): ToString {
     return value
   }
 
