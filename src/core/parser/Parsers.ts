@@ -1,6 +1,6 @@
 import { WTSC } from '../WTSC/WTSC'
 import { ParsersError } from '../api/error'
-import { Parsers } from '../WTSC/types'
+import { Parsers, ToString } from '../WTSC/types'
 import { WTSCOptions } from '../WTSC/option'
 import { getParserKey } from './ParserSpace'
 
@@ -51,5 +51,14 @@ export class RootParsers implements Parsers {
    */
   protected error(msg: string): void {
     throw new ParsersError(msg, getParserKey(), this.name)
+  }
+
+  protected arrayToString(value: ToString[]): string {
+    let str: string = ''
+    for (let i = 0; i < value.length; i++) {
+      const s = value[i]
+      str += s.toString() + ' '
+    }
+    return str.slice(0, str.length - 1)
   }
 }

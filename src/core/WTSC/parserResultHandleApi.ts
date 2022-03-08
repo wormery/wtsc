@@ -1,6 +1,6 @@
 import { isFunction, isUndef } from '@wormery/utils'
-import { ParsersError, parserSpaceWarn, ParsersSkip } from '..'
-import { warn, notAParserReturnValueWarn, notAFunctionWarn } from '../api/warn'
+import { ParsersSkip } from '..'
+import { notAParserReturnValueWarn, notAFunctionWarn } from '../api/warn'
 import { isParserReturnValue } from './types'
 import { WTSCOptions } from './option'
 import { isInjectKey } from '../inject/injectKey'

@@ -22,7 +22,7 @@ export type Style<Option extends WTSCOptions<Option>> = {
 /**
  * 解析器的返回值必须有toString()方法
  */
-export interface ParserReturnValue {
+export interface ToString {
   toString: () => string
 }
 export function isParserReturnValue<T extends unknown>(
@@ -35,9 +35,9 @@ export function isParserReturnValue<T extends unknown>(
  * Parsers 类型
  */
 export type Parsers<MyParsers = {}> = {
-  [k in keyof MyParsers]: (...rest: any[]) => ParserReturnValue
+  [k in keyof MyParsers]: (...rest: any[]) => ToString
 }
-export type Parser = (...rest: any) => ParserReturnValue
+export type Parser = (...rest: any) => ToString
 
 /**
  * ADD 的类型
@@ -45,7 +45,7 @@ export type Parser = (...rest: any) => ParserReturnValue
 export type ADD<Options extends WTSCOptions<Options>> = {
   [k in keyof Get$parsers<Options>]: Get$parsers<Options>[k] extends (
     ...rest: infer Rest
-  ) => ParserReturnValue
+  ) => ToString
     ? (
         ...rest:
           | {
@@ -60,7 +60,7 @@ export type ADD<Options extends WTSCOptions<Options>> = {
   key: K,
   ...rest: Get$parsers<Options>[K] extends (
     ...rest: infer Rest
-  ) => ParserReturnValue
+  ) => ToString
     ? Rest
     : any[]
 ) => WTSC<Options>)

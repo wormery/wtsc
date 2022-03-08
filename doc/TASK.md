@@ -272,17 +272,17 @@
 
 - [ ] filter
 
-- [ ] flex
+- [x] flex
 
-- [ ] flexBasis
+- [x] flexBasis
 
 - [ ] flexDirection
 
 - [ ] flexFlow
 
-- [ ] flexGrow
+- [x] flexGrow
 
-- [ ] flexShrink
+- [x] flexShrink
 
 - [ ] flexWrap
 
@@ -366,7 +366,7 @@
 
 - [ ] hangingPunctuation
 
-- [ ] height
+- [x] height
 
 - [ ] hyphens
 
@@ -438,7 +438,7 @@
 
 - [ ] listStyleType
 
-- [ ] margin
+- [x] margin
 
 - [ ] marginBlock
 
@@ -594,7 +594,7 @@
 
 - [ ] pad
 
-- [ ] padding
+- [x] padding
 
 - [ ] paddingBlock
 

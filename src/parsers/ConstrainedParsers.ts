@@ -1,18 +1,36 @@
-import { ParserReturnValue } from 'src/core/WTSC/types'
+import { ToString } from 'src/core/WTSC/types'
 import {
   CssAllValueType,
   CSSSizeTypes,
   CSSHWType,
   PositionType,
+  GlobalCSSValues,
 } from '../CSSValue'
 import { BaseParsers } from './BaseParsers'
+import { FlexGrow } from './interface/flex'
+import { TypeParsersInterface } from './interface/TypeParsers'
+class ConstraninedParsers extends BaseParsers implements TypeParsersInterface {
+  flex(...rest: any[]): ToString {
+    return this.arrayToString(rest)
+  }
 
-export class ConstraninedParsers extends BaseParsers {
-  width(value: CSSHWType): ParserReturnValue {
+  flexGrow(flexGrow: FlexGrow): ToString {
+    return flexGrow
+  }
+
+  flexShrink(flexShrink: number): ToString {
+    return flexShrink
+  }
+
+  flexBasis(value: ToString): ToString {
     return value
   }
 
-  height(value: CSSHWType): ParserReturnValue {
+  width(value: CSSHWType): ToString {
+    return value
+  }
+
+  height(value: CSSHWType): ToString {
     return value
   }
 
@@ -23,7 +41,7 @@ export class ConstraninedParsers extends BaseParsers {
    * @return {*}  {ParserReturnValue}
    * @memberof ConstraninedParsers
    */
-  margin(value: CSSSizeTypes): ParserReturnValue
+  margin(value: CSSSizeTypes): ToString
 
   /**
    * 指定两个值时，第一个值会应用于上边和下边的外边距，第二个值应用于左边和右边。
@@ -33,10 +51,7 @@ export class ConstraninedParsers extends BaseParsers {
    * @return {*}  {ParserReturnValue}
    * @memberof ConstraninedParsers
    */
-  margin(
-    TopAndButtom: CSSSizeTypes,
-    LeftAndRight: CSSSizeTypes
-  ): ParserReturnValue
+  margin(TopAndButtom: CSSSizeTypes, LeftAndRight: CSSSizeTypes): ToString
 
   /**
    *指定三个值时，第一个值应用于上边，第二个值应用于右边和左边，第三个则应用于下边的外边距。
@@ -51,7 +66,7 @@ export class ConstraninedParsers extends BaseParsers {
     Top: CSSSizeTypes,
     LeftAndRight: CSSSizeTypes,
     buttom: CSSSizeTypes
-  ): ParserReturnValue
+  ): ToString
 
   /**
    * 指定四个值时，依次（顺时针方向）作为上边，右边，下边，和左边的外边距。
@@ -68,9 +83,9 @@ export class ConstraninedParsers extends BaseParsers {
     left: CSSSizeTypes,
     right: CSSSizeTypes,
     buttom: CSSSizeTypes
-  ): ParserReturnValue
+  ): ToString
 
-  margin(...rest: CSSSizeTypes[]): ParserReturnValue {
+  margin(...rest: CSSSizeTypes[]): ToString {
     let str = ''
     for (let i = 0; i < rest.length; i++) {
       str += rest[i].toString() + ' '
@@ -85,7 +100,7 @@ export class ConstraninedParsers extends BaseParsers {
    * @return {*}  {ParserReturnValue}
    * @memberof ConstraninedParsers
    */
-  padding(value: CSSSizeTypes): ParserReturnValue
+  padding(value: CSSSizeTypes): ToString
 
   /**
    * 指定两个值时，第一个值会应用于上边和下边的外边距，第二个值应用于左边和右边。
@@ -95,10 +110,7 @@ export class ConstraninedParsers extends BaseParsers {
    * @return {*}  {ParserReturnValue}
    * @memberof ConstraninedParsers
    */
-  padding(
-    TopAndButtom: CSSSizeTypes,
-    LeftAndRight: CSSSizeTypes
-  ): ParserReturnValue
+  padding(TopAndButtom: CSSSizeTypes, LeftAndRight: CSSSizeTypes): ToString
 
   /**
    *指定三个值时，第一个值应用于上边，第二个值应用于右边和左边，第三个则应用于下边的外边距。
@@ -113,7 +125,7 @@ export class ConstraninedParsers extends BaseParsers {
     Top: CSSSizeTypes,
     LeftAndRight: CSSSizeTypes,
     buttom: CSSSizeTypes
-  ): ParserReturnValue
+  ): ToString
 
   /**
    * 指定四个值时，依次（顺时针方向）作为上边，右边，下边，和左边的外边距。
@@ -130,29 +142,32 @@ export class ConstraninedParsers extends BaseParsers {
     left: CSSSizeTypes,
     right: CSSSizeTypes,
     buttom: CSSSizeTypes
-  ): ParserReturnValue
+  ): ToString
 
-  padding(...rest: CSSSizeTypes[]): ParserReturnValue {
-    let str = ''
-    for (let i = 0; i < rest.length; i++) {
-      str += rest[i].toString() + ' '
-    }
-    return str.trim()
+  padding(...rest: CSSSizeTypes[]): ToString {
+    return this.arrayToString(rest)
   }
 
-  all(value: CssAllValueType): ParserReturnValue {
+  all(value: CssAllValueType): ToString {
     return value
   }
 
-  position(value: PositionType): ParserReturnValue {
+  position(value: PositionType): ToString {
     return value
   }
 
-  display(value: ParserReturnValue): ParserReturnValue {
+  display(value: ToString): ToString {
     return value
   }
 
-  zIndex(value: number): ParserReturnValue {
+  zIndex(value: number): ToString {
     return value
   }
 }
+
+type TypeConstraninedParsers = new () => TypeParsersInterface &
+  ConstraninedParsers
+
+export const TypeParsers = ConstraninedParsers as TypeConstraninedParsers
+const xx = new TypeParsers()
+xx.flex('auto')
