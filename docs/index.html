@@ -1,0 +1,217 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@wormery/wtsc</title><meta name="description" content="Documentation for @wormery/wtsc"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@wormery/wtsc</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> @wormery/wtsc</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#简介" id="简介" style="color: inherit; text-decoration: none;">
+  <h1>简介</h1>
+</a>
+<p>WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你切换主题后，不管是 React 还是 vue2 vue3 都可以响应更改主题，未来会增加的功能中还会有自动生成对应的 wtsc 声名等功能</p>
+
+<a href="#预览" id="预览" style="color: inherit; text-decoration: none;">
+  <h1>预览</h1>
+</a>
+<p>可以补全您的代码</p>
+<p>如图：</p>
+<p>注：此预览图是多版本之前</p>
+<p><img src="https://raw.githubusercontent.com/wormery/wtsc/main/doc/imgs/AutomatiCompletion.png" alt="AutomatiCompletion"></p>
+
+<a href="#快速开始" id="快速开始" style="color: inherit; text-decoration: none;">
+  <h1>快速开始</h1>
+</a>
+<ol>
+<li>引入</li>
+</ol>
+<p><strong>使用 npm 安装:</strong></p>
+<blockquote>
+<p>npm install @wormery/wtsc</p>
+</blockquote>
+<p><strong>使用 pnpm 安装:</strong></p>
+<blockquote>
+<p>pnpm install @wormery/wtsc</p>
+</blockquote>
+<ol start="2">
+<li>使用</li>
+</ol>
+<pre><code class="language-typescript"><span class="hl-0">//引入</span><br/><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">defWTSC</span><span class="hl-2">, </span><span class="hl-3">ConstraninedParsers</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&#39;@wormery/wtsc&#39;</span><br/><br/><span class="hl-0">//定义WTSC,</span><br/><span class="hl-0">//这里没有默认值了是因为类型嵌套太多导致运行的不是太流畅，重构的自己都不知道之前怎么写的了</span><br/><span class="hl-0">//第二增加了一个主题的功能，这的肯定是要手动定义的了</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">wtsc</span><span class="hl-2"> = </span><span class="hl-7">defWTSC</span><span class="hl-2">({</span><br/><span class="hl-2">  </span><span class="hl-3">parsers:</span><span class="hl-2"> </span><span class="hl-5">new</span><span class="hl-2"> </span><span class="hl-7">ConstraninedParsers</span><span class="hl-2">(),</span><br/><span class="hl-2">})</span><br/><br/><span class="hl-0">//使用测试</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">style</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">width</span><span class="hl-2">(</span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">)).</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">height</span><span class="hl-2">(</span><span class="hl-7">PE</span><span class="hl-2">(</span><span class="hl-8">30</span><span class="hl-2">)).</span><span class="hl-7">out</span><span class="hl-2">()</span><br/><span class="hl-0">//打印测试</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">style</span><span class="hl-2">)</span><br/><span class="hl-0">//printed: { width: &#39;20px&#39;, height: &#39;30%&#39; }</span>
+</code></pre>
+
+<a href="#响应化" id="响应化" style="color: inherit; text-decoration: none;">
+  <h2>响应化</h2>
+</a>
+<p>响应化 api 的生成函数需要您把对应的响应 ref 函数传入进来，未来会增加 reactive 的响应 api 以及 vue2 的响应生成器</p>
+<p>语法:</p>
+<pre><code class="language-typescript"><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">ref</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&#39;vue&#39;</span><br/><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">defRefProviderAPI</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&#39;@wormery/wtsc&#39;</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">defRefProvider</span><span class="hl-2"> = </span><span class="hl-7">defRefProviderAPI</span><span class="hl-2">(</span><span class="hl-3">ref</span><span class="hl-2">)</span>
+</code></pre>
+<p>得到的是一个 provider 的生成函数</p>
+<p>具体简单使用:</p>
+<p>下面用 vue3 的计算属性做简要测试</p>
+<pre><code class="language-typescript"><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">computed</span><span class="hl-2">, </span><span class="hl-3">ref</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&#39;vue&#39;</span><br/><span class="hl-1">import</span><span class="hl-2"> { </span><span class="hl-3">defRefProviderAPI</span><span class="hl-2">, </span><span class="hl-3">defWTSC</span><span class="hl-2"> } </span><span class="hl-1">from</span><span class="hl-2"> </span><span class="hl-4">&#39;@wormery/wtsc&#39;</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">wtsc</span><span class="hl-2"> = </span><span class="hl-7">defWTSC</span><span class="hl-2">({</span><br/><span class="hl-2">  </span><span class="hl-3">defProvider:</span><span class="hl-2"> </span><span class="hl-7">defRefProviderAPI</span><span class="hl-2">(</span><span class="hl-3">ref</span><span class="hl-2">),</span><br/><span class="hl-2">})</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;测试1&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-0">//我们定义一个计算属性</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">comV</span><span class="hl-2"> = </span><span class="hl-7">computed</span><span class="hl-2">(() </span><span class="hl-5">=&gt;</span><span class="hl-2"> {</span><br/><span class="hl-2">  </span><span class="hl-1">return</span><span class="hl-2"> </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">key</span><span class="hl-2">)</span><br/><span class="hl-2">})</span><br/><br/><span class="hl-0">//得到计算属性的值</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">comV</span><span class="hl-2">.</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// 测试1</span><br/><br/><span class="hl-0">//我们给provide一个新值</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;测试2&#39;</span><span class="hl-2">, </span><span class="hl-3">key</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">comV</span><span class="hl-2">.</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// 测试2</span><br/><span class="hl-0">//代表响应被监听,comV的值因为我们set了一个v2而改变</span>
+</code></pre>
+<p>此测试是通过的</p>
+
+<a href="#主题" id="主题" style="color: inherit; text-decoration: none;">
+  <h2>主题</h2>
+</a>
+<p>主题必须要在 wtsc 声明前定义才会有类型补充（ts 局限）</p>
+<ul>
+<li>简单定义</li>
+</ul>
+<p>定义过程和使用过程都有完整的类型声明</p>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">wtsc</span><span class="hl-2"> = </span><span class="hl-7">defWTSC</span><span class="hl-2">({</span><br/><span class="hl-2">  </span><span class="hl-3">parsers:</span><span class="hl-2"> </span><span class="hl-5">new</span><span class="hl-2"> </span><span class="hl-7">ConstraninedParsers</span><span class="hl-2">(),</span><br/><span class="hl-2">  </span><span class="hl-7">defThemeKeys</span><span class="hl-2">(</span><span class="hl-3">inject</span><span class="hl-2">: </span><span class="hl-9">Inject</span><span class="hl-2">) {</span><br/><span class="hl-2">    </span><span class="hl-0">// 这里推荐用provide,这样有个默认值使用过程就不会undefined</span><br/><span class="hl-2">    </span><span class="hl-0">// 然后wtsc默认就会忽略掉undefined的项目</span><br/><span class="hl-2">    </span><span class="hl-1">return</span><span class="hl-2"> {</span><br/><span class="hl-2">      </span><span class="hl-3">mainColor:</span><span class="hl-2"> </span><span class="hl-3">inject</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">255</span><span class="hl-2">, </span><span class="hl-8">255</span><span class="hl-2">, </span><span class="hl-8">255</span><span class="hl-2">)),</span><br/><span class="hl-2">      </span><span class="hl-3">mainFontColor:</span><span class="hl-2"> </span><span class="hl-3">inject</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">14</span><span class="hl-2">, </span><span class="hl-8">14</span><span class="hl-2">, </span><span class="hl-8">14</span><span class="hl-2">)),</span><br/><span class="hl-2">    }</span><br/><span class="hl-2">  },</span><br/><span class="hl-2">  </span><span class="hl-3">themeList:</span><span class="hl-2"> {</span><br/><span class="hl-2">    </span><span class="hl-3">dark:</span><span class="hl-2"> {</span><br/><span class="hl-2">      </span><span class="hl-3">theme1:</span><span class="hl-2"> {</span><br/><span class="hl-2">        </span><span class="hl-3">mainColor:</span><span class="hl-2"> </span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">, </span><span class="hl-8">20</span><span class="hl-2">, </span><span class="hl-8">20</span><span class="hl-2">),</span><br/><span class="hl-2">        </span><span class="hl-3">mainFontColor:</span><span class="hl-2"> </span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">220</span><span class="hl-2">, </span><span class="hl-8">220</span><span class="hl-2">, </span><span class="hl-8">220</span><span class="hl-2">),</span><br/><span class="hl-2">      },</span><br/><span class="hl-2">    },</span><br/><span class="hl-2">    </span><span class="hl-3">bright:</span><br/><span class="hl-2">      </span><span class="hl-3">theme2</span><span class="hl-2">: {</span><br/><span class="hl-2">        </span><span class="hl-3">mainColor:</span><span class="hl-2"> </span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">255</span><span class="hl-2">, </span><span class="hl-8">255</span><span class="hl-2">, </span><span class="hl-8">255</span><span class="hl-2">),</span><br/><span class="hl-2">        </span><span class="hl-3">mainFontColor:</span><span class="hl-2"> </span><span class="hl-7">rgb</span><span class="hl-2">(</span><span class="hl-8">0</span><span class="hl-2">, </span><span class="hl-8">0</span><span class="hl-2">, </span><span class="hl-8">0</span><span class="hl-2">),</span><br/><span class="hl-2">      },</span><br/><span class="hl-2">  },</span><br/><span class="hl-2">})</span>
+</code></pre>
+<ul>
+<li>简单使用</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">the</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">mainColor</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">background</span><span class="hl-2">(</span><span class="hl-3">the</span><span class="hl-2">.</span><span class="hl-3">mainColor</span><span class="hl-2">)</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">value</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">the</span><span class="hl-2">.</span><span class="hl-3">mainFontColor</span><span class="hl-2">)</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// &#39;rgb(14, 14, 14)&#39;</span>
+</code></pre>
+<ul>
+<li>简单切换主题</li>
+</ul>
+<p>setTheme 函数中是有类型自动完成的，您不用担心您输入错误，可以放心大胆的切换主题，错误会得到一个警告不用担心，生产环境警告是会被删除的</p>
+<pre><code class="language-typescript"><span class="hl-0">//根据上面定义，下面这句代码类型推演里只有 `&#39;dark’` `&#39;bright&#39;` `&#39;theme1&#39;` `&#39;theme2&#39;`</span><br/><span class="hl-0">//默认第一层主题色系在前面</span><br/><span class="hl-0">//输入下面会选中暗色主题</span><br/><span class="hl-0">//单独输入暗色主题不会修改暗色系中的主题选中情况，下面将默认选中暗色中的第一个主题，如果您以前已经选择了第二个，就会选中第二个主题</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">setTheme</span><span class="hl-2">(</span><span class="hl-4">&#39;dark&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-0">//输入这个就会选中 `theme1` 主题</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">setTheme</span><span class="hl-2">(</span><span class="hl-4">&#39;theme1&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-0">//当您在第一个里没输入 dark,第二个只会有 `theme1` 这个选项</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">setTheme</span><span class="hl-2">(</span><span class="hl-4">&#39;dark&#39;</span><span class="hl-2">, </span><span class="hl-4">&#39;theme1&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-0">//当您第一个选中任何一个具体主题后，第二个选项输入任何内容都会报错，如下</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">setTheme</span><span class="hl-2">(</span><span class="hl-4">&#39;theme2&#39;</span><span class="hl-2">, </span><span class="hl-3">任何内容</span><span class="hl-2">) </span><span class="hl-0">// 会报错，没有对应的重载</span>
+</code></pre>
+
+<a href="#inject" id="inject" style="color: inherit; text-decoration: none;">
+  <h2>inject()</h2>
+</a>
+<p>inject 是一个注入器， 可以简单的注入需要的内容</p>
+<ul>
+<li>@author meke</li>
+<li>@template R</li>
+<li>@param {InjectKey<R>} injectKey</li>
+<li>@param {R} [defau]</li>
+<li>@return {*} {(R | undefined)}</li>
+<li>@memberof Inject</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-0">// 注入得到一个key，可以通过这个key得到对应的值</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">injectkey</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;你好啊&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">injectkey</span><span class="hl-2">) </span><span class="hl-0">// InjectKey&lt;string&gt;</span><br/><br/><span class="hl-0">// 使用inject可以得到key所对应的值 类型为注入的类型</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">value</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">injectkey</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// string | undefined</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// &#39;你好啊&#39;</span>
+</code></pre>
+<p>同样的：</p>
+<pre><code class="language-typescript"><span class="hl-0">// 注入得到一个key，可以通过这个key得到对应的值</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">injectkey</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-8">3</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">injectkey</span><span class="hl-2">) </span><span class="hl-0">// InjectKey&lt;number&gt;</span><br/><br/><span class="hl-0">// 使用inject可以得到key所对应的值 类型为注入的类型</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">value</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">injectkey</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// number | undefined</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// 3</span>
+</code></pre>
+<ul>
+<li>默认值</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-0">// 注入得到一个key，可以通过这个key得到对应的值</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">injectkey</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-8">3</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">injectkey</span><span class="hl-2">) </span><span class="hl-0">// InjectKey&lt;number&gt;</span><br/><br/><span class="hl-0">// 使用inject可以得到key所对应的值 类型为注入的类型</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">value</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">injectkey</span><span class="hl-2"> ， </span><span class="hl-8">10</span><span class="hl-2">)</span><br/><br/><span class="hl-0">// 这里有默认值后就会只剩下number类型了</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// number</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// 3</span>
+</code></pre>
+<p>我们可以定义一个不存在值的 key 使用 defInjKey() 或 wtsc.defInjKey()，目前这两个功能一样，未来可能会增加一些功能</p>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">defInjkey</span><span class="hl-2">&lt;</span><span class="hl-9">string</span><span class="hl-2">&gt;()</span><br/><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">key</span><span class="hl-2">, </span><span class="hl-8">10</span><span class="hl-2">) </span><span class="hl-0">//return 10</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">key</span><span class="hl-2">) </span><span class="hl-0">//return undefined</span>
+</code></pre>
+
+<a href="#defchild" id="defchild" style="color: inherit; text-decoration: none;">
+  <h2>defChild()</h2>
+</a>
+<p>defChild 的作用是隔离作用域
+外层作用域可以干扰内层，但是内层的修改行为不会干扰到外层</p>
+<ul>
+<li>定义局部子 wtsc</li>
+<li>@author meke</li>
+<li>@param {WTSCOptions<MyParsers>} [options={}]</li>
+<li>@return {*} {WTSC<MyParsers>}</li>
+<li>@memberof WTSC</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">injectkey</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;你好啊&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">child</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">defChild</span><span class="hl-2">()</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">value</span><span class="hl-2"> = </span><span class="hl-3">child</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">injectkey</span><span class="hl-2">)</span><br/><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-3">value</span><span class="hl-2">) </span><span class="hl-0">// &#39;你好啊&#39;</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">childInjectKey</span><span class="hl-2"> = </span><span class="hl-3">child</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;Hello&#39;</span><span class="hl-2">)</span><br/><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">childInjectKey</span><span class="hl-2">) </span><span class="hl-0">// undefined</span>
+</code></pre>
+
+<a href="#definjkey" id="definjkey" style="color: inherit; text-decoration: none;">
+  <h2>defInjKey()</h2>
+</a>
+<p>作用是定义一个 InjectKey</p>
+<p>更建议使用包装后的 provide()和 depProvide()这两个 api 你可以当做有默认生成 InjectKey 的功能，provide 自动生成，depProvide 树状结构生成，它们都是从输入的值类型中推断 InjectKey 的类型</p>
+<ul>
+<li>defInjKey</li>
+<li>@author meke</li>
+<li>@export</li>
+<li>@template T</li>
+<li>@param {string} [describe]</li>
+<li>@param {T} [value]</li>
+<li>@return {*} {InjectKey<T>}</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">defInjKey</span><span class="hl-2">&lt;</span><span class="hl-9">string</span><span class="hl-2">&gt;()</span><br/><span class="hl-3">console</span><span class="hl-2">.</span><span class="hl-7">log</span><span class="hl-2">(</span><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">key</span><span class="hl-2">) </span><span class="hl-0">// injectkey&lt;string&gt;</span>
+</code></pre>
+
+<a href="#provide" id="provide" style="color: inherit; text-decoration: none;">
+  <h2>provide()</h2>
+</a>
+<ul>
+<li>传入一个值返回一个{InjectKey}</li>
+<li>@author meke</li>
+<li>@template T</li>
+<li>@param {T} value</li>
+<li>@param {InjectKey<T>} [injectKey=defInjKey(&#39;provide&#39;)]</li>
+<li>可以传入一个自定义 Injectkey 这样你可以输入描述等信息</li>
+<li>@return {*} {InjectKey<T>}</li>
+<li>@memberof Inject</li>
+</ul>
+
+<a href="#简单使用：" id="简单使用：" style="color: inherit; text-decoration: none;">
+  <h3>简单使用：</h3>
+</a>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;你好&#39;</span><span class="hl-2">)</span><br/><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">key</span><span class="hl-2"> </span><span class="hl-0">//InjectKey&lt;string&gt;</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">key</span><span class="hl-2">) </span><span class="hl-0">// &#39;你好&#39;</span>
+</code></pre>
+
+<a href="#约束类型" id="约束类型" style="color: inherit; text-decoration: none;">
+  <h3>约束类型</h3>
+</a>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;你好&#39;</span><span class="hl-2"> </span><span class="hl-1">as</span><span class="hl-2"> </span><span class="hl-4">&#39;你好&#39;</span><span class="hl-2">)</span><br/><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">key</span><span class="hl-2"> </span><span class="hl-0">//InjectKey&lt;‘你好’&gt;</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">key</span><span class="hl-2">) </span><span class="hl-0">// &#39;你好&#39;</span><br/><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key1</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-8">3</span><span class="hl-2"> </span><span class="hl-1">as</span><span class="hl-2"> </span><span class="hl-8">3</span><span class="hl-2">)</span><br/><span class="hl-0">//请注意我们告诉了它类型为3，意思就是这个变量只可能是3，其他结果（4，5）都不符合</span><br/><span class="hl-0">//更多类型相关 tslang.cn</span><br/><span class="hl-5">typeof</span><span class="hl-2"> </span><span class="hl-3">key1</span><span class="hl-2"> </span><span class="hl-0">//InjectKey&lt;3&gt;</span>
+</code></pre>
+
+<a href="#带描述的-key" id="带描述的-key" style="color: inherit; text-decoration: none;">
+  <h3>带描述的 key</h3>
+</a>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">key</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">(</span><span class="hl-4">&#39;你好帅&#39;</span><span class="hl-2">, </span><span class="hl-7">defInject</span><span class="hl-2">(</span><span class="hl-4">&#39;我好ai&#39;</span><span class="hl-2">))</span><br/><span class="hl-3">key</span><span class="hl-2">.[</span><span class="hl-6">IK</span><span class="hl-2">].</span><span class="hl-7">toString</span><span class="hl-2">() </span><span class="hl-0">// Symbol(我好ai)</span><br/><span class="hl-0">// 想啥呢</span>
+</code></pre>
+
+<a href="#add" id="add" style="color: inherit; text-decoration: none;">
+  <h2>add()</h2>
+</a>
+<p>有两种使用方法
+一种是当函数，一种是当对象，运行方案一样运行结果也一样</p>
+<pre><code class="language-typescript"><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">add</span><span class="hl-2">(</span><span class="hl-4">&#39;height&#39;</span><span class="hl-2">, </span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">))</span><br/><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">height</span><span class="hl-2">(</span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">))</span>
+</code></pre>
+<ul>
+<li>有类型的</li>
+</ul>
+<p>如果输入 <code>wtsc.add.height(&#39;20&#39;)</code>会报错</p>
+<ul>
+<li>autoInjectKey 自动注入 InjectKey</li>
+</ul>
+<p>当为 add 传入 InjectKey 时将自动解包,当解包的 injectKey 为 undefined 时将跳过本条 css 样式处理，后面可能设计出更合理的方案</p>
+<pre><code class="language-typescript"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">csshwStyle</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">provide</span><span class="hl-2">&lt;</span><span class="hl-9">CSSHWStyle</span><span class="hl-2">&gt;(</span><span class="hl-4">&#39;auto&#39;</span><span class="hl-2">)</span><br/><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">add</span><span class="hl-2">(</span><span class="hl-4">&#39;height&#39;</span><span class="hl-2">, </span><span class="hl-3">csshwStyle</span><span class="hl-2">)</span>
+</code></pre>
+<p>注意：直接使用<code>wtsc.provide(&#39;auto&#39;)</code>是会报错的，因为默认是一个 string 类型,
+而 height 只允许使用 CSSHWStyle 类型你也可以使用<code>wtsc.provide&lt;&#39;auto&#39;&gt;(&#39;auto&#39;)</code>进行注入，
+因为<code>CSSHWStyle</code>类型包括了<code>‘auto’</code>类型</p>
+
+<a href="#out" id="out" style="color: inherit; text-decoration: none;">
+  <h2>out()</h2>
+</a>
+<pre><code class="language-typescript"><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">all</span><span class="hl-2">(</span><span class="hl-4">&#39;inherit&#39;</span><span class="hl-2">).</span><span class="hl-7">out</span><span class="hl-2">() </span><span class="hl-0">// { all: &#39;inherit&#39; }</span>
+</code></pre>
+
+<a href="#save" id="save" style="color: inherit; text-decoration: none;">
+  <h2>save()</h2>
+</a>
+<pre><code class="language-typescript"><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">width</span><span class="hl-2">(</span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">))</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">saveKey</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">save</span><span class="hl-2">()</span><br/><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">stvleValue</span><span class="hl-2"> = </span><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-7">inject</span><span class="hl-2">(</span><span class="hl-3">savekey</span><span class="hl-2">) </span><span class="hl-0">// { width: &#39;20px&#39; }</span>
+</code></pre>
+
+<a href="#tostring" id="tostring" style="color: inherit; text-decoration: none;">
+  <h2>toString()</h2>
+</a>
+<pre><code class="language-typescript"><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">meight</span><span class="hl-2">(</span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">), </span><span class="hl-7">PE</span><span class="hl-2">(</span><span class="hl-8">30</span><span class="hl-2">)).</span><span class="hl-7">toString</span><span class="hl-2">()</span>
+</code></pre>
+<p>会输出如下:</p>
+<pre><code class="language-css"><span class="hl-10">.wtsc</span><span class="hl-2"> {</span><br/><span class="hl-2">  meight: </span><span class="hl-8">20px</span><span class="hl-2"> </span><span class="hl-8">30%</span><span class="hl-2">;</span><br/><span class="hl-2">}</span>
+</code></pre>
+<ul>
+<li>你也可以传入一个选择器值</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-3">wtsc</span><span class="hl-2">.</span><span class="hl-3">add</span><span class="hl-2">.</span><span class="hl-7">meight</span><span class="hl-2">(</span><span class="hl-7">px</span><span class="hl-2">(</span><span class="hl-8">20</span><span class="hl-2">), </span><span class="hl-7">PE</span><span class="hl-2">(</span><span class="hl-8">30</span><span class="hl-2">)).</span><span class="hl-7">toString</span><span class="hl-2">(</span><span class="hl-4">&#39;#wtsc&#39;</span><span class="hl-2">)</span>
+</code></pre>
+<p>out:</p>
+<pre><code class="language-css"><span class="hl-10">#wtsc</span><span class="hl-2"> {</span><br/><span class="hl-2">  meight: </span><span class="hl-8">20px</span><span class="hl-2"> </span><span class="hl-8">30%</span><span class="hl-2">;</span><br/><span class="hl-2">}</span>
+</code></pre>
+<p>......</p>
+<p>更多用法和功能见以后更新</p>
+
+<a href="#更新记录" id="更新记录" style="color: inherit; text-decoration: none;">
+  <h3><a href="./CHANGELOG.md">更新记录</a></h3>
+</a>
+<p>注意：无法打开的话请进入 git 仓库然后点击就可以了</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue.html">CSSValue</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue.html">CSSValue</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue_CFn.html">CSSValue/CFn</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue_Lingth.html">CSSValue/<wbr/>Lingth</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue_Percentage.html">CSSValue/<wbr/>Percentage</a></li><li class=" tsd-kind-module"><a href="modules/CSSValue_types.html">CSSValue/types</a></li><li class=" tsd-kind-module"><a href="modules/core.html">core</a></li><li class=" tsd-kind-module"><a href="modules/core.html">core</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC.html">core/WTSC</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC.html">core/WTSC</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_WTSC.html">core/WTSC/WTSC</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_api.html">core/WTSC/api</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_option.html">core/WTSC/option</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_parserResultHandleApi.html">core/WTSC/parser<wbr/>Result<wbr/>Handle<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_saveApi.html">core/WTSC/save<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_storage.html">core/WTSC/storage</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_styleTostringApi.html">core/WTSC/style<wbr/>Tostring<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_WTSC_types.html">core/WTSC/types</a></li><li class=" tsd-kind-module"><a href="modules/core_api.html">core/api</a></li><li class=" tsd-kind-module"><a href="modules/core_api.html">core/api</a></li><li class=" tsd-kind-module"><a href="modules/core_api_error.html">core/api/error</a></li><li class=" tsd-kind-module"><a href="modules/core_api_warn.html">core/api/warn</a></li><li class=" tsd-kind-module"><a href="modules/core_inject.html">core/inject</a></li><li class=" tsd-kind-module"><a href="modules/core_inject.html">core/inject</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_api.html">core/inject/api</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_inject.html">core/inject/inject</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_injectApi.html">core/inject/inject<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_option.html">core/inject/option</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_provideApi.html">core/inject/provide<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_providerApi.html">core/inject/provider<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_inject_types.html">core/inject/types</a></li><li class=" tsd-kind-module"><a href="modules/core_parser.html">core/parser</a></li><li class=" tsd-kind-module"><a href="modules/core_parser.html">core/parser</a></li><li class=" tsd-kind-module"><a href="modules/core_parser_Parsers.html">core/parser/<wbr/>Parsers</a></li><li class=" tsd-kind-module"><a href="modules/core_parser_preParser.html">core/parser/pre<wbr/>Parser</a></li><li class=" tsd-kind-module"><a href="modules/core_theme.html">core/theme</a></li><li class=" tsd-kind-module"><a href="modules/core_theme.html">core/theme</a></li><li class=" tsd-kind-module"><a href="modules/core_theme_SetThemeApi.html">core/theme/<wbr/>Set<wbr/>Theme<wbr/>Api</a></li><li class=" tsd-kind-module"><a href="modules/core_theme_option.html">core/theme/option</a></li><li class=" tsd-kind-module"><a href="modules/core_theme_theme.html">core/theme/theme</a></li><li class=" tsd-kind-module"><a href="modules/core_theme_tpyes.html">core/theme/tpyes</a></li><li class=" tsd-kind-module"><a href="modules/index.html">index</a></li><li class=" tsd-kind-module"><a href="modules/parsers.html">parsers</a></li><li class=" tsd-kind-module"><a href="modules/parsers.html">parsers</a></li><li class=" tsd-kind-module"><a href="modules/parsers_BaseParsers.html">parsers/<wbr/>Base<wbr/>Parsers</a></li><li class=" tsd-kind-module"><a href="modules/parsers_ConstrainedParsers.html">parsers/<wbr/>Constrained<wbr/>Parsers</a></li><li class=" tsd-kind-module"><a href="modules/utils_utils.html">utils/utils</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li><li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li><li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li><li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li><li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

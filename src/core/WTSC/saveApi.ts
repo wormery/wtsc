@@ -1,5 +1,5 @@
-import { InjectKey } from '../inject/types'
 import { Style } from './types'
+import { InjectKey } from '../inject/injectKey'
 
 export interface SaveApi<Options> {
   /**

@@ -1,5 +1,5 @@
-/// <reference types="vite/client" />
-
+/* eslint-disable no-var */
+/* eslint-disable @typescript-eslint/naming-convention */
 // Global compile-time constants
 declare var __DEV__: boolean
 declare var __PROD__: boolean
@@ -18,32 +18,3 @@ declare var __COMPAT__: boolean
 declare var __FEATURE_OPTIONS_API__: boolean
 declare var __FEATURE_PROD_DEVTOOLS__: boolean
 declare var __FEATURE_SUSPENSE__: boolean
-
-// for tests
-declare namespace jest {
-  interface Matchers<R, T> {
-    toHaveBeenWarned(): R
-    toHaveBeenWarnedLast(): R
-    toHaveBeenWarnedTimes(n: number): R
-  }
-}
-
-declare module '*.vue' {}
-
-declare module 'file-saver' {
-  export function saveAs(blob: any, name: any): void
-}
-
-declare module '@vue/repl' {
-  import { ComponentOptions } from '@vue/runtime-core'
-  const Repl: ComponentOptions
-  const ReplStore: any
-  export { Repl, ReplStore }
-}
-
-declare interface String {
-  /**
-   * @deprecated Please use String.prototype.slice instead of String.prototype.substring in the repository.
-   */
-  substring(start: number, end?: number): string
-}

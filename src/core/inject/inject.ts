@@ -3,17 +3,14 @@ import { InjectOptions } from './option'
 import {
   GetObjInjectReturn,
   GetObjInjectValue,
-  InjectKey,
+  getReturnOfdepProvide,
   ObjInjectKey,
 } from './types'
-import { defInjKey, isInjectKey } from './api'
+import { defInjKey } from './api'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
-import {
-  ProviderImpl,
-  ProviderStorage,
-  ProviderStorageAPI,
-} from './providerApi'
+import { ProviderStorage } from './providerApi'
+import { InjectKey, isInjectKey } from './injectKey'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -21,27 +18,15 @@ import {
 export const injectObject = Symbol('injectObject')
 
 /**
- * InjectKey 键
- */
-export const IK = Symbol('WTSCIK')
-
-/**
- * InjectKey值 主要是存储类型的，没有类型接收，很多类型运算都失效了，目前不传这个参数也不会出现问题
- */
-export const IV = Symbol('WTSCIV')
-
-/**
  * 注射器，输入一组api得到对应结果，主要作用为了在全局同一修改颜色
  * @author meke
  * @export
  * @class Inject
  */
-export class Inject
-  extends ProviderImpl
-  implements ProvideApi, InjectApi, ProviderStorageAPI
-{
-  private readonly [injectObject] = true
+export class Inject implements ProvideApi, InjectApi {
+  public readonly [injectObject] = true
 
+  protected storage: ProviderStorage
   /**
    * Creates an instance of Inject.
    * @author meke
@@ -49,8 +34,29 @@ export class Inject
    * @memberof Inject
    */
   constructor(options: InjectOptions = {}, storage: ProviderStorage) {
-    super(options, storage)
+    this.storage = storage
   }
+  /**
+   * inject 是一个注入器， 可以简单的注入需要的内容
+   * @author meke
+   * @template R
+   * @param {InjectKey<R>} injectKey
+   * @return {*}  {(R | undefined)} 没有传默认值可能会返回undefined
+   * @memberof Inject
+   */
+
+  public inject<R = any>(injectKey: InjectKey<R>): R | undefined
+
+  /**
+   * inject 是一个注入器， 可以简单的注入需要的内容
+   * @author meke
+   * @template R
+   * @param {InjectKey<R>} injectKey
+   * @param {R} defau 传入默认值不会返回undefined
+   * @return {*}  {R}
+   * @memberof Inject
+   */
+  public inject<R = any>(injectKey: InjectKey<R>, defau: R): R
 
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容
@@ -61,12 +67,12 @@ export class Inject
    * @return {*}  {(R | undefined)}
    * @memberof Inject
    */
-  inject<R = any>(injectKey: InjectKey<R>, defau?: R): R | undefined {
+  public inject<R = any>(injectKey: InjectKey<R>, defau?: R): R | undefined {
     return this._inject(injectKey, this.storage) ?? defau
   }
 
   private _inject(injectKey: InjectKey<any>, storage: ProviderStorage): any {
-    const v = storage.inject(injectKey)
+    const v = storage.provider.get(injectKey)
     if (v) {
       return v
     } else {
@@ -76,6 +82,27 @@ export class Inject
       }
     }
   }
+
+  /**
+   * 传入一个值返回一个{InjectKey}
+   * @author meke
+   * @template T
+   * @param {T} value
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
+  public provide<T>(value: T): InjectKey<T>
+
+  /**
+   * 传入一个值返回一个{InjectKey} 第二个参数可以传入一个自定义 Injectkey 这样你可以输入描述等信息
+   * @author meke
+   * @template T
+   * @param {T} value
+   * @param {InjectKey<T>} [injectKey=defInjKey('provide')]
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
+  public provide<T>(value: T, InjectKey: InjectKey<T>): InjectKey<T>
 
   /**
    * 给一个数据存入一个数据传出key
@@ -88,11 +115,15 @@ export class Inject
    */
   public provide<T>(
     value: T,
-    injectKey: InjectKey<T> = defInjKey<T>(__DEV__ ? 'provide' : '')
+    injectKey: InjectKey<T> = defInjKey<T>(true, __DEV__ ? 'provide' : '')
   ): InjectKey<T> {
-    this.storage.provide(injectKey, value)
+    this.storage.provider.set(injectKey, value)
     return injectKey
   }
+
+  public depInject<ObjKey extends ObjInjectKey>(
+    objKey: ObjKey
+  ): GetObjInjectReturn<ObjKey>
 
   /**
    * 传入任何一个内容，将内容中所有可转换的InjectKey全部替换为内容
@@ -109,6 +140,29 @@ export class Inject
   }
 
   /**
+   * 如果使用此重载，更建议使用provide
+   * @template T
+   * @param {T} value
+   * @param {InjectKey<T>} objKey
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
+  public depProvide<T>(value: T, objKey: InjectKey<T>): InjectKey<T>
+
+  /**
+   * 树状推断InjectKey类型
+   * @template T
+   * @param {T} value
+   * @param {InjectKey<T>} objKey
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
+  public depProvide<
+    KEYAPI extends ObjInjectKey,
+    T extends GetObjInjectValue<KEYAPI>
+  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T>
+
+  /**
    * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储
    * @author meke
    * @template KEYAPI
@@ -122,11 +176,20 @@ export class Inject
     return objKey
   }
 
+  /**
+   * 定义key
+   * @author meke
+   * @template T
+   * @param {boolean} [isReactive=true]
+   * @param {string} [describe='defWTSCApi']
+   * @return {*}  {InjectKey<T>}
+   * @memberof Inject
+   */
   public defInjKey<T>(
-    describe: string = 'defWTSCApi',
-    value?: T
+    isReactive: boolean = true,
+    describe: string = 'defWTSCApi'
   ): InjectKey<T> {
-    return defInjKey(describe, value)
+    return defInjKey(isReactive, describe)
   }
 
   /**
@@ -184,7 +247,7 @@ export class Inject
     memory: WeakMap<any, any> = new WeakMap()
   ): void {
     if (isInjectKey(objKey)) {
-      this.storage.provide(objKey, value)
+      this.provide(value, objKey)
     } else if (isObject(objKey)) {
       // dep memory, Prevent circulation
       if (memory.get(objKey)) {

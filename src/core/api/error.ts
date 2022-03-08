@@ -1,4 +1,4 @@
-import { parsersResultHandleWarn, warn } from '.'
+import { parserSpaceWarn, warn } from '.'
 
 export class ParsersError extends Error {
   static throw(): never {
@@ -51,6 +51,7 @@ export class ParsersSkip {
    * @memberof ParsersSkip
    */
   static throw(msg: string = '跳过'): never {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw new ParsersSkip('msg')
   }
 }
@@ -64,7 +65,7 @@ export function gtry(
   } catch (E) {
     if (__DEV__) {
       if (E instanceof ParsersSkip) {
-        parsersResultHandleWarn('使用了跳过')
+        parserSpaceWarn('使用了跳过')
       } else if (E instanceof ParsersError) {
         warn(E.toString())
       } else {

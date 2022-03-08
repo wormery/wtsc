@@ -7,6 +7,14 @@ export function newClass<T extends new (...rest: A) => R, A extends any[], R>(
     return new Class(...rest)
   }
 }
+
+/**
+ * 
+ * @param v 
+ * @param handle 
+ * @param memory 
+ * @returns 
+ */
 export function depTraversal(
   v: object,
   handle: (n: any) => {},

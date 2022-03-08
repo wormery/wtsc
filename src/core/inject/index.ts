@@ -1,3 +1,5 @@
 export * from './api'
+export * from './providerApi'
+export * from './injectKey'
 export { Inject } from './inject'
 export { InjectOptions } from './option'

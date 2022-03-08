@@ -12,15 +12,15 @@ import {
 describe('defDefluatProvider()', function () {
   it('它应该是一个provider生成函数', () => {
     const provider = defDefluatProvider()
-    assert.ok(isFunction(provider.inject))
-    assert.ok(isFunction(provider.inject))
+    assert.ok(isFunction(provider.get))
+    assert.ok(isFunction(provider.get))
   })
   it('它生成的provider的功能set是存取数据get获取数据，它们应该正常使用', () => {
     const provider = defDefluatProvider()
     const key = defInjKey<string>()
     const v1 = '测试'
-    provider.provide(key, v1)
-    const v2 = provider.inject(key)
+    provider.set(key, v1)
+    const v2 = provider.get(key)
     assert.equal(v1, v2)
   })
 })
@@ -33,16 +33,16 @@ describe('defRefProviderAPI()', function () {
   it('它生成的函数应该是一个provider生成函数', () => {
     const defRefProvider = defRefProviderAPI(ref)
     const provider = defRefProvider()
-    assert.ok(isFunction(provider.provide))
-    assert.ok(isFunction(provider.inject))
+    assert.ok(isFunction(provider.set))
+    assert.ok(isFunction(provider.get))
   })
   it('它生成的provider的功能set是存取数据get获取数据，它们应该正常使用', () => {
     const defRefProvider = defRefProviderAPI(ref)
     const provider = defRefProvider()
     const key = defInjKey<string>()
     const v1 = '测试'
-    provider.provide(key, v1)
-    const v2 = provider.inject(key)
+    provider.set(key, v1)
+    const v2 = provider.get(key)
     assert.equal(v1, v2)
   })
   it('生成的provider必须可以多次set', () => {
@@ -50,13 +50,13 @@ describe('defRefProviderAPI()', function () {
     const provider = defRefProvider()
     const key = defInjKey<string>()
     const v1 = '测试'
-    provider.provide(key, v1)
-    const v2 = provider.inject(key)
+    provider.set(key, v1)
+    const v2 = provider.get(key)
     assert.equal(v1, v2)
 
     const v3 = '你好'
-    provider.provide(key, v3)
-    assert.equal(provider.inject(key), v3)
+    provider.set(key, v3)
+    assert.equal(provider.get(key), v3)
   })
   it('它应该具有响应式', () => {
     const defRefProvider = defRefProviderAPI(ref)
@@ -64,13 +64,13 @@ describe('defRefProviderAPI()', function () {
     const key = defInjKey<string>()
     const v1 = '测试'
     const v2 = '测试1'
-    provider.provide(key, v1)
+    provider.set(key, v1)
 
     const comV = computed(() => {
-      return provider.inject(key)
+      return provider.get(key)
     })
     assert.equal(comV.value, v1)
-    provider.provide(key, v2)
+    provider.set(key, v2)
     assert.equal(comV.value, v2)
   })
   it('查看wtsc是不是依然运行正常', () => {

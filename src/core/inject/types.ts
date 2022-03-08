@@ -1,4 +1,4 @@
-import { IK, IV } from './inject'
+import { InjectKey } from './injectKey'
 
 /**
  * 传入obj ,obj的值将会被转换为InjectKey<value>类型
@@ -32,28 +32,21 @@ export type GetObjInjectReturn<T> = T extends InjectKey<infer P>
  */
 export type ObjInjectKey = InjectKey<any> | Array<InjectKey<any> | any> | object
 
-/**
- * @author meke
- * @export
- * @interface InjectKey
- * @extends {Symbol}
- * @template E
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface InjectKey<E> {
-  [IK]: symbol
-  [IV]?: E
-}
-
 export interface Provider {
-  provide: <E>(key: InjectKey<E>, value: E) => void
-  inject: <E>(key: InjectKey<E>) => E | undefined
+  set: <E>(key: InjectKey<E>, value: E) => void
+  get: <E>(key: InjectKey<E>) => E | undefined
 }
 
 export type DefProvider = () => Provider
 export type Provides = Record<symbol, any>
-export interface DefluatProvider extends Provider {}
-export interface RefProvider extends Provider {}
+export interface DefluatProvider extends Provider {
+  provides: Data<symbol, any>
+}
+export interface RefProvider extends DefluatProvider {}
+export interface ReactiveProvider extends Provider {
+  reactiveProvide: Data<symbol, any>
+  noReactiveProvide: Data<symbol, any>
+}
 
 export type getReturnOfdepProvide<
   KEYAPI extends ObjInjectKey,

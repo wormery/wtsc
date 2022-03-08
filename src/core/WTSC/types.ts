@@ -1,7 +1,7 @@
 import { isObject, isString } from '@wormery/utils'
 import { WTSC } from './WTSC'
 import { Get$parsers, WTSCOptions } from './option'
-import { InjectKey } from '../inject/types'
+import { InjectKey } from '../inject/injectKey'
 
 /**
  * css值支持的类型

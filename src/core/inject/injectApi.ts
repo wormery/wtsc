@@ -1,4 +1,5 @@
-import { GetObjInjectReturn, InjectKey, ObjInjectKey } from './types'
+import { GetObjInjectReturn, ObjInjectKey } from './types'
+import { InjectKey } from './injectKey'
 export interface InjectApi extends DepInjectApi {
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容

@@ -39,10 +39,10 @@ describe('wtsc', function () {
       })
     })
     it(`#wtsc.defChild()`, () => {
-      assert.deepEqual(wtsc.defChild({ name: 'wtsc1' }).name, 'wtsc1')
+      assert.deepEqual(wtsc.defChild('wtsc1').name, 'wtsc1')
     })
     it(`#definjectKey()`, () => {
-      const injectKey = defInjKey<number>('3')
+      const injectKey = defInjKey<number>(true, '3')
       wtsc.provide(3, injectKey)
     })
     it(`#provide()`, () => {
@@ -57,7 +57,7 @@ describe('wtsc', function () {
 
     it('#defChild():It should be isolated', () => {
       const testvalue = '你好啊'
-      const childWtsc = wtsc.defChild({ name: 'ww' })
+      const childWtsc = wtsc.defChild('ww')
 
       const injectkey = childWtsc.provide(testvalue)
 
@@ -68,6 +68,7 @@ describe('wtsc', function () {
 
       assert.equal(testvalue, value2)
     })
+
     describe('#shandbox()隔离', () => {
       it('#shandbox()', () => {
         wtsc.shandbox(() => {
@@ -108,7 +109,6 @@ describe('wtsc', function () {
     it('toString()', () => {
       const wtsc1 = wtsc.defChild()
 
-      assert.deepEqual(wtsc1.toString(), '.root{\n}\n')
       assert.deepEqual(wtsc1.toString('div'), 'div{\n}\n')
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n}\n')
       wtsc1.add.height()

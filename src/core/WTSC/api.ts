@@ -15,6 +15,14 @@ export function isWTSC(v: unknown): v is WTSC<any> {
   return isObject(v) && WTSCObject in v
 }
 
+/**
+ * 生成wtsc
+ * @author meke
+ * @export
+ * @template Options
+ * @param {Options} [defWTSCAPIOptions={} as any as Options]
+ * @return {*}  {WTSC<Options>}
+ */
 export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
   defWTSCAPIOptions: Options = {} as any as Options
 ): WTSC<Options> {
@@ -22,13 +30,12 @@ export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
 }
 
 /**
- * 生成一个定义WTSC的函数 传入一个类名
+ * 生成wtsc的options，里面有个defWTSC的函数可以直接创建wtsc
  * @author meke
  * @export
- * @template MyParsers
- * @param {new () => MyParsers} Parsers
- * @param {boolean} [cache=true]
- * @return {*}  {() => WTSC<T>}
+ * @template Options
+ * @param {Options} [options={} as any as Options]
+ * @return {*}  {WTSCAPI<Options>}
  */
 export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
   options: Options = {} as any as Options

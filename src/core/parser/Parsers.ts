@@ -2,7 +2,7 @@ import { WTSC } from '../WTSC/WTSC'
 import { ParsersError } from '../api/error'
 import { Parsers } from '../WTSC/types'
 import { WTSCOptions } from '../WTSC/option'
-import { getCurrCSSKey } from './preParser'
+import { getParserKey } from './ParserSpace'
 
 /**
  * 这是一个样例
@@ -50,6 +50,6 @@ export class RootParsers implements Parsers {
    * @memberof RootParsers
    */
   protected error(msg: string): void {
-    throw new ParsersError(msg, getCurrCSSKey(), this.name)
+    throw new ParsersError(msg, getParserKey(), this.name)
   }
 }

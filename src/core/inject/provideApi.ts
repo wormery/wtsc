@@ -1,9 +1,5 @@
-import {
-  InjectKey,
-  ObjInjectKey,
-  GetObjInjectValue,
-  getReturnOfdepProvide,
-} from './types'
+import { ObjInjectKey, GetObjInjectValue, getReturnOfdepProvide } from './types'
+import { InjectKey } from './injectKey'
 
 export interface ProvideApi extends DepProvideApi {
   /**

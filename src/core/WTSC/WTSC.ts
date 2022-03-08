@@ -1,15 +1,14 @@
 import { cached } from '@wormery/utils'
-
 import { Theme } from '../theme/theme'
 import { Get$parsers, Get$WTSC, WTSCOptions } from './option'
-import { ADD, CSSValue, Style } from './types'
-import { InjectKey } from '../inject/types'
-import { virtualWorld } from '../parser/preParser'
+import { ADD, Style } from './types'
+import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
 import { SaveApi } from './saveApi'
 import { parsersResultHandle } from './parserResultHandleApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
 import { warn } from '..'
+import { InjectKey } from '../inject/injectKey'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -58,8 +57,15 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {WTSCStorage[]}
    * @memberof WTSC
    */
-  private readonly word: WTSCStorage[] = []
+  private readonly stack: WTSCStorage[] = []
 
+  /**
+   * 得到name
+   * @author meke
+   * @readonly
+   * @type {string}
+   * @memberof WTSC
+   */
   public get name(): string {
     return this.storage.name
   }
@@ -78,7 +84,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {(WTSC<_Parsers> | null)}
    * @memberof WTSC
    */
-  private readonly parent: Get$WTSC<Options> | null
+  public readonly parent: Get$WTSC<Options> | null
 
   /**
    * 子解析器
@@ -86,7 +92,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {Array<WTSC<_Parsers>>}
    * @memberof WTSC
    */
-  private readonly children: Array<WTSC<Options>> = []
+  public readonly children: Array<WTSC<Options>> = []
 
   /**
    * 解析器对象
@@ -106,7 +112,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
   constructor(
     options: Options,
     defStorage: DefWTSCStorage,
-    storage = defStorage(options.name)
+    storage = defStorage(options.name, options.parent?.storage)
   ) {
     super(options, storage)
     this.parsers = options.parsers ?? ({} as any)
@@ -115,7 +121,6 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
     ;(this.parsers as unknown as any).wtsc = this
     this.storage = storage
     this.defStorage = defStorage
-
     this.add = this.defAdd()
   }
 
@@ -126,13 +131,11 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {WTSC<MyParsers>}
    * @memberof WTSC
    */
-  public defChild(options: WTSCOptions<Options> = {} as any): WTSC<Options> {
-    // this.storage = storage
-    const _options = { parent: this, ...options } as any as WTSCOptions<Options>
+  public defChild(name: string = 'child'): WTSC<Options> {
+    const _options = { parent: this, name } as any as WTSCOptions<Options>
     const w = this.options.defWTSC?.(_options)
 
     this.children.push(w as any)
-    ;(w as any).storage.parent = this.storage
     return w as WTSC<Options>
   }
 
@@ -163,7 +166,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    */
   public sham(name: string = 'sham'): WTSC<Options> {
     const storage = this.defStorage(name, this.storage)
-    this.word.push(this.storage)
+    this.stack.push(this.storage)
     this.storage = storage
     return this
   }
@@ -173,7 +176,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   public real(): void {
-    const storage = this.word.pop()
+    const storage = this.stack.pop()
     if (storage) {
       this.storage = storage
     } else {
@@ -228,7 +231,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   private parsersResultHandle(key: string, parsers: any, ...rest: any[]): void {
-    virtualWorld(key, () => {
+    parserSpace(key, () => {
       parsersResultHandle(this, key, parsers, ...rest)
     })
   }
@@ -241,20 +244,8 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @memberof WTSC
    */
   public addAny(key: string, value: string): WTSC<Options> {
-    this.setCSS(key as any, value)
+    this.storage.style[key] = value
     return this
-  }
-
-  /**
-   * 向style里添加属性
-   * @author meke
-   * @private
-   * @param {CSSKey<_Parsers>} cssName
-   * @param {CSSValue} cssValue
-   * @memberof WTSC
-   */
-  private setCSS(cssName: string, cssValue: CSSValue): void {
-    this.storage.style[cssName] = cssValue
   }
 
   /**
@@ -285,6 +276,23 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
   }
 
   /**
+   * 保存，默认清空存储样式的变量
+   * @author meke
+   * @return {*}  {InjectKey<Style<T>>}
+   * @memberof WTSC
+   */
+  save(): InjectKey<Style<Options>>
+
+  /**
+   * 保存后清空
+   * @author meke
+   * @param {boolean} isClear
+   * @return {*}  {InjectKey<Style<T>>}
+   * @memberof WTSC
+   */
+  save(isClear: boolean): InjectKey<Style<Options>>
+
+  /**
    * 保存
    * @author meke
    * @param {boolean} [isClear=true]
@@ -294,7 +302,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
   public save(isClear: boolean = true): InjectKey<Style<Options>> {
     const injectkey = this.provide(
       this.storage.style,
-      this.defInjKey(__DEV__ ? this.storage.name + '>save' : '')
+      this.defInjKey(false, __DEV__ ? this.storage.name + '>save' : '')
     )
     isClear && this.clear()
     return injectkey
