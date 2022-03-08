@@ -3,6 +3,8 @@ import { RootParsers } from '../core/parser/Parsers'
 /**
  * 基础的代码生成
  * 使用方法
+ * 这个api是个稳定api，短时不会变动
+ *
  * getBaseWtsc()
  * @author meke
  * @export
@@ -1697,9 +1699,7 @@ export class BaseParsers extends RootParsers {
     return value
   }
 
-  width(
-    value: 'inherit' | 'initial' | 'unset' | ToString
-  ): ToString {
+  width(value: 'inherit' | 'initial' | 'unset' | ToString): ToString {
     return value
   }
 

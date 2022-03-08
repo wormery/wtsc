@@ -516,7 +516,7 @@
 
 - [ ] minBlockSize
 
-- [ ] minHeight
+- [x] minHeight
 
 - [ ] minInlineSize
 

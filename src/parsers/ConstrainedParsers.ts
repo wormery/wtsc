@@ -4,13 +4,15 @@ import {
   CSSSizeTypes,
   CSSHWType,
   PositionType,
-  GlobalCSSValues,
 } from '../CSSValue'
 import { BaseParsers } from './BaseParsers'
 import { FlexGrow } from './interface/flex'
 import { HeightValue } from './interface/height'
 import { TypeParsersInterface } from './interface/TypeParsers'
-class ConstraninedParsers extends BaseParsers implements TypeParsersInterface {
+class ConstraninedParsersImpl
+  extends BaseParsers
+  implements TypeParsersInterface
+{
   flex(...rest: any[]): ToString {
     return this.arrayToString(rest)
   }
@@ -167,8 +169,7 @@ class ConstraninedParsers extends BaseParsers implements TypeParsersInterface {
 }
 
 type TypeConstraninedParsers = new () => TypeParsersInterface &
-  ConstraninedParsers
+  ConstraninedParsersImpl
 
-export const TypeParsers = ConstraninedParsers as TypeConstraninedParsers
-const xx = new TypeParsers()
-xx.flex('auto')
+export const ConstraninedParsers =
+  ConstraninedParsersImpl as TypeConstraninedParsers
