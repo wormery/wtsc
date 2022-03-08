@@ -8,11 +8,13 @@ import {
   maxContent,
   minContent,
   available,
+  GlobalCSSValues,
 } from '../../../CSSValue/types'
 import { Length } from '../../../CSSValue/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 
 export type HeightValue =
+  | GlobalCSSValues
   | Length
   | Percentage
   | borderBox

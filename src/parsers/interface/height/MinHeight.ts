@@ -1,5 +1,4 @@
 import { ToString } from '../../../core/WTSC/types'
-import { BaseParsers } from '../../BaseParsers'
 import { Length } from '../../../CSSValue/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 import {
