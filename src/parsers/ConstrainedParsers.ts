@@ -24,7 +24,7 @@ class ConstraninedParsersImpl
     return value
   }
 
-  width(value: CSSHWType): ToString {
+  width(value: ToString): ToString {
     return value
   }
 
