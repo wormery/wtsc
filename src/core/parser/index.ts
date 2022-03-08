@@ -1,2 +1,2 @@
 export * from './Parsers'
-export * from './ParserSpace'
+export { getParserKey } from './ParserSpace'

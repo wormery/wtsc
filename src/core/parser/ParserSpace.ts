@@ -1,7 +1,7 @@
 import { ParsersSkip, ParsersError } from '../api/error'
-import { parserSpaceWarn, warn } from '../api/warn'
-let currentCSSKey: string | undefined
-const CSSParserHeap: Array<string | undefined> = []
+import { parserSpaceWarn } from '../api/warn'
+let currentCSSKey: string = ''
+const CSSParserHeap: string[] = []
 
 export function parserSpaceStart(name: string): void {
   CSSParserHeap.unshift(currentCSSKey)
@@ -9,10 +9,10 @@ export function parserSpaceStart(name: string): void {
 }
 
 export function parserSpaceEnd(): void {
-  currentCSSKey = CSSParserHeap.shift()
+  currentCSSKey = CSSParserHeap.shift() ?? ''
 }
 export function getParserKey(): string {
-  return currentCSSKey ?? ''
+  return currentCSSKey
 }
 
 /**
