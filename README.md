@@ -26,16 +26,17 @@ WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你�
 
 2. 使用
 
+
 ```typescript
 //引入
-import { defWTSC, ConstraninedParsers } from '@wormery/wtsc'
+import {defTypeWTSC  defBaseWTSC, ConstraninedParsers } from '@wormery/wtsc'
+//TypeWTSC拥有更多类型声明,适配类型声名的情况可以看https://github.com/wormery/wtsc/blob/dev/doc/TASK.md
+//但是Typeapi正在更新，改变幅度可能会有点大，好吧测试版本，其他api也是动不动就删除哈哈
 
 //定义WTSC,
 //这里没有默认值了是因为类型嵌套太多导致运行的不是太流畅，重构的自己都不知道之前怎么写的了
 //第二增加了一个主题的功能，这的肯定是要手动定义的了
-const wtsc = defWTSC({
-  parsers: new ConstraninedParsers(),
-})
+const wtsc = defTypeWTSC({})
 
 //使用测试
 const style = wtsc.add.width(px(20)).add.height(PE(30)).out()
@@ -43,6 +44,23 @@ const style = wtsc.add.width(px(20)).add.height(PE(30)).out()
 console.log(style)
 //printed: { width: '20px', height: '30%' }
 ```
+## 沙箱
+
+沙箱的作用是隔离作用域，沙箱的创建成本更低，适合用完就丢的任物如：
+
+```typescript
+const xxx = wtsc.shandbox(()=>{
+  wtsc.add.height(px(30))
+})
+consocle.log(xxx) // { height: 30px }
+```
+
+在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide,沙箱也可以代替defChild,但是defChild的隔离更加严格，因为创建了一个新的wtsc,只是使用了和之前一样的参数创建的所以表现一样，两者都是子能得到父的内容，父得不到子内容
+
+- sham('name') 开启沙箱作用域 **sham没有返回值**
+- real() 关闭沙箱作用域 **real没有返回值**
+
+这两个api一定要成对出现，或者不要用的太多了，如果有一些没关掉，别弄出一些找不到的bug，这两个api可以在多个文件内出现，这就是它的意义，你可以隔离一个不规整的作用域
 
 ## 响应化
 
@@ -64,9 +82,9 @@ const defRefProvider = defRefProviderAPI(ref)
 
 ```typescript
 import { computed, ref } from 'vue'
-import { defRefProviderAPI, defWTSC } from '@wormery/wtsc'
+import { defRefProviderAPI, defTypeWTSC } from '@wormery/wtsc'
 
-const wtsc = defWTSC({
+const wtsc = defTypeWTSC({
   defProvider: defRefProviderAPI(ref),
 })
 
@@ -98,8 +116,7 @@ console.log(comV.value) // 测试2
 定义过程和使用过程都有完整的类型声明
 
 ```typescript
-const wtsc = defWTSC({
-  parsers: new ConstraninedParsers(),
+const wtsc = defTypeWTSC({
   defThemeKeys(inject: Inject) {
     // 这里推荐用provide,这样有个默认值使用过程就不会undefined
     // 然后wtsc默认就会忽略掉undefined的项目
@@ -375,8 +392,6 @@ out:
 
 ......
 
-更多用法和功能见以后更新
+[更多api文档点此处](https://wormery.github.io/wtsc/docs/)
 
-### [更新记录](./CHANGELOG.md)
-
-注意：无法打开的话请进入 git 仓库然后点击就可以了
+[更新记录点此处](https://github.com/wormery/wtsc/blob/dev/CHANGELOG.md)

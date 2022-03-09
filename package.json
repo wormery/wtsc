@@ -78,13 +78,13 @@
     "ts-mocha": "^9.0.2",
     "ts-toolbelt": "^9.6.0",
     "typescript": "~4.4.0",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "typedoc": "^0.22.13",
+    "regenerator-runtime": "^0.13.9"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@wormery/utils": "1.0.1",
-    "core-js": "^3.21.1",
-    "regenerator-runtime": "^0.13.9",
-    "typedoc": "^0.22.13"
+    "core-js": "^3.21.1"
   }
 }

@@ -3,6 +3,7 @@ import { WTSC, WTSCObject } from './WTSC'
 import { DefWTSCAPIOptions, WTSCAPI, WTSCOptions } from './option'
 import { defWTSCStorageAPI } from './storage'
 import { TypeParsers } from '../../parsers/typeParsers/TypeParsersInterface'
+import { BaseParsersInterface } from '../../parsers/baseParsers/BaseParsers'
 
 /**
  * 是一个WTSC对象返回true
@@ -15,17 +16,25 @@ export function isWTSC(v: unknown): v is WTSC<any, any> {
   return isObject(v) && WTSCObject in v
 }
 
-const xxx = defTypeWTSC({})
-xxx.add.flex('auto').add.height('auto')
-
-type TypeParsersWTSC<Options extends WTSCOptions<Options>> = WTSC<
+export type BaseWTSC<Options extends WTSCOptions<Options>> = WTSC<
   Options,
-  TypeParsers<TypeParsersWTSC<Options>>
+  TypeParsers<BaseParsersInterface<Options>>
+>
+
+export function defBaseWTSC<Options extends DefWTSCAPIOptions<Options>>(
+  options: Options
+): BaseWTSC<Options> {
+  return defWTSC(options) as any
+}
+
+export type TypeWTSC<Options extends WTSCOptions<Options>> = WTSC<
+  Options,
+  TypeParsers<TypeWTSC<Options>>
 >
 
 export function defTypeWTSC<Options extends DefWTSCAPIOptions<Options>>(
   options: Options
-): TypeParsersWTSC<Options> {
+): TypeWTSC<Options> {
   return defWTSC(options) as any
 }
 const wt = defTypeWTSC({})

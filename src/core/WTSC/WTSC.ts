@@ -9,6 +9,7 @@ import { parsersResultHandle } from './parserResultHandleApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
 import { warn } from '..'
 import { InjectKey } from '../inject/injectKey'
+import { Data } from '../inject/types'
 
 export const WTSCObject = Symbol('WTSCObject')
 
@@ -133,10 +134,13 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @param {(wtsc: WTSC<Options>) => void} sand
    * @memberof WTSC
    */
-  public shandbox<R>(sand: (wtsc: WTSC<Options, ParsersInterface>) => R): R {
+  public shandbox(
+    sand: (wtsc: WTSC<Options, ParsersInterface>) => void
+  ): Data<string, string> {
     try {
       this.sham()
-      return sand(this)
+      sand(this)
+      return this.out()
     } catch (E) {
       throw E as any
     } finally {
