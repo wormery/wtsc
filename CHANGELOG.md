@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.11](https://github.com/wormery/wtsc/compare/v2.0.0-bate.10...v2.0.0-bate.11) (2022-03-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* !!!严重的破坏更改,我都没想到自己能写完,都想放弃了,由于ts类型声明的底层限制,代码梦回十年前,删除的比写的都多,代码量也从巅峰550kb到现在不到300kb,你们可以想想删除了多少功能,主api add函数没有了类型声明,原因是重载无法被分离然后合并为新函数,现在用的方案类似y于第一版wtsc的实现逻辑,取消了对象处理器概念,现在只把接口传进去来new wtsc,要求接口传入的参数必须有toString方法
+
+### Features
+
+* doc update ([70783eb](https://github.com/wormery/wtsc/commit/70783eb00c9f32650d1cc41b1cae08ebaf0a75c9))
+* doc update ([01a1f5c](https://github.com/wormery/wtsc/commit/01a1f5c9d36f9807e77482faa933594107073c41))
+* flex flexGrow flexShrink flexBasis ([87b579a](https://github.com/wormery/wtsc/commit/87b579a621a10a21a202683a2b83da59088a3344))
+* height ([3442174](https://github.com/wormery/wtsc/commit/344217416e9b60dd7f37579ef278892857142082))
+* maxHeight ([4d9d696](https://github.com/wormery/wtsc/commit/4d9d696e3da6da9e7df6aaa3c8b7255c5504a51f))
+* minHeight ([a777da7](https://github.com/wormery/wtsc/commit/a777da7307ef38ee5a1dd65bc8590cda3c3440c4))
+
+
+### Bug Fixes
+
+* height add globalCSSValue ([6ac7c11](https://github.com/wormery/wtsc/commit/6ac7c11c69db6d6cb577b107d87f0d1b20c58244))
+* minHeight add GlobalCSSValue ([0906316](https://github.com/wormery/wtsc/commit/0906316f607baba641dbca92a764fdad0e7dad95))
+* width ToString ([7bac5d1](https://github.com/wormery/wtsc/commit/7bac5d141665d35aa5e16eebc78f3233eaf17490))
+
+
+### rest
+
+* !!!严重的破坏更改,我都没想到自己能写完,都想放弃了,由于ts类型声明的底层限制,代码梦回十年前,删除的比写的都多,代码量也从巅峰550kb到现在不到300kb,你们可以想想删除了多少功能,主api add函数没有了类型声明,原因是重载无法被分离然后合并为新函数,现在用的方案类似y于第一版wtsc的实现逻辑,取消了对象处理器概念,现在只把接口传进去来new wtsc,要求接口传入的参数必须有toString方法 ([3777a3d](https://github.com/wormery/wtsc/commit/3777a3d1436d841f1443f13594b72fad4714121b))
+
 ## [2.0.0-bate.10](https://github.com/wormery/wtsc/compare/v2.0.0-bate.9...v2.0.0-bate.10) (2022-03-07)
 
 
