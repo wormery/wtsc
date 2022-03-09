@@ -6,7 +6,7 @@ import {
   auto,
   GlobalCSSValues,
 } from '../../../CSSValue/types'
-import { Length } from '../../../'
+import { Length } from '../../..'
 
 export type FlexBasis =
   | GlobalCSSValues
@@ -22,7 +22,7 @@ export type FlexBasis =
 export type content = 'content'
 export type fill = 'fill'
 
-export interface FlexBasisInterface {
+export interface FlexBasisInterface<R> {
   /**
    * https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-shrink
    * @author meke
@@ -30,5 +30,5 @@ export interface FlexBasisInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flexBasis(flexBasis: FlexBasis): ToString
+  flexBasis(flexBasis: FlexBasis): R
 }

@@ -1,4 +1,3 @@
-import { ToString } from '../../../core/WTSC/types'
 import { Length } from '../../../CSSValue/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 import {
@@ -20,6 +19,6 @@ export type MinHeightValue =
   | minContent
   | fixContent
 
-export interface MinHeightInterface {
-  minHeight(value: MinHeightInterface): ToString
+export interface MinHeightInterface<R> {
+  minHeight(value: MinHeightValue): R
 }

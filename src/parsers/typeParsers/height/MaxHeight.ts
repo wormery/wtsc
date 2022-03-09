@@ -1,4 +1,3 @@
-import { ToString } from '../../../core/WTSC/types'
 import {
   GlobalCSSValues,
   fixContent,
@@ -19,6 +18,6 @@ export type MaxHeightValue =
   | minContent
   | fixContent
 
-export interface MaxHeightInterface {
-  maxHeight(value: MaxHeightValue): ToString
+export interface MaxHeightInterface<R> {
+  maxHeight(value: MaxHeightValue): R
 }

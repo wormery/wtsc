@@ -1,6 +1,6 @@
 import { cached } from '@wormery/utils'
 import { Theme } from '../theme/theme'
-import { Get$parsers, Get$WTSC, WTSCOptions } from './option'
+import { Get$WTSC, WTSCOptions } from './option'
 import { ADD, Style } from './types'
 import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
@@ -12,8 +12,6 @@ import { InjectKey } from '../inject/injectKey'
 
 export const WTSCObject = Symbol('WTSCObject')
 
-export const last: WTSC | null = null
-
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  * @author meke
@@ -22,7 +20,7 @@ export const last: WTSC | null = null
  * @extends {Inject}
  * @template _Parsers
  */
-export class WTSC<Options extends WTSCOptions<Options> = {}>
+export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
   extends Theme<Options>
   implements SaveApi<Options>
 {
@@ -71,12 +69,11 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
   }
 
   /**
-   * 处理器方法存储
+   *
    * @author meke
-   * @type {ADD<_Parsers>}
    * @memberof WTSC
    */
-  public add: ADD<Options>
+  public add: ADD<Options, ParsersInterface>
 
   /**
    * 父解析器
@@ -92,16 +89,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @type {Array<WTSC<_Parsers>>}
    * @memberof WTSC
    */
-  public readonly children: Array<WTSC<Options>> = []
-
-  /**
-   * 解析器对象
-   * @author meke
-   * @type {_Parsers}
-   * @memberof WTSC
-   */
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly
-  private parsers: Get$parsers<Options>
+  public readonly children: Array<WTSC<Options, ParsersInterface>> = []
 
   /**
    * Creates an instance of WTSC.
@@ -115,10 +103,8 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
     storage = defStorage(options.name, options.parent?.storage)
   ) {
     super(options, storage)
-    this.parsers = options.parsers ?? ({} as any)
     this.parent = options.parent ?? null
     this.options = options
-    ;(this.parsers as unknown as any).wtsc = this
     this.storage = storage
     this.defStorage = defStorage
     this.add = this.defAdd()
@@ -131,12 +117,12 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {WTSC<MyParsers>}
    * @memberof WTSC
    */
-  public defChild(name: string = 'child'): WTSC<Options> {
+  public defChild(name: string = 'child'): WTSC<Options, ParsersInterface> {
     const _options = { parent: this, name } as any as WTSCOptions<Options>
     const w = this.options.defWTSC?.(_options)
 
     this.children.push(w as any)
-    return w as WTSC<Options>
+    return w as WTSC<Options, ParsersInterface>
   }
 
   /**
@@ -147,7 +133,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @param {(wtsc: WTSC<Options>) => void} sand
    * @memberof WTSC
    */
-  public shandbox<R>(sand: (wtsc: WTSC<Options>) => R): R {
+  public shandbox<R>(sand: (wtsc: WTSC<Options, ParsersInterface>) => R): R {
     try {
       this.sham()
       return sand(this)
@@ -164,7 +150,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {WTSC<Options>}
    * @memberof WTSC
    */
-  public sham(name: string = 'sham'): WTSC<Options> {
+  public sham(name: string = 'sham'): WTSC<Options, ParsersInterface> {
     const storage = this.defStorage(name, this.storage)
     this.stack.push(this.storage)
     this.storage = storage
@@ -196,28 +182,22 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @param handle
    * @returns
    */
-  private defAdd(): ADD<Options> {
-    const addFn = (key: string, ...rest: any[]): WTSC<Options> => {
-      this.parsersResultHandle(key, this.parsers, ...rest)
-      return this
-    }
+  private defAdd(): ADD<Options, ParsersInterface> {
     /**
      * 缓存处理函数
      */
-    const parsersHandler = cached((key: string) => {
-      return (...rest: any[]): WTSC<Options> => {
-        this.parsersResultHandle(key, this.parsers, ...rest)
-        // 永远返回this
-        return this
-      }
-    })
+    const parsersHandler = cached(
+      (key: string) =>
+        (...rest: ToString[]) =>
+          this.parsersResultHandle(key, ...rest)
+    )
 
-    return new Proxy(addFn, {
+    return new Proxy(this.parsersResultHandle, {
       get(target, prop) {
         // 不做任何处理，默认相信用户，有类型检查无效key理论不应该发生
         return parsersHandler(prop as string)
       },
-    }) as unknown as ADD<Options>
+    }) as unknown as ADD<Options, ParsersInterface>
   }
 
   /**
@@ -230,10 +210,14 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  private parsersResultHandle(key: string, parsers: any, ...rest: any[]): void {
+  private parsersResultHandle(
+    key: string,
+    ...rest: any[]
+  ): WTSC<Options, ParsersInterface> {
     parserSpace(key, () => {
-      parsersResultHandle(this, key, parsers, ...rest)
+      parsersResultHandle(this, key, ...rest)
     })
+    return this
   }
 
   /**
@@ -243,7 +227,7 @@ export class WTSC<Options extends WTSCOptions<Options> = {}>
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  public addAny(key: string, value: string): WTSC<Options> {
+  public addAny(key: string, value: string): WTSC<Options, ParsersInterface> {
     this.storage.style[key] = value
     return this
   }

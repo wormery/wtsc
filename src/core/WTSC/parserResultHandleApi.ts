@@ -1,9 +1,7 @@
-import { isFunction, isUndef } from '@wormery/utils'
+import { isUndef } from '@wormery/utils'
 import { ParsersSkip } from '..'
-import { notAParserReturnValueWarn, notAFunctionWarn } from '../api/warn'
-import { isParserReturnValue } from './types'
 import { WTSCOptions } from './option'
-import { isInjectKey } from '../inject/injectKey'
+import { isInjectKey, InjectKey } from '../inject/injectKey'
 import { WTSC } from './WTSC'
 
 /**
@@ -16,51 +14,39 @@ import { WTSC } from './WTSC'
  * @return {*}  {WTSC<T>}
  * @memberof WTSC
  */
-export function parsersResultHandle<Options extends WTSCOptions<Options>>(
-  wtsc: WTSC<Options>,
+export function parsersResultHandle<
+  Options extends WTSCOptions<Options>,
+  ParsersInterface
+>(
+  wtsc: WTSC<Options, ParsersInterface>,
   key: string,
-  parsers: any,
-  ...rest: any[]
+  ...rest: ToString[]
 ): void {
-  filterInjectKeyOfRest(wtsc, rest)
-
-  const parser = parsers[key]
-
-  if (__DEV__) {
-    if (!isFunction(parser)) {
-      notAFunctionWarn()
-      return
-    }
-  }
-
-  const value = parser.call(parsers, ...rest)
-  // 是空的情况是不会处理的
-  if (__DEV__) {
-    if (!isParserReturnValue(value)) {
-      notAParserReturnValueWarn(value)
-      return
-    }
-  }
-
-  const cssValue = value.toString()
-  wtsc.addAny(key as any, cssValue)
+  wtsc.addAny(key, restToString(wtsc, rest))
 }
 
-function filterInjectKeyOfRest<O extends WTSCOptions<O>>(
-  wtsc: WTSC<O>,
-  rest: any[]
-): void {
+function restToString<O extends WTSCOptions<O>, ParsersInterface>(
+  wtsc: WTSC<O, ParsersInterface>,
+  rest: Array<ToString | InjectKey<ToString>>
+): string {
+  let s = ''
   // 过滤掉InjectKey为值,手动得到也是为了更多效率选择
   for (let i = 0; i < rest.length; i++) {
-    const r = rest[i]
-    if (!isInjectKey(r)) {
-      break
+    let r = rest[i]
+    if (isInjectKey(r)) {
+      r = wtsc.inject(r) as string
+
+      // dev环境检查undefine，如果不在dev环境有全局错误处理，
+      // 另外默认您在dev环境会将这些基本问题解决
+      if (__DEV__) {
+        if (isUndef(r)) {
+          // 遇到任何undefined就跳过处理
+          ParsersSkip.throw()
+        }
+      }
     }
-    const k = wtsc.inject(r)
-    if (isUndef(k)) {
-      // 遇到任何undefined就跳过处理
-      ParsersSkip.throw()
-    }
-    rest[i] = k
+    s += r.toString() + ' '
   }
+
+  return s.slice(0, s.length - 1)
 }

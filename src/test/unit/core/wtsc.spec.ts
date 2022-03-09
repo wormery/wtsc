@@ -2,21 +2,14 @@ import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { defWTSC, defInjKey, isInjectKey } from '../../../'
+import { defTypeWTSC } from '../../../core/WTSC/api'
+import { px } from '../../../CSSValue/Lingth'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
-    const wtsc = defWTSC({
-      parsers: {
-        height() {
-          return '30px'
-        },
-        width(value: string) {
-          return value
-        },
-      },
-    })
+    const wtsc = defTypeWTSC({})
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
-      wtsc.add.height()
+      wtsc.add.height('30px')
       wtsc.add.width('30px')
     })
 
@@ -27,10 +20,6 @@ describe('wtsc', function () {
     it('wtsc.clear().out():Shoud be deepEqual {}', () => {
       wtsc.clear()
       assert.deepEqual(wtsc.out(), {})
-    })
-
-    it(`wtsc.add('width','10px').out(): Shoud be deepEqual { width: '10px' }`, () => {
-      assert.deepEqual(wtsc.add('width', '10px').out(), { width: '10px' })
     })
 
     it(`wtsc.addAny('--test-color','#000000').out(): Shoud be deepEqual { '--test-color':'#000000'}`, () => {
@@ -77,11 +66,13 @@ describe('wtsc', function () {
       })
     })
     it('#sham()和real的隔离作用，应该管用', () => {
-      wtsc.add('height').sham('sham1')
+      wtsc.add.height(px(30)).sham('sham1')
       assert.equal(wtsc.name, 'sham1')
       assert.deepEqual(wtsc.out(), {})
       wtsc.real()
-      assert.deepEqual(wtsc.out(), { height: '30px' })
+      const o = wtsc.out()
+
+      assert.deepEqual(o, { height: '30px' })
     })
 
     it('#isExisted()', () => {
@@ -90,7 +81,7 @@ describe('wtsc', function () {
       const res = childWtsc.isExisted('height')
       assert.ok(!res)
 
-      childWtsc.add('height')
+      childWtsc.add.height(px(30))
 
       const res1 = childWtsc.isExisted('height')
       assert.ok(res1)
@@ -99,7 +90,7 @@ describe('wtsc', function () {
     it('#save()', () => {
       const wtsc1 = wtsc.defChild()
 
-      wtsc1.add.width('10px')
+      wtsc1.add.width(px(10))
 
       const saved = wtsc1.save()
 
@@ -111,7 +102,7 @@ describe('wtsc', function () {
 
       assert.deepEqual(wtsc1.toString('div'), 'div{\n}\n')
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n}\n')
-      wtsc1.add.height()
+      wtsc1.add.height('30px')
 
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n  height: 30px;\n}\n')
     })

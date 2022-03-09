@@ -13,7 +13,7 @@ import { getParserKey } from './ParserSpace'
  * @class RootParsers
  * @implements {Parsers}
  */
-export class RootParsers implements Parsers {
+export class RootParsers {
   /**
    * 这里定义实例类型
    * @author meke
@@ -21,7 +21,7 @@ export class RootParsers implements Parsers {
    * @type {WTSC<RootParsers>}
    * @memberof RootParsers
    */
-  protected wtsc!: WTSC<WTSCOptions<{}>>
+  protected wtsc!: WTSC<WTSCOptions<{}>, {}>
 
   /**
    * parsers名字

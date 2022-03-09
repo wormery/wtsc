@@ -1,8 +1,8 @@
 import { isObject } from '@wormery/utils'
 import { WTSC, WTSCObject } from './WTSC'
 import { DefWTSCAPIOptions, WTSCAPI, WTSCOptions } from './option'
-import { ConstraninedParsers } from '../../parsers/ConstrainedParsers'
 import { defWTSCStorageAPI } from './storage'
+import { TypeParsers } from '../../parsers/typeParsers/TypeParsersInterface'
 
 /**
  * 是一个WTSC对象返回true
@@ -11,10 +11,25 @@ import { defWTSCStorageAPI } from './storage'
  * @param {unknown} v
  * @return {*}  {v is WTSC<any>}
  */
-export function isWTSC(v: unknown): v is WTSC<any> {
+export function isWTSC(v: unknown): v is WTSC<any, any> {
   return isObject(v) && WTSCObject in v
 }
 
+const xxx = defTypeWTSC({})
+xxx.add.flex('auto').add.height('auto')
+
+type TypeParsersWTSC<Options extends WTSCOptions<Options>> = WTSC<
+  Options,
+  TypeParsers<TypeParsersWTSC<Options>>
+>
+
+export function defTypeWTSC<Options extends DefWTSCAPIOptions<Options>>(
+  options: Options
+): TypeParsersWTSC<Options> {
+  return defWTSC(options) as any
+}
+const wt = defTypeWTSC({})
+wt.add.flex('auto')
 /**
  * 生成wtsc
  * @author meke
@@ -25,8 +40,8 @@ export function isWTSC(v: unknown): v is WTSC<any> {
  */
 export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
   defWTSCAPIOptions: Options = {} as any as Options
-): WTSC<Options> {
-  return defWTSCAPI(defWTSCAPIOptions).defWTSC()
+): WTSC<Options, {}> {
+  return defWTSCAPI(defWTSCAPIOptions).defWTSC() as any
 }
 
 /**
@@ -40,8 +55,6 @@ export function defWTSC<Options extends DefWTSCAPIOptions<Options>>(
 export function defWTSCAPI<Options extends DefWTSCAPIOptions<Options>>(
   options: Options = {} as any as Options
 ): WTSCAPI<Options> {
-  options.parsers ?? (options.parsers = new ConstraninedParsers() as any)
-
   const defWTSCStorage = defWTSCStorageAPI(options)
   return {
     ...(options as any),

@@ -1,4 +1,6 @@
 import { isObject } from '@wormery/utils'
+import { WTSC } from '../WTSC/WTSC'
+import { injectObject, Inject } from './inject'
 
 /**
  * InjectKey 键

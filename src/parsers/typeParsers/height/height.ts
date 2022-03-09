@@ -1,4 +1,3 @@
-import { ToString } from '../../../core/WTSC/types'
 import {
   fixContent,
   borderBox,
@@ -26,7 +25,7 @@ export type HeightValue =
   | available
   | fixContent
 
-export interface HeightInterface {
+export interface HeightInterface<R> {
   /**
    * height CSS 属性指定了一个元素的高度。默认情况下，这个属性决定的是内容区
    * （ content area）的高度，但是，如果将 box-sizing 设置为  border-box
@@ -37,5 +36,5 @@ export interface HeightInterface {
    * @return {*}  {ToString}
    * @memberof HeightInterface
    */
-  height(value: HeightValue): ToString
+  height(value: HeightValue): R
 }

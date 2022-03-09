@@ -1,5 +1,8 @@
 import { ToString } from '../../../core/WTSC/types'
-export interface FlexShrinkInterface {
+
+export type FlexShrink = number
+
+export interface FlexShrinkInterface<R> {
   /**
    * https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-shrink
    * @author meke
@@ -7,7 +10,5 @@ export interface FlexShrinkInterface {
    * @return {*}  {ParserReturnValue}
    * @memberof ConstraninedParsers
    */
-  flexShrink(flexShrink: number): ToString
+  flexShrink(flexShrink: number): R
 }
-
-export type FlexShrink = number

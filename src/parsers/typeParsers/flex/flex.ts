@@ -1,7 +1,5 @@
 import { FlexGrow } from '.'
-import { FlexGrowInterface } from './flexGrow'
-import { FlexShrinkInterface, FlexShrink } from './flexShrink'
-import { ToString } from '../../../core/WTSC/types'
+import { FlexShrink } from './flexShrink'
 import { FlexBasis } from './flexBasis'
 import { GlobalCSSValues, auto, initial, none } from '../../../CSSValue/types'
 
@@ -14,7 +12,7 @@ import { GlobalCSSValues, auto, initial, none } from '../../../CSSValue/types'
  * @extends {FlexGrowInterface}
  * @extends {FlexShrinkInterface}
  */
-export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
+export interface FlexInterface<R> {
   /**
    * 关键字
    * https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
@@ -23,7 +21,7 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {ToString}
    * @memberof FlexInterface
    */
-  flex(value: auto | initial | none): ToString
+  flex(value: auto | initial | none): R
   /**
    * 一个值, 无单位数字: flex-grow
    * https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
@@ -32,7 +30,7 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flex(flexGrow: FlexGrow): ToString
+  flex(flexGrow: FlexGrow): R
 
   /**
    * 一个值, width/height: flex-basis
@@ -42,7 +40,7 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flex(flexBasis: FlexBasis): ToString
+  flex(flexBasis: FlexBasis): R
 
   /**
    * 两个值: flex-grow | flex-basis
@@ -53,7 +51,7 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flex(flexGrow: FlexGrow, flexBasis: FlexBasis): ToString
+  flex(flexGrow: FlexGrow, flexBasis: FlexBasis): R
 
   /**
    * 两个值: flex-grow | flex-shrink
@@ -64,7 +62,7 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flex(flexGrow: FlexGrow, flexShrink: FlexShrink): ToString
+  flex(flexGrow: FlexGrow, flexShrink: FlexShrink): R
 
   /**
    * 三个值: flex-grow | flex-shrink | flex-basis
@@ -76,19 +74,15 @@ export interface FlexInterface extends FlexGrowInterface, FlexShrinkInterface {
    * @return {*}  {PRV}
    * @memberof ConstraninedParsers
    */
-  flex(
-    flexGrow: FlexGrow,
-    flexShrink: FlexShrink,
-    flexBasis: FlexBasis
-  ): ToString
+  flex(flexGrow: FlexGrow, flexShrink: FlexShrink, flexBasis: FlexBasis): R
 
   /**
    * 全局属性值
    * https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
    * @author meke
    * @param {GlobalCSSValues} value
-   * @return {*}  {ToString}
+   * @return {*}  {R}
    * @memberof FlexInterface
    */
-  flex(value: GlobalCSSValues): ToString
+  flex(value: GlobalCSSValues): R
 }
