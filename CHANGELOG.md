@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.12](https://github.com/wormery/wtsc/compare/v2.0.0-bate.11...v2.0.0-bate.12) (2022-03-18)
+
 ## [2.0.0-bate.11](https://github.com/wormery/wtsc/compare/v2.0.0-bate.10...v2.0.0-bate.11) (2022-03-09)
 
 
