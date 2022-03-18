@@ -1,11 +1,14 @@
 import { cached } from '@wormery/utils'
 import { Theme } from '../theme/theme'
 import { Get$WTSC, WTSCOptions } from './option'
-import { ADD, Style } from './types'
+import { ADD, Style, StyleValue } from './types'
 import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
 import { SaveApi } from './saveApi'
-import { parsersResultHandle } from './parserResultHandleApi'
+import {
+  parsersResultHandle,
+  styleValueToString,
+} from './parserResultHandleApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
 import { warn } from '..'
 import { InjectKey } from '../inject/injectKey'
@@ -192,11 +195,11 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
      */
     const parsersHandler = cached(
       (key: string) =>
-        (...rest: ToString[]) =>
-          this.parsersResultHandle(key, ...rest)
+        (...rest: StyleValue) =>
+          this.parsersResultHandle(key, rest)
     )
 
-    return new Proxy(this.parsersResultHandle, {
+    return new Proxy(this.addAny, {
       get(target, prop) {
         // 不做任何处理，默认相信用户，有类型检查无效key理论不应该发生
         return parsersHandler(prop as string)
@@ -216,10 +219,10 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    */
   private parsersResultHandle(
     key: string,
-    ...rest: any[]
+    rest: StyleValue
   ): WTSC<Options, ParsersInterface> {
     parserSpace(key, () => {
-      parsersResultHandle(this, key, ...rest)
+      parsersResultHandle(this, key, rest)
     })
     return this
   }
@@ -231,8 +234,11 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @return {*}  {WTSC<T>}
    * @memberof WTSC
    */
-  public addAny(key: string, value: string): WTSC<Options, ParsersInterface> {
-    this.storage.style[key] = value
+  public addAny(
+    key: string,
+    ...rest: StyleValue
+  ): WTSC<Options, ParsersInterface> {
+    this.storage.style[key] = rest
     return this
   }
 
@@ -260,7 +266,24 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
     if (isClear) {
       this.clear()
     }
-    return _style
+    const retStyle: Data<string, string> = {}
+    Object.keys(_style).forEach((cssKey) =>
+      parserSpace(cssKey, () => {
+        retStyle[cssKey] = styleValueToString(this, _style[cssKey])
+      })
+    )
+
+    return retStyle
+  }
+
+  public read(
+    saveKey: InjectKey<WTSCStorage['style']>
+  ): WTSC<Options, ParsersInterface> {
+    this.storage.style = {
+      ...this.storage.style,
+      ...this.inject(saveKey),
+    }
+    return this
   }
 
   /**
@@ -269,7 +292,7 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  save(): InjectKey<Style<Options>>
+  public save(): InjectKey<WTSCStorage['style']>
 
   /**
    * 保存后清空
@@ -278,7 +301,7 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  save(isClear: boolean): InjectKey<Style<Options>>
+  public save(isClear: boolean): InjectKey<WTSCStorage['style']>
 
   /**
    * 保存
@@ -287,7 +310,7 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  public save(isClear: boolean = true): InjectKey<Style<Options>> {
+  public save(isClear: boolean = true): InjectKey<WTSCStorage['style']> {
     const injectkey = this.provide(
       this.storage.style,
       this.defInjKey(false, __DEV__ ? this.storage.name + '>save' : '')
@@ -302,7 +325,7 @@ export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
    * @memberof WTSC
    */
   public clear(): void {
-    this.storage.style = {} as unknown as Style<Options>
+    this.storage.style = {}
   }
 
   /**

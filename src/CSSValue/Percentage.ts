@@ -1,5 +1,4 @@
-import { newClass } from '../utils/utils'
-import { SufUnit } from './CFn'
+import { SufUnit, sufUnit } from './'
 
 /**
  * 百分比对象
@@ -9,13 +8,13 @@ import { SufUnit } from './CFn'
  * @class Percentage
  * @extends {SufUnit}
  */
-export class Percentage extends SufUnit {
-  constructor(public n: number) {
-    super(n, '%')
-  }
-
-  toString(): string {
-    return this.n.toString() + this.unit
-  }
+export interface Percentage extends SufUnit<'%'> {
+  toFloat(): number
 }
-export const PE = newClass(Percentage)
+function toFloat(this: Percentage): number {
+  return this.num / 100
+}
+
+export function PE(pe: number): Percentage {
+  return { ...sufUnit(pe, '%'), toFloat }
+}

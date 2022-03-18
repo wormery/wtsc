@@ -1,4 +1,4 @@
-import { Length } from '../../../CSSValue/Lingth'
+import { Length } from '../../../CSSValue/length/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 import { auto, GlobalCSSValues } from '../../../CSSValue/types'
 export type MarginValue = Length | Percentage | auto | GlobalCSSValues

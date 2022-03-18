@@ -1,5 +1,6 @@
 import { Style } from './types'
 import { InjectKey } from '../inject/injectKey'
+import { WTSCStorage } from './storage'
 
 export interface SaveApi<Options> {
   /**
@@ -8,7 +9,7 @@ export interface SaveApi<Options> {
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  save(): InjectKey<Style<Options>>
+  save(): InjectKey<WTSCStorage['style']>
 
   /**
    * 保存后清空
@@ -17,5 +18,5 @@ export interface SaveApi<Options> {
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  save(isClear: boolean): InjectKey<Style<Options>>
+  save(isClear: boolean): InjectKey<WTSCStorage['style']>
 }

@@ -25,13 +25,15 @@ export function getParserKey(): string {
 export function parserSpace(cssKey: string, f: () => void): void {
   parserSpaceStart(cssKey)
   try {
-    f()
+    return f()
   } catch (E) {
     if (__DEV__) {
       if (E instanceof ParsersSkip) {
-        parserSpaceWarn('使用了跳过')
+        parserSpaceWarn(E.message)
       } else if (E instanceof ParsersError) {
         parserSpaceWarn(E.toString())
+      } else if (E instanceof TypeError) {
+        parserSpaceWarn(E.message)
       } else {
         throw E
       }

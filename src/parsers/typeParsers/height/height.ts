@@ -9,7 +9,7 @@ import {
   available,
   GlobalCSSValues,
 } from '../../../CSSValue/types'
-import { Length } from '../../../CSSValue/Lingth'
+import { Length } from '../../../CSSValue/length/Lingth'
 import { Percentage } from '../../../CSSValue/Percentage'
 
 export type HeightValue =

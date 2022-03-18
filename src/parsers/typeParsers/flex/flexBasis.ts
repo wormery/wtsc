@@ -1,11 +1,11 @@
-import { ToString } from '../../../core/WTSC/types'
 import {
   fixContent,
   minContent,
   maxContent,
   auto,
   GlobalCSSValues,
-} from '../../../CSSValue/types'
+  fill,
+} from '../../../CSSValue'
 import { Length } from '../../..'
 
 export type FlexBasis =
@@ -20,7 +20,6 @@ export type FlexBasis =
 
 /* 在flex item内容上的自动尺寸 */
 export type content = 'content'
-export type fill = 'fill'
 
 export interface FlexBasisInterface<R> {
   /**

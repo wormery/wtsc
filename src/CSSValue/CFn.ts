@@ -1,17 +1,9 @@
 import { newClass } from '../utils/utils'
 
-import { isString, isUndef } from '@wormery/utils'
-import { Length, Percentage } from '.'
+import { isUndef } from '@wormery/utils'
+import { Percentage } from '.'
 import { ToString } from 'src/core/WTSC/types'
-
-export class SufUnit implements ToString {
-  constructor(public num: number, public unit: string) {}
-  public toString(): string {
-    return this.num.toString() + this.unit.toString()
-  }
-}
-export const sufUnit = newClass(SufUnit)
-
+import { Length } from './length'
 export class CSave implements ToString {
   public value: string
 

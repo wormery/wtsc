@@ -1,9 +1,10 @@
 import { ProviderStorage, defDefluatProvider } from '../inject/providerApi'
 import { WTSCOptions } from '.'
+import { StyleValue } from './types'
 
 export interface WTSCStorage extends ProviderStorage {
   name: string
-  style: { [s: string]: string }
+  style: { [s: string]: StyleValue }
   parent?: WTSCStorage
 }
 

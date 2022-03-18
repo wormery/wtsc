@@ -6,7 +6,7 @@ import {
   maxContent,
   minContent,
 } from '../../../CSSValue/types'
-import { Length } from '../../../CSSValue/Lingth'
+import { Length } from '../../../CSSValue/length/Lingth'
 
 export type MaxHeightValue =
   | GlobalCSSValues

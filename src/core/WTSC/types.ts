@@ -1,11 +1,15 @@
 import { isObject, isString } from '@wormery/utils'
 import { WTSCOptions } from './option'
 import { WTSC } from './WTSC'
+import { OutValue } from '../../CSSValue/index'
+import { MixInjectValue } from '../inject/injectKey'
 
 /**
  * css值支持的类型
  */
 export type CSSValue = string
+export type StyleValue = Array<MixInjectValue<MixOutString>>
+export type MixOutString = OutValue<string> | string
 
 /**
  * style的类型

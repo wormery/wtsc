@@ -40,19 +40,13 @@ export class ParsersError extends Error {
     return str
   }
 }
-
-export class ParsersSkip {
-  constructor(public msg: string = '') {}
-  /**
-   * 就是跳过不做任何处理
-   * @author meke
-   * @static
-   * @return {*}  {never}
-   * @memberof ParsersSkip
-   */
-  static throw(msg: string = '跳过'): never {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw new ParsersSkip('msg')
+export function skip(...rest: any): never {
+  // eslint-disable-next-line @typescript-eslint/no-throw-literal
+  throw new ParsersSkip(rest.join(' '))
+}
+export class ParsersSkip extends Error {
+  constructor(msg: string = '') {
+    super(msg)
   }
 }
 

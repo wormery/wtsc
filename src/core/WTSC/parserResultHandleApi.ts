@@ -1,8 +1,9 @@
-import { isUndef } from '@wormery/utils'
-import { ParsersSkip } from '..'
+import { isUndef, isString, isFunction } from '@wormery/utils'
 import { WTSCOptions } from './option'
-import { isInjectKey, InjectKey } from '../inject/injectKey'
+import { isInjectKey } from '../inject/injectKey'
 import { WTSC } from './WTSC'
+import { StyleValue } from './types'
+import { skip } from '../api/error'
 
 /**
  * @author meke
@@ -17,36 +18,57 @@ import { WTSC } from './WTSC'
 export function parsersResultHandle<
   Options extends WTSCOptions<Options>,
   ParsersInterface
->(
-  wtsc: WTSC<Options, ParsersInterface>,
-  key: string,
-  ...rest: ToString[]
-): void {
-  wtsc.addAny(key, restToString(wtsc, rest))
+>(wtsc: WTSC<Options, ParsersInterface>, key: string, rest: StyleValue): void {
+  wtsc.addAny(key, ...rest)
 }
-
-function restToString<O extends WTSCOptions<O>, ParsersInterface>(
+function warningForStyleToString(index: number, msg: string): never {
+  skip(`第${index}个参数，`, msg)
+}
+function theInjectkeyGetsAnUndefinedWarning(index: number): never {
+  warningForStyleToString(index, 'Injectkey返回了一个undefined')
+}
+function aUndefWarning(index: number): never {
+  warningForStyleToString(index, `第${index}个参数是一个undefined`)
+}
+function notAFunctionWarn(index: number): void {
+  warningForStyleToString(
+    index,
+    `当前正在处理的StyleValue的第${index}个参数，既不是string也不具有out方法，\
+本css将会被忽略，请查看您是否有强制类型转换来解决问题`
+  )
+}
+export function styleValueToString<O extends WTSCOptions<O>, ParsersInterface>(
   wtsc: WTSC<O, ParsersInterface>,
-  rest: Array<ToString | InjectKey<ToString>>
+  rest: StyleValue
 ): string {
-  let s = ''
-  // 过滤掉InjectKey为值,手动得到也是为了更多效率选择
-  for (let i = 0; i < rest.length; i++) {
-    let r = rest[i]
-    if (isInjectKey(r)) {
-      r = wtsc.inject(r) as string
-
-      // dev环境检查undefine，如果不在dev环境有全局错误处理，
-      // 另外默认您在dev环境会将这些基本问题解决
-      if (__DEV__) {
-        if (isUndef(r)) {
-          // 遇到任何undefined就跳过处理
-          ParsersSkip.throw()
+  return rest
+    .map((v: any, index) => {
+      if (isInjectKey(v)) {
+        // undefine跳过本条css不处理，通用错误处理会记录处理情况
+        v = wtsc.inject(v) as any
+        if (__DEV__) {
+          if (isUndef(v)) {
+            theInjectkeyGetsAnUndefinedWarning(index)
+          }
         }
       }
-    }
-    s += r.toString() + ' '
-  }
 
-  return s.slice(0, s.length - 1)
+      if (isString(v)) {
+        return v
+      }
+
+      if (__DEV__) {
+        if (isUndef(v)) {
+          aUndefWarning(index)
+        }
+      }
+
+      if (__DEV__) {
+        if (!isFunction(v.out)) {
+          notAFunctionWarn(index)
+        }
+      }
+      return v.out(wtsc)
+    })
+    .join(' ')
 }

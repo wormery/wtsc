@@ -1,6 +1,4 @@
 import { isObject } from '@wormery/utils'
-import { WTSC } from '../WTSC/WTSC'
-import { injectObject, Inject } from './inject'
 
 /**
  * InjectKey 键
@@ -79,3 +77,25 @@ export function isInjectKey(v: unknown): v is InjectKey<any> {
   }
   return false
 }
+
+/**
+ * 第一个值是否响应，第二值描述
+ * @author meke
+ * @export
+ * @template T
+ * @param {boolean} [isReactive=true]
+ * @param {string} [describe='']
+ * @return {*}  {InjectKey<T>}
+ */
+export function defInjKey<T>(
+  isReactive: boolean = true,
+  describe: string = ''
+): InjectKey<T> {
+  return {
+    [IK]: Symbol(__DEV__ ? describe : ''),
+    isReactive,
+  }
+}
+
+export type MixInjectValue<T> = T | InjectKey<T> | T
+export type MixIV<T> = MixInjectValue<T>

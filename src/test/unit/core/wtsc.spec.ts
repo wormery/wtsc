@@ -1,16 +1,15 @@
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defWTSC, defInjKey, isInjectKey } from '../../../'
+import { defWTSC, px, defInjKey, isInjectKey } from '../../../'
 import { defTypeWTSC } from '../../../core/WTSC/api'
-import { px } from '../../../CSSValue/Lingth'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defTypeWTSC({})
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
-      wtsc.add.height('30px')
-      wtsc.add.width('30px')
+      wtsc.add.height(px(30))
+      wtsc.add.width(px(30))
     })
 
     it('wtsc.out():Shoud deepEqual  { height: "30px", width: "30px" }', () => {
@@ -94,7 +93,7 @@ describe('wtsc', function () {
 
       const saved = wtsc1.save()
 
-      assert.deepEqual(wtsc1.inject(saved), { width: '10px' })
+      assert.deepEqual(wtsc1.read(saved).out(), { width: '10px' })
     })
 
     it('toString()', () => {
@@ -102,17 +101,18 @@ describe('wtsc', function () {
 
       assert.deepEqual(wtsc1.toString('div'), 'div{\n}\n')
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n}\n')
-      wtsc1.add.height('30px')
+      wtsc1.add.height(px(30))
 
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n  height: 30px;\n}\n')
     })
     describe('自动解包InjectKey', function () {
       it('InjectKey自动解包', () => {
-        const key = wtsc.provide('你好啊')
+        const key = wtsc.provide(px(20))
         wtsc.add.width(key)
-        assert.deepEqual(wtsc.out(), { width: '你好啊' })
+        assert.deepEqual(wtsc.out(), { width: '20px' })
       })
     })
+
     describe('主题模块', function () {
       const wtsc = defWTSC({
         defThemeKeys(inject) {

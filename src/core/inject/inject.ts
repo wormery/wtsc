@@ -6,7 +6,7 @@ import {
   getReturnOfdepProvide,
   ObjInjectKey,
 } from './types'
-import { defInjKey } from './api'
+import { defInjKey } from '.'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
 import { ProviderStorage } from './providerApi'
