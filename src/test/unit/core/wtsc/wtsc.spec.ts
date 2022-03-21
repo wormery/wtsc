@@ -10,7 +10,6 @@ import { scopeKey } from '../../../../core/WTSC/WTSC'
 describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defTypeWTSC({})
-    wtsc.shandbox(function () {}, '3')
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))

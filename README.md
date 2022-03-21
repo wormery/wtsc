@@ -49,16 +49,24 @@ console.log(style)
 沙箱的作用是隔离作用域，沙箱的创建成本更低，适合用完就丢的任物如：
 
 ```typescript
-const xxx = wtsc.shandbox(()=>{
+const xxx = wtsc.shandbox((wtsc)=>{
   wtsc.add.height(px(30))
 })
+//或
+const xxx = wtsc.shandbox(function(){
+  this.add.height(px(30))
+})
+
 consocle.log(xxx) // { height: 30px }
 ```
 
-在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide,沙箱也可以代替defChild,但是defChild的隔离更加严格，因为创建了一个新的wtsc,只是使用了和之前一样的参数创建的所以表现一样，两者都是子能得到父的内容，父得不到子内容
+在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide
 
-- sham('name') 开启一个局部作用域，class类不会隔离，想要让class添加随机需要使用sh **sham没有返回值**
-- real() 获取父节点 **real没有返回值**
+沙箱的`<style><style>`作用域默认继承父亲
+
+- sham('name') 开启一个局部作用域，`<style><style>`作用域默认继承父亲 **sham定义子wtsc**
+- scoped('name') 定义一个包括`<style><style>`隔离的wtsc **scoped定义子wtsc**
+- real() 获取父节点 **real返回父wtsc**
 
 这两个api一定要成对出现，或者不要用的太多了，如果有一些没关掉，别弄出一些找不到的bug，这两个api可以在多个文件内出现，这就是它的意义，你可以隔离一个不规整的作用域
 
