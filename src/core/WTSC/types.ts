@@ -14,7 +14,7 @@ export type MixOutString = OutValue<string> | string
 /**
  * style的类型
  */
-export type Style<Option extends WTSCOptions<Option>> = {
+export type CSSStyle = {
   [k in string]: CSSValue
 }
 

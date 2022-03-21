@@ -16,9 +16,9 @@ export const IV = Symbol('WTSCIV')
  * @export
  * @interface InjectKey
  * @extends {Symbol}
- * @template E
+ * @template Value
  */
-export interface InjectKey<E> {
+export interface InjectKey<Value, IsAssertionExisted extends boolean = false> {
   /**
    * symbolKey
    * @author meke
@@ -29,11 +29,12 @@ export interface InjectKey<E> {
 
   /**
    * 负责类型生成
+   * 默认值可以指定一些必定存在的可以直接生成默认类型来防止报undefined
    * @author meke
-   * @type {E}
+   * @type {(Value | Default)}
    * @memberof InjectKey
    */
-  [IV]?: E
+  value?: IsAssertionExisted extends true ? Value : Value | undefined
 
   /**
    * 是否是响应化的值，自己定义的provider实现类如果有响应化的需求就要检查它
@@ -82,15 +83,16 @@ export function isInjectKey(v: unknown): v is InjectKey<any> {
  * 第一个值是否响应，第二值描述
  * @author meke
  * @export
- * @template T
+ * @template Value
+ * @template IsAssertionExisted 如果为true代表断言一定存在这个属性
  * @param {boolean} [isReactive=true]
  * @param {string} [describe='']
- * @return {*}  {InjectKey<T>}
+ * @return {*}  {InjectKey<Value, IsAssertionExisted>}
  */
-export function defInjKey<T>(
+export function defInjKey<Value, IsAssertionExisted extends boolean = false>(
   isReactive: boolean = true,
   describe: string = ''
-): InjectKey<T> {
+): InjectKey<Value, IsAssertionExisted> {
   return {
     [IK]: Symbol(__DEV__ ? describe : ''),
     isReactive,

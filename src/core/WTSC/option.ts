@@ -4,7 +4,6 @@ import { ThemeOptions } from '../theme/option'
 export interface WTSCOptions<Options extends WTSCOptions<Options>>
   extends ThemeOptions<Options> {
   name?: string
-  parent?: Get$WTSC<Options>
   defWTSC?: DefWTSC<Options>
 }
 

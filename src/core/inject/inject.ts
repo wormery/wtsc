@@ -10,7 +10,7 @@ import { defInjKey } from '.'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
 import { ProviderStorage } from './providerApi'
-import { InjectKey, isInjectKey } from './injectKey'
+import { InjectKey, isInjectKey, IV } from './injectKey'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -44,8 +44,9 @@ export class Inject implements ProvideApi, InjectApi {
    * @return {*}  {(R | undefined)} 没有传默认值可能会返回undefined
    * @memberof Inject
    */
-
-  public inject<R = any>(injectKey: InjectKey<R>): R | undefined
+  public inject<Value = any, IsAssertionExisted extends boolean = false>(
+    injectKey: InjectKey<Value, IsAssertionExisted>
+  ): Required<InjectKey<Value, IsAssertionExisted>>['value']
 
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容
@@ -61,17 +62,23 @@ export class Inject implements ProvideApi, InjectApi {
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容
    * @author meke
-   * @template R
-   * @param {InjectKey<R>} injectKey
-   * @param {R} [defau]
+   * @template V
+   * @param {InjectKey<V>} injectKey
+   * @param {V} [defau]
    * @return {*}  {(R | undefined)}
    * @memberof Inject
    */
-  public inject<R = any>(injectKey: InjectKey<R>, defau?: R): R | undefined {
+  public inject<V = any, IsAssertionExisted extends boolean = false>(
+    injectKey: InjectKey<V, IsAssertionExisted>,
+    defau?: V
+  ): Required<InjectKey<V, IsAssertionExisted>>['value'] {
     return this._inject(injectKey, this.storage) ?? defau
   }
 
-  private _inject(injectKey: InjectKey<any>, storage: ProviderStorage): any {
+  private _inject(
+    injectKey: InjectKey<any, any>,
+    storage: ProviderStorage
+  ): any {
     const v = storage.provider.get(injectKey)
     if (v) {
       return v

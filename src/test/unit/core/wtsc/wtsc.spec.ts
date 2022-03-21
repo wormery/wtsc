@@ -1,19 +1,82 @@
 import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defWTSC, px, defInjKey, isInjectKey } from '../../../'
-import { defTypeWTSC } from '../../../core/WTSC/api'
+import { defWTSC, px, defInjKey, isInjectKey } from '../../../..'
+import { defTypeWTSC } from '../../../../core/WTSC/api'
+import { render } from '../../../../core/WTSC/render'
+import { genHash } from '../../../../utils/utils'
+import { scopeKey } from '../../../../core/WTSC/WTSC'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defTypeWTSC({})
+    wtsc.shandbox(function () {}, '3')
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))
     })
+    describe('out()方法', () => {
+      it('{ height: "30px", width: "30px" }', () => {
+        const w = wtsc.sham().add.height(px(30)).add.width(px(30))
 
-    it('wtsc.out():Shoud deepEqual  { height: "30px", width: "30px" }', () => {
-      assert.deepEqual(wtsc.out(), { height: '30px', width: '30px' })
+        assert.deepEqual(w.out(), { height: '30px', width: '30px' })
+      })
+      it('class .class', () => {
+        const ret = wtsc.out('.class')
+
+        assert.deepEqual(ret, 'class')
+      })
+      it('id #id', () => {
+        const ret = wtsc.out('#id')
+
+        assert.deepEqual(ret, 'id')
+      })
+      it('id #id', () => {
+        const ret = wtsc.out('#id')
+
+        assert.deepEqual(ret, 'id')
+      })
+      it('tag tag', () => {
+        const ret = wtsc.out('tag')
+
+        assert.deepEqual(ret, 'tag')
+      })
+      it('检查隔离', () => {
+        wtsc.addAny('检查隔离', '检查隔离')
+        const s = wtsc.out('123')
+        assert.equal(s, '123')
+        let value = render()
+
+        assert.ok(!value.includes('123-'))
+        assert.ok(/检查隔离:.*检查隔离/.test(value))
+
+        // sham不会隔离css
+        let w = wtsc.sham()
+        const v = genHash()
+        w.addAny(v, v)
+        assert.equal(w.out('.123'), '123')
+
+        value = render()
+
+        // 这里断定不会有123-这样的css
+        assert.ok(!value.includes('123-'))
+        assert.ok(new RegExp(v + ':.*' + v).test(value))
+
+        // 检查隔离后css是否添加了隔离哈希值
+        const name = genHash()
+        w = wtsc.scoped(name)
+
+        assert.equal(w.name, name)
+        assert.equal(w.inject(scopeKey), name)
+
+        w.addAny(name, name)
+        w.out('.' + name)
+
+        value = render()
+
+        assert.ok(value.includes(name + '-' + name))
+        assert.ok(new RegExp(name + ':.*' + name).test(value))
+      })
     })
 
     it('wtsc.clear().out():Shoud be deepEqual {}', () => {
@@ -25,9 +88,6 @@ describe('wtsc', function () {
       assert.deepEqual(wtsc.addAny('--test-color', '#000000').out(), {
         '--test-color': '#000000',
       })
-    })
-    it(`#wtsc.defChild()`, () => {
-      assert.deepEqual(wtsc.defChild('wtsc1').name, 'wtsc1')
     })
     it(`#definjectKey()`, () => {
       const injectKey = defInjKey<number>(true, '3')
@@ -43,9 +103,9 @@ describe('wtsc', function () {
       assert.deepEqual(value, '你好啊')
     })
 
-    it('#defChild():It should be isolated', () => {
+    it('#sham():It should be isolated', () => {
       const testvalue = '你好啊'
-      const childWtsc = wtsc.defChild('ww')
+      const childWtsc = wtsc.sham('ww')
 
       const injectkey = childWtsc.provide(testvalue)
 
@@ -59,35 +119,37 @@ describe('wtsc', function () {
 
     describe('#shandbox()隔离', () => {
       it('#shandbox()', () => {
-        wtsc.shandbox(() => {
+        wtsc.shandbox((wtsc) => {
           assert.equal(wtsc.name, 'sham')
         })
       })
     })
     it('#sham()和real的隔离作用，应该管用', () => {
-      wtsc.add.height(px(30)).sham('sham1')
-      assert.equal(wtsc.name, 'sham1')
-      assert.deepEqual(wtsc.out(), {})
-      wtsc.real()
-      const o = wtsc.out()
+      const w = wtsc.add.height(px(30)).sham('sham1')
 
-      assert.deepEqual(o, { height: '30px' })
+      assert.equal(w.name, 'sham1')
+
+      assert.deepEqual(w.out(), {})
+
+      assert.deepEqual(w.real().out(), { height: '30px' })
     })
 
     it('#isExisted()', () => {
-      const childWtsc = wtsc.defChild()
+      const childWtsc = wtsc.sham()
 
       const res = childWtsc.isExisted('height')
+
       assert.ok(!res)
 
       childWtsc.add.height(px(30))
 
       const res1 = childWtsc.isExisted('height')
+
       assert.ok(res1)
     })
 
     it('#save()', () => {
-      const wtsc1 = wtsc.defChild()
+      const wtsc1 = wtsc.sham()
 
       wtsc1.add.width(px(10))
 
@@ -97,7 +159,7 @@ describe('wtsc', function () {
     })
 
     it('toString()', () => {
-      const wtsc1 = wtsc.defChild()
+      const wtsc1 = wtsc.sham()
 
       assert.deepEqual(wtsc1.toString('div'), 'div{\n}\n')
       assert.deepEqual(wtsc1.toString('.div'), '.div{\n}\n')

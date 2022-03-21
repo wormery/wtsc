@@ -1,10 +1,14 @@
 import { isUndef, isString, isFunction } from '@wormery/utils'
 import { WTSCOptions } from './option'
 import { isInjectKey } from '../inject/injectKey'
-import { WTSC } from './WTSC'
+import { WTSC, wtsc } from './WTSC'
 import { StyleValue } from './types'
 import { skip } from '../api/error'
-
+import { parserSpace } from '../parser/ParserSpace'
+let csskey = '333'
+export function setKey(_key: string): void {
+  csskey = _key
+}
 /**
  * @author meke
  * @private
@@ -15,12 +19,20 @@ import { skip } from '../api/error'
  * @return {*}  {WTSC<T>}
  * @memberof WTSC
  */
-export function parsersResultHandle<
-  Options extends WTSCOptions<Options>,
-  ParsersInterface
->(wtsc: WTSC<Options, ParsersInterface>, key: string, rest: StyleValue): void {
-  wtsc.addAny(key, ...rest)
+export function parsersResultHandle(...rest: StyleValue): WTSC<any, any> {
+  return toHandle(rest)
 }
+function toHandle(rest: StyleValue): WTSC<any, any> {
+  parserSpace(csskey, () => {
+    wtsc.addAny(csskey, ...rest)
+  })
+  return wtsc
+}
+export function Add(key: string, ...rest: StyleValue): WTSC<any, any> {
+  setKey(key)
+  return toHandle(rest)
+}
+
 function warningForStyleToString(index: number, msg: string): never {
   skip(`第${index}个参数，`, msg)
 }

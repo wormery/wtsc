@@ -1,17 +1,32 @@
+import { hypnenate } from '@wormery/utils'
+
 /**
  * 将会以css的形式格式化
  * @author meke
- * @param {string} [name=this.name]
+ * @param {string} [selectors=this.name]
  * @param {string} [prefix='']
  * @return {*}  {string}
  * @memberof WTSC
  */
 export function styleToString(
-  name: string,
+  selectors: string,
   style: { [s: string]: string },
-  prefix: string = ''
+  isHypnenate: boolean = false
 ): string {
-  let cssstyle = name
+  if (isHypnenate) {
+    let cssstyle = selectors
+    cssstyle += '{\n'
+    for (const key in style) {
+      if (Object.prototype.hasOwnProperty.call(style, key)) {
+        const cssValue = style[key]
+        cssstyle += `  ${hypnenate(key) as string}: ${cssValue ?? ''};\n`
+      }
+    }
+    cssstyle += '}\n'
+    return cssstyle
+  }
+
+  let cssstyle = selectors
   cssstyle += '{\n'
   for (const key in style) {
     if (Object.prototype.hasOwnProperty.call(style, key)) {

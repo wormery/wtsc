@@ -57,8 +57,8 @@ consocle.log(xxx) // { height: 30px }
 
 在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide,沙箱也可以代替defChild,但是defChild的隔离更加严格，因为创建了一个新的wtsc,只是使用了和之前一样的参数创建的所以表现一样，两者都是子能得到父的内容，父得不到子内容
 
-- sham('name') 开启沙箱作用域 **sham没有返回值**
-- real() 关闭沙箱作用域 **real没有返回值**
+- sham('name') 开启一个局部作用域，class类不会隔离，想要让class添加随机需要使用sh **sham没有返回值**
+- real() 获取父节点 **real没有返回值**
 
 这两个api一定要成对出现，或者不要用的太多了，如果有一些没关掉，别弄出一些找不到的bug，这两个api可以在多个文件内出现，这就是它的意义，你可以隔离一个不规整的作用域
 
@@ -236,30 +236,6 @@ wtsc.inject(key, 10) //return 10
 wtsc.inject(key) //return undefined
 ```
 
-## defChild()
-
-defChild 的作用是隔离作用域
-外层作用域可以干扰内层，但是内层的修改行为不会干扰到外层
-
-- 定义局部子 wtsc
-- @author meke
-- @param {WTSCOptions<MyParsers>} [options={}]
-- @return {\*} {WTSC<MyParsers>}
-- @memberof WTSC
-
-```typescript
-const injectkey = wtsc.provide('你好啊')
-
-const child = wtsc.defChild()
-
-const value = child.inject(injectkey)
-
-console.log(value) // '你好啊'
-
-const childInjectKey = child.provide('Hello')
-
-wtsc.inject(childInjectKey) // undefined
-```
 
 ## defInjKey()
 

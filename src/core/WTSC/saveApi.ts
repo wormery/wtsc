@@ -1,4 +1,4 @@
-import { Style } from './types'
+import { CSSStyle } from './types'
 import { InjectKey } from '../inject/injectKey'
 import { WTSCStorage } from './storage'
 
