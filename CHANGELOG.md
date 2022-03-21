@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.13](https://github.com/wormery/wtsc/compare/v2.0.0-bate.12...v2.0.0-bate.13) (2022-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* 删除defChild方法,sham方法拥有defChild功能,
+
+### Features
+
+* updata README.md ([7f210e3](https://github.com/wormery/wtsc/commit/7f210e33fe737075f1ba0383b0593dc35c76df52))
+* update docs ([04a2951](https://github.com/wormery/wtsc/commit/04a2951c0a1019ab32445019419e7412f6084773))
+* 删除defChild方法,sham方法拥有defChild功能, ([97e3802](https://github.com/wormery/wtsc/commit/97e3802384400f5cfebcd3ad16f65a8502ad9976))
+
 ## [2.0.0-bate.12](https://github.com/wormery/wtsc/compare/v2.0.0-bate.11...v2.0.0-bate.12) (2022-03-18)
 
 ## [2.0.0-bate.11](https://github.com/wormery/wtsc/compare/v2.0.0-bate.10...v2.0.0-bate.11) (2022-03-09)
