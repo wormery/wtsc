@@ -21,7 +21,8 @@ export class Theme<
   themeList: ThemeList<Options>
   constructor(options: Options, storage: ProviderStorage) {
     super(options, storage)
-    this.the = options.defThemeKeys?.(this) ?? ({} as any)
+    this.the =
+      options.defThemeKeys?.call(this, this.provide.bind(this)) ?? ({} as any)
 
     const defaul = this.depInject(this.the as any)
 
@@ -55,57 +56,42 @@ export class Theme<
     mode: T,
     name: ThemeName<Options, T>
   ): void
-  setTheme<T extends ThemeMode<Options>>(
-    r1: any,
-    r2: ThemeName<Options, T> = choice as any
-  ): boolean {
+  setTheme(r1: any, r2: any = choice): void {
+    const themeList = this.themeList as any
     try {
       // 输入的第一项如果是模式
-      if (r1 in this.themeList) {
+      if (r1 in themeList) {
         // 选择到当前色彩模式主题
-        ;(this.themeList as any)[choice] = (this.themeList as any)[r1]
+        themeList[choice] = themeList[r1]
 
         // 选择当前模式主题
-        ;(this.themeList as any)[choice][choice] = (this.themeList as any)[
-          choice
-        ][r2]
+        themeList[choice][choice] = themeList[choice][r2]
 
-        this.setup((this.themeList as any)[choice][choice])
-        return true
+        this.setup(themeList[choice][choice])
+        return
       }
 
       // 输入的第一项如果不是模式，就要在颜色列表里搜寻需要的颜色方案
-      for (const modeKey in this.themeList) {
-        if (Object.prototype.hasOwnProperty.call(this.themeList, modeKey)) {
-          const modeValue = this.themeList[modeKey]
-          for (const themeKey in modeValue) {
-            if (Object.prototype.hasOwnProperty.call(modeValue, themeKey)) {
-              if (themeKey === r1) {
-                // 选择到当前色彩模式主题
-                ;(this.themeList as any)[choice] = (this.themeList as any)[
-                  modeKey
-                ]
-
-                // 选择当前模式主题
-                ;(this.themeList as any)[choice][choice] = (
-                  this.themeList as any
-                )[modeKey][r1]
-
-                // 当然两个都选好了就直接使用选择的主题就好了
-                this.setup((this.themeList as any)[choice][choice])
-                return true
-              }
-            }
-          }
+      for (const modeKey in themeList) {
+        const modeValue = themeList[modeKey]
+        if (!(r1 in modeValue)) {
+          continue
         }
+        // 选择到当前色彩模式主题
+        themeList[choice] = themeList[modeKey]
+
+        // 选择当前模式主题
+        themeList[choice][choice] = themeList[modeKey][r1]
+
+        // 当然两个都选好了就直接使用选择的主题就好了
+        this.setup(themeList[choice][choice])
       }
     } catch {
       warn('警告设置失败可能没有这个主题')
     }
-    return false
   }
 
-  setup(theme: GetObjInjectValue<GetThemeKeys<Options>>): void {
+  setup(theme: GetObjInjectValue<GetTheKey<Options>>): void {
     this.depProvide(theme, this.the as any)
   }
 }

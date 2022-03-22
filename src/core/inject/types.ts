@@ -11,13 +11,17 @@ export type GetObjInjectKey<T> = {
  * 传入{[string]:DefineKey<T>}返回{[string]:T},
  * 传入DefineKey<T> 返回T，这个就是解包的
  */
-export type GetObjInjectValue<T> = T extends InjectKey<infer P>
-  ? P
-  : T extends ObjInjectKey
+export type GetObjInjectValue<T> = T extends InjectKey<infer P, infer D>
+  ? D extends true
+    ? P
+    : P | undefined
+  : T extends object
   ? {
       [k in keyof T]: GetObjInjectValue<T[k]>
     }
   : T
+
+type xxxx = GetObjInjectValue<{ object: InjectKey<{}> }>
 
 export type GetObjInjectReturn<T> = T extends InjectKey<infer P>
   ? P | undefined
@@ -30,7 +34,7 @@ export type GetObjInjectReturn<T> = T extends InjectKey<infer P>
 /**
  * ObjInjectKey
  */
-export type ObjInjectKey = InjectKey<any> | Array<InjectKey<any> | any> | object
+export type ObjInjectKey = object
 
 export interface Provider {
   set: <E>(key: InjectKey<E>, value: E) => void

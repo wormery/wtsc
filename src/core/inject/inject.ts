@@ -1,4 +1,4 @@
-import { isObject, isArray } from '@wormery/utils'
+import { isObject, isArray, isUndefAndNull, isUndef } from '@wormery/utils'
 import { InjectOptions } from './option'
 import {
   GetObjInjectReturn,
@@ -11,6 +11,7 @@ import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
 import { ProviderStorage } from './providerApi'
 import { InjectKey, isInjectKey, IV } from './injectKey'
+import { warn } from '../api/warn'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -98,7 +99,9 @@ export class Inject implements ProvideApi, InjectApi {
    * @return {*}  {InjectKey<T>}
    * @memberof Inject
    */
-  public provide<T>(value: T): InjectKey<T>
+  public provide<IsAssertionExisted extends boolean, T>(
+    value: T
+  ): InjectKey<T, IsAssertionExisted>
 
   /**
    * 传入一个值返回一个{InjectKey} 第二个参数可以传入一个自定义 Injectkey 这样你可以输入描述等信息
@@ -109,7 +112,10 @@ export class Inject implements ProvideApi, InjectApi {
    * @return {*}  {InjectKey<T>}
    * @memberof Inject
    */
-  public provide<T>(value: T, InjectKey: InjectKey<T>): InjectKey<T>
+  public provide<IsAssertionExisted extends boolean, T = any>(
+    value: T,
+    InjectKey: InjectKey<T, IsAssertionExisted>
+  ): InjectKey<T, IsAssertionExisted>
 
   /**
    * 给一个数据存入一个数据传出key
@@ -211,10 +217,12 @@ export class Inject implements ProvideApi, InjectApi {
   private _depInject<KEYAPI extends ObjInjectKey>(
     objKey: KEYAPI,
     memory: WeakMap<any, any> = new WeakMap()
-  ): GetObjInjectReturn<KEYAPI> {
+  ): GetObjInjectValue<KEYAPI> {
     if (isInjectKey(objKey)) {
-      return this.inject(objKey)
-    } else if (isObject(objKey)) {
+      return this.inject(objKey) as any
+    }
+
+    if (isObject(objKey)) {
       // dep memory, Prevent circulation
       if (memory.get(objKey)) {
         return objKey as any
@@ -223,22 +231,21 @@ export class Inject implements ProvideApi, InjectApi {
 
       // array
       if (isArray(objKey)) {
-        const arr = []
+        const arr: any = []
         for (let i = 0; i < objKey.length; i++) {
           arr.push(this._depInject(objKey[i], memory))
         }
-        return arr as any
+        return arr
       }
 
       // object
-      const ret: Record<string | symbol, any> = {}
+      const ret: any = {}
       for (const k in objKey) {
         ret[k] = this._depInject(objKey[k] as any, memory)
       }
-      return ret as any
-    } else {
-      return objKey
+      return ret
     }
+    return objKey
   }
 
   /**
@@ -253,26 +260,44 @@ export class Inject implements ProvideApi, InjectApi {
     value: GetObjInjectValue<KEYAPI>,
     memory: WeakMap<any, any> = new WeakMap()
   ): void {
-    if (isInjectKey(objKey)) {
-      this.provide(value, objKey)
-    } else if (isObject(objKey)) {
-      // dep memory, Prevent circulation
-      if (memory.get(objKey)) {
-        return
-      }
-      memory.set(objKey, true)
-
-      // array
-      if (isArray(objKey)) {
-        for (let i = 0; i < objKey.length; i++) {
-          this._depProvide(objKey[i], value[i], memory)
+    try {
+      if (isInjectKey(objKey)) {
+        // 默认情况下传进来的undefined会忽略处理，
+        // 也就是说不可以使用depProvide将一个值改为undefined
+        if (isUndef(value)) {
+          if (__DEV__) {
+            warn('depProvider发现了一个undefined', value)
+          }
+          return
         }
+
+        this.provide(value, objKey)
         return
       }
 
-      // object
-      for (const k in objKey) {
-        this._depProvide(objKey[k] as any, value[k], memory)
+      if (isObject(objKey) && isObject(value)) {
+        // dep memory, Prevent circulation
+        if (memory.get(objKey)) {
+          return
+        }
+        memory.set(objKey, true)
+
+        // array
+        if (isArray(objKey)) {
+          for (let i = 0; i < objKey.length; i++) {
+            this._depProvide(objKey[i], (value as any)[i], memory)
+          }
+          return
+        }
+
+        // object
+        for (const k in objKey) {
+          this._depProvide(objKey[k] as any, (value as any)[k], memory)
+        }
+      }
+    } catch {
+      if (__DEV__) {
+        warn('depProvide运行时报错')
       }
     }
   }

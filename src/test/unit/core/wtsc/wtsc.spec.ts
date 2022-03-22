@@ -6,18 +6,19 @@ import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { render } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { scopeKey } from '../../../../core/WTSC/WTSC'
-import { ThemeList } from '../../../../core/theme/option'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
     const wtsc = defTypeWTSC({
-      defThemeKeys(i) {
+      defThemeKeys(p) {
         return {
-          sss: i.provide(''),
+          iliveyou: p([]),
         }
       },
       themeList: {
-        drak: { drak1: { sss: '' } },
+        drak: {
+          drak1: { iliveyou: [] },
+        },
       },
     })
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
@@ -186,8 +187,8 @@ describe('wtsc', function () {
 
     describe('主题模块', function () {
       const wtsc = defWTSC({
-        defThemeKeys(inject) {
-          return { name: inject.provide('default'), age: inject.provide(3) }
+        defThemeKeys(p) {
+          return { name: p('default'), age: p(3) }
         },
         themeList: {
           dark: { test1: { name: 'test1', age: 21 } },

@@ -1,17 +1,36 @@
 import { Inject } from '../inject/inject'
 import { InjectOptions } from '../inject/option'
 import { GetObjInjectValue } from '../inject/types'
-import { choice, Theme } from './theme'
+import { choice } from './theme'
 import { ThemeKeys } from './tpyes'
 import { InjectKey } from '../inject/injectKey'
 
 export interface ThemeOptions<TheKey extends ThemeKeys = {}>
   extends InjectOptions {
-  defThemeKeys?: (inject: Inject) => TheKey
+  /**
+   * 定义主题key
+   * this 为Inject,或wtsc但是并没有暴露
+   * @author meke
+   * @memberof ThemeOptions
+   */
+  defThemeKeys?: (
+    this: Inject,
+    provide: <T>(value: T) => InjectKey<T, true>
+  ) => TheKey
+
+  /**
+   * 主题列表
+   * @author meke
+   * @type {{
+   *     [mode in string]: Themes<TheKey>
+   *   }}
+   * @memberof ThemeOptions
+   */
   themeList?: {
     [mode in string]: Themes<TheKey>
   }
 }
+
 export interface Themes<TheKey> {
   [themeName: string]: GetObjInjectValue<TheKey>
 }
