@@ -12,7 +12,7 @@ import {
   Add,
 } from './parserResultHandleApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
-import { warn } from '..'
+import { warn } from '../error/warn'
 import { InjectKey, defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { genHash } from '../../utils/utils'
@@ -36,7 +36,7 @@ export let wtsc!: WTSC<any, any>
  */
 export class WTSC<Options extends WTSCOptions, ParsersInterface>
   extends Theme<Options>
-  implements SaveApi<Options>
+  implements SaveApi
 {
   /**
    * 一个symbol值，表示是一个WTSC

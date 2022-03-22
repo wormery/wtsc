@@ -1,5 +1,5 @@
-import { ParsersSkip, ParsersError } from '../api/error'
-import { parserSpaceWarn } from '../api/warn'
+import { ParsersSkip, ParsersError } from '../error/error'
+import { parserSpaceWarn } from '../error/warn'
 let currentCSSKey: string = ''
 const CSSParserHeap: string[] = []
 

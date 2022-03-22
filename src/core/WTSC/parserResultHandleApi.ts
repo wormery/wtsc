@@ -3,7 +3,7 @@ import { WTSCOptions } from './option'
 import { isInjectKey } from '../inject/injectKey'
 import { WTSC, wtsc } from './WTSC'
 import { StyleValue } from './types'
-import { skip } from '../api/error'
+import { skip } from '../error/error'
 import { parserSpace } from '../parser/ParserSpace'
 let csskey = '333'
 export function setKey(_key: string): void {

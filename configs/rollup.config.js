@@ -5,6 +5,7 @@ import ts from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import path from 'path'
 import { babel } from '@rollup/plugin-babel'
+import packageJson from '../package.json'
 const moduleDir = path.resolve(__dirname, '../')
 
 const getPath = (_path) => path.resolve(moduleDir, _path)
@@ -49,6 +50,7 @@ function createReplacePlugin(isProd) {
       __DEV__: isDEV,
       __PROD__: isProd,
       'false || ': '',
+      __VERSION__: packageJson.version,
     },
   })
 }

@@ -1,17 +1,12 @@
-import { isObject, isArray, isUndefAndNull, isUndef } from '@wormery/utils'
+import { isObject, isArray, isUndef } from '@wormery/utils'
 import { InjectOptions } from './option'
-import {
-  GetObjInjectReturn,
-  GetObjInjectValue,
-  getReturnOfdepProvide,
-  ObjInjectKey,
-} from './types'
+import { GetObjInjectReturn, GetObjInjectValue, ObjInjectKey } from './types'
 import { defInjKey } from '.'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
 import { ProviderStorage } from './providerApi'
-import { InjectKey, isInjectKey, IV } from './injectKey'
-import { warn } from '../api/warn'
+import { InjectKey, isInjectKey } from './injectKey'
+import { warn } from '../error/warn'
 
 /**
  * 类唯一辨认属性等于它代表就是这个类
@@ -173,7 +168,7 @@ export class Inject implements ProvideApi, InjectApi {
   public depProvide<
     KEYAPI extends ObjInjectKey,
     T extends GetObjInjectValue<KEYAPI>
-  >(value: T, objKey: KEYAPI): getReturnOfdepProvide<KEYAPI, T>
+  >(value: T, objKey: KEYAPI): GetObjInjectValue<KEYAPI>
 
   /**
    * 传入任何的树形结构，需要输入数据，数据类型要符合树形结构，将所有对应InjectKey的数据全部存储

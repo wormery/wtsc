@@ -1,6 +1,6 @@
 import { WTSC } from '../WTSC/WTSC'
-import { ParsersError } from '../api/error'
-import { Parsers, ToString } from '../WTSC/types'
+import { ParsersError } from '../error/error'
+import { ToString } from '../WTSC/types'
 import { WTSCOptions } from '../WTSC/option'
 import { getParserKey } from './ParserSpace'
 

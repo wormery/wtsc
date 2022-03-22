@@ -48,7 +48,6 @@ export type GetTheKey<O extends ThemeOptions> =
       : {}
     : {}
 
-type xxx = ThemeList<{ themeList: { xxx: { tmea: { sss: '55' } } } }>
 export type ThemeList<
   O extends ThemeOptions,
   TheKey extends ThemeKeys = GetTheKey<O>,

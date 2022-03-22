@@ -1,4 +1,4 @@
-import { warn } from '..'
+import { warn } from '../error/warn'
 import { Inject } from '../inject/inject'
 import { GetObjInjectValue } from '../inject/types'
 import { ProviderStorage } from '../inject/providerApi'

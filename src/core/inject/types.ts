@@ -21,8 +21,6 @@ export type GetObjInjectValue<T> = T extends InjectKey<infer P, infer D>
     }
   : T
 
-type xxxx = GetObjInjectValue<{ object: InjectKey<{}> }>
-
 export type GetObjInjectReturn<T> = T extends InjectKey<infer P>
   ? P | undefined
   : T extends ObjInjectKey
@@ -52,14 +50,4 @@ export interface ReactiveProvider extends Provider {
   noReactiveProvide: Data<symbol, any>
 }
 
-export type getReturnOfdepProvide<
-  KEYAPI extends ObjInjectKey,
-  T extends GetObjInjectValue<KEYAPI>
-> = {
-  [k in keyof KEYAPI]: KEYAPI[k] extends InjectKey<any>
-    ? InjectKey<T[k]>
-    : KEYAPI[k] extends ObjInjectKey
-    ? getReturnOfdepProvide<KEYAPI[k], T[k]>
-    : never
-}
 export type Data<K extends string | symbol | number, V> = { [k in K]: V }

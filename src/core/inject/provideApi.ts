@@ -1,4 +1,4 @@
-import { ObjInjectKey, GetObjInjectValue, getReturnOfdepProvide } from './types'
+import { ObjInjectKey, GetObjInjectValue } from './types'
 import { InjectKey } from './injectKey'
 
 export interface ProvideApi extends DepProvideApi {
@@ -48,5 +48,5 @@ export interface DepProvideApi {
   depProvide<KEYAPI extends ObjInjectKey, T extends GetObjInjectValue<KEYAPI>>(
     value: T,
     objKey: KEYAPI
-  ): getReturnOfdepProvide<KEYAPI, T>
+  ): GetObjInjectValue<KEYAPI>
 }

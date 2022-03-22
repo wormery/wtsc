@@ -5,3 +5,4 @@ global.__PROD__ = false
 export * from './parsers'
 export * from './core'
 export * from './CSSValue'
+export * from './version'

@@ -1,5 +1,3 @@
-import { ToString } from '../../../core/WTSC/types'
-
 export type FlexShrink = number
 
 export interface FlexShrinkInterface<R> {

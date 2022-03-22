@@ -1,5 +1,5 @@
 import { Percentage, PE } from '../Percentage'
-import { rgba, RGBAColor } from './RGBAColor'
+import { RGBAColor } from './RGBAColor'
 import { hexToRGB } from './hexColor'
 import { Color } from '.'
 import { Alpha } from './Color'

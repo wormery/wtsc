@@ -1,7 +1,7 @@
 import { Color } from './Color'
 import { isNumber, isString } from '@wormery/utils'
 import { RGBAColor } from './RGBAColor'
-import { rgb, RGBColor } from './RGBColor'
+import { rgb } from './RGBColor'
 export function completeHexEcimal(hexColor: string): string {
   const len = hexColor.length
   // 添加#号
