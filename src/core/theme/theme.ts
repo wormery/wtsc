@@ -1,45 +1,40 @@
 import { warn } from '..'
 import { Inject } from '../inject/inject'
 import { GetObjInjectValue } from '../inject/types'
-import { SetThemeApi } from './SetThemeApi'
 import { ProviderStorage } from '../inject/providerApi'
 import {
+  ThemeList,
+  GetTheKey,
   ThemeOptions,
-  GetThemeKeys,
-  GetThemeList,
   ThemeName,
   ThemeMode,
 } from './option'
+import { ThemeKeys } from './tpyes'
 
 export const choice = Symbol('choice')
 
-export class Theme<Options extends ThemeOptions<Options>>
-  extends Inject
-  implements SetThemeApi<Options>
-{
-  the: GetThemeKeys<Options>
-  themeList: GetThemeList<Options>
+export class Theme<
+  Options extends ThemeOptions,
+  TheType extends ThemeKeys = GetTheKey<Options>
+> extends Inject {
+  the: TheType
+  themeList: ThemeList<Options>
   constructor(options: Options, storage: ProviderStorage) {
     super(options, storage)
-    this.the = (options.defThemeKeys?.(this) ?? {}) as any
+    this.the = options.defThemeKeys?.(this) ?? ({} as any)
 
     const defaul = this.depInject(this.the as any)
 
-    this.themeList =
-      options.themeList ??
-      ({
-        dark: {},
-        bright: {},
-      } as any)
+    this.themeList = options.themeList ?? ({} as any)
 
-    // 初始化 选中亮色
-    ;(this.themeList as any)[choice] = this.themeList.bright
-    // 在亮色中选中第一个主题
-    ;(this.themeList as any).bright[choice] =
-      this.theFirstOne((this.themeList as any).bright) ?? defaul
-    // 在暗色中选中第一个主题
-    ;(this.themeList as any).dark[choice] =
-      this.theFirstOne((this.themeList as any).dark) ?? defaul
+    this.themeList.default = { [choice]: defaul }
+
+    const _themeList = this.themeList as any
+
+    // 初始化选中主题
+    Object.keys(_themeList).forEach((key) => {
+      _themeList[key][choice] = this.theFirstOne(_themeList[key]) ?? defaul
+    })
   }
 
   private theFirstOne(o: object): any {
@@ -52,6 +47,14 @@ export class Theme<Options extends ThemeOptions<Options>>
     }
   }
 
+  setTheme(mode: ThemeMode<Options>): void
+
+  setTheme(name: ThemeName<Options>): void
+
+  setTheme<T extends ThemeMode<Options>>(
+    mode: T,
+    name: ThemeName<Options, T>
+  ): void
   setTheme<T extends ThemeMode<Options>>(
     r1: any,
     r2: ThemeName<Options, T> = choice as any

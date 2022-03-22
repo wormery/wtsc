@@ -1,8 +1,8 @@
 import { WTSC } from './WTSC'
-import { ThemeOptions } from '../theme/option'
+import { ThemeOptions, GetTheKey } from '../theme/option'
 
 export interface WTSCOptions<Options extends WTSCOptions<Options>>
-  extends ThemeOptions<Options> {
+  extends ThemeOptions<GetTheKey<Options>> {
   name?: string
   defWTSC?: DefWTSC<Options>
 }

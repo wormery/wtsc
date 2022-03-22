@@ -1,5 +1,5 @@
 import { ThemeOptions, ThemeName, ThemeMode } from './option'
-export interface SetThemeApi<Options extends ThemeOptions<Options>> {
+export interface SetThemeApi<Options extends ThemeOptions> {
   setTheme(name: ThemeName<Options>): void
   setTheme<T extends ThemeMode<Options>>(mode: T): void
   setTheme<T extends ThemeMode<Options>>(

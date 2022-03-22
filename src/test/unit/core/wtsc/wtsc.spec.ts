@@ -6,10 +6,20 @@ import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { render } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { scopeKey } from '../../../../core/WTSC/WTSC'
+import { ThemeList } from '../../../../core/theme/option'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
-    const wtsc = defTypeWTSC({})
+    const wtsc = defTypeWTSC({
+      defThemeKeys(i) {
+        return {
+          sss: i.provide(''),
+        }
+      },
+      themeList: {
+        drak: { drak1: { sss: '' } },
+      },
+    })
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))
