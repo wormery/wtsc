@@ -12,7 +12,7 @@ export type DefWTSCStorage = (
   name?: string,
   parent?: WTSCStorage
 ) => WTSCStorage
-export function defWTSCStorageAPI<Options extends WTSCOptions<Options>>(
+export function defWTSCStorageAPI<Options extends WTSCOptions>(
   options: Options
 ): DefWTSCStorage {
   const defProvider = options?.defProvider ?? defDefluatProvider

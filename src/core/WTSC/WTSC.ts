@@ -34,7 +34,7 @@ export let wtsc!: WTSC<any, any>
  * @extends {Inject}
  * @template _Parsers
  */
-export class WTSC<Options extends WTSCOptions<Options>, ParsersInterface>
+export class WTSC<Options extends WTSCOptions, ParsersInterface>
   extends Theme<Options>
   implements SaveApi<Options>
 {

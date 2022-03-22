@@ -40,7 +40,7 @@ export type Parsers<
   [k in keyof MyParsers]: (...rest: []) => WTSC<O, MyParsers>
 }
 
-export type ADD<O extends WTSCOptions<O>, ParsersInterface> = ParsersInterface &
+export type ADD<O extends WTSCOptions, ParsersInterface> = ParsersInterface &
   ((
     key: keyof ParsersInterface,
     ...rest: ToString[]

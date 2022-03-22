@@ -49,7 +49,7 @@ function notAFunctionWarn(index: number): void {
 本css将会被忽略，请查看您是否有强制类型转换来解决问题`
   )
 }
-export function styleValueToString<O extends WTSCOptions<O>, ParsersInterface>(
+export function styleValueToString<O extends WTSCOptions, ParsersInterface>(
   wtsc: WTSC<O, ParsersInterface>,
   rest: StyleValue
 ): string {

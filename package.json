@@ -23,7 +23,7 @@
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
     "release:bate": "pnpm unit && pnpm build && pnpm standard-version --prerelease bate",
     "release": "pnpm build && pnpm standard-version",
-    "update-docs": "pnpm typedoc ./src/**"
+    "update-docs": "pnpm typedoc ./src/index.ts"
   },
   "author": {
     "name": "meke",

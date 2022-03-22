@@ -2,14 +2,13 @@ import { isUndef } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../..'
-import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { render } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { scopeKey } from '../../../../core/WTSC/WTSC'
 
 describe('wtsc', function () {
   describe('new WTSC()', function () {
-    const wtsc = defTypeWTSC({
+    const wtsc = defWTSC({
       defThemeKeys(p) {
         return {
           iliveyou: p([]),

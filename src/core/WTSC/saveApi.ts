@@ -1,8 +1,7 @@
-import { CSSStyle } from './types'
 import { InjectKey } from '../inject/injectKey'
 import { WTSCStorage } from './storage'
 
-export interface SaveApi<Options> {
+export interface SaveApi {
   /**
    * 保存，默认清空存储样式的变量
    * @author meke
