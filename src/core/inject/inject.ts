@@ -5,7 +5,7 @@ import { defInjKey } from '.'
 import { ProvideApi } from './provideApi'
 import { InjectApi } from './injectApi'
 import { ProviderStorage } from './providerApi'
-import { InjectKey, isInjectKey } from './injectKey'
+import { InjectKey, isInjectKey, pack, unpack } from './injectKey'
 import { warn } from '../error/warn'
 
 /**
@@ -77,6 +77,9 @@ export class Inject implements ProvideApi, InjectApi {
   ): any {
     const v = storage.provider.get(injectKey)
     if (v) {
+      if (injectKey.isReactive) {
+        return injectKey[unpack](v)
+      }
       return v
     } else {
       const _storage = storage.parent
@@ -84,6 +87,19 @@ export class Inject implements ProvideApi, InjectApi {
         return this._inject(injectKey, _storage)
       }
     }
+    return undefined
+  }
+
+  public ownInject<V = any, IsAssertionExisted extends boolean = false>(
+    injectKey: InjectKey<V, IsAssertionExisted>
+  ): Required<InjectKey<V, IsAssertionExisted>>['value'] {
+    const v = this.storage.provider.get(injectKey)
+    if (v) {
+      if (injectKey.isReactive) {
+        return injectKey[unpack](v)
+      }
+    }
+    return v
   }
 
   /**
@@ -125,8 +141,38 @@ export class Inject implements ProvideApi, InjectApi {
     value: T,
     injectKey: InjectKey<T> = defInjKey<T>(true, __DEV__ ? 'provide' : '')
   ): InjectKey<T> {
-    this.storage.provider.set(injectKey, value)
+    if (injectKey.isReactive) {
+      this.storage.provider.set(
+        injectKey,
+
+        injectKey[pack](value, this.storage.provider.get(injectKey))
+      )
+    } else {
+      this.storage.provider.set(injectKey, value)
+    }
+
     return injectKey
+  }
+
+  /**
+   * 默认删除自己
+   * @author meke
+   * @param {InjectKey<any>} injectKey
+   * @memberof Inject
+   */
+  public delete(injectKey: InjectKey<any>): void {
+    this.storage.provider.delete(injectKey)
+  }
+
+  /**
+   * 默认查看自己有没有这个内容
+   * @author meke
+   * @param {InjectKey<any>} injectKey
+   * @return {*}  {boolean}
+   * @memberof Inject
+   */
+  public has(injectKey: InjectKey<any>): boolean {
+    return this.storage.provider.has(injectKey)
   }
 
   public depInject<ObjKey extends ObjInjectKey>(

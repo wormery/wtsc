@@ -1,9 +1,9 @@
 import { isUndef } from '@wormery/utils'
-import { IK } from './injectKey'
+import { IK, InjectKey } from './injectKey'
 import { DefProvider, Provider, ReactiveProvider, RefProvider } from './types'
 
 export interface ProviderStorage {
-  provider: Provider
+  provider: WeakMap<InjectKey, any>
   parent?: ProviderStorage
 }
 

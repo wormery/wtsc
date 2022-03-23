@@ -9,6 +9,29 @@ export const IK = Symbol('IK')
  * InjectKey值 主要是存储类型的，没有类型接收，很多类型运算都失效了，目前不传这个参数也不会出现问题
  */
 export const IV = Symbol('WTSCIV')
+export const pack = Symbol('')
+export const unpack = Symbol('')
+
+interface Parcager<Value = any, Pack = any> {
+  /**
+   * 打包，将新值拿进来，检查包裹是不是不存在，存在的话把值放到包裹里去
+   * @author meke
+   * @param {Value} value
+   * @param {(unknown | undefined)} pack
+   * @return {*}  {unknown}
+   * @memberof Parcager
+   */
+  [pack](value: Value, pack: Pack | undefined): Pack
+
+  /**
+   * 解包，报传进来的响应包解开
+   * @author meke
+   * @param {unknown} pack
+   * @return {*}  {Value}
+   * @memberof Parcager
+   */
+  [unpack](pack: Pack): Value
+}
 
 /**
  * [IV] 这个只负责类型生成，实际不使用
@@ -18,7 +41,10 @@ export const IV = Symbol('WTSCIV')
  * @extends {Symbol}
  * @template Value
  */
-export interface InjectKey<Value, IsAssertionExisted extends boolean = false> {
+export interface InjectKey<
+  Value = any,
+  IsAssertionExisted extends boolean = false
+> extends Parcager {
   /**
    * symbolKey
    * @author meke
@@ -93,9 +119,49 @@ export function defInjKey<Value, IsAssertionExisted extends boolean = false>(
   isReactive: boolean = true,
   describe: string = ''
 ): InjectKey<Value, IsAssertionExisted> {
-  return {
-    [IK]: Symbol(__DEV__ ? describe : ''),
-    isReactive,
+  return Object.setPrototypeOf(
+    {
+      [IK]: Symbol(__DEV__ ? describe : ''),
+      isReactive,
+    },
+    packager
+  )
+}
+
+export let packager: Parcager = {
+  [pack](value) {
+    return value
+  },
+  [unpack](value) {
+    return value
+  },
+}
+
+type RefFun = <T>(value: T) => Ref<T>
+
+interface Ref<T> {
+  value: T
+}
+
+/**
+ * 传入一个ref，定义ref打包器
+ * @author meke
+ * @export
+ * @param {RefFun} _ref
+ * @return {*}  {void}
+ */
+export function defRefPackager(_ref: RefFun): void {
+  packager = {
+    [pack](value: any, pack): any {
+      if (pack) {
+        pack.value = value
+        return pack
+      }
+      return _ref(value)
+    },
+    [unpack]<T>(pack: Ref<T>): T {
+      return pack.value
+    },
   }
 }
 

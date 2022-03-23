@@ -1,14 +1,119 @@
-import { styleToString } from './styleTostringApi'
 import { Data } from '../inject/types'
 import { CSSStyle } from './types'
 import nextTick from '../../utils/nextTick'
 import { isBrowser } from '../../utils/utils'
+import { defInjKey } from '../inject/injectKey'
+interface SelectorData {
+  name: string
+  selector: string
+  pseudoClass?: {
+    [k in string]: string
+  }
+  style: string
+}
+export const selectorDataInj = defInjKey<SelectorData>()
+
+interface StyleData {
+  id: symbol
+  name: string
+  style: Data<string, string>
+  part: Data<symbol, string>
+  parent?: StyleData | undefined | null
+}
+
+export const styleDataInj = defInjKey<StyleData, true>()
 
 export const styleData: Data<string, Data<string, CSSStyle>> = {}
 
 // export const styleDom = document.createElement('style')
 export let styleDom: HTMLStyleElement = {} as any
-export type PseudoClass = '' | ':hover'
+
+/**
+ * 伪元素类型
+ */
+export type PseudoElements =
+  | ':after'
+  | '::after'
+  | '::backdrop'
+  | ':before'
+  | '::before'
+  | '::cue'
+  | '::cue-region'
+  | ':first-letter'
+  | '::first-letter'
+  | ':first-line'
+  | '::first-line'
+  | '::file-selector-button'
+  | '::grammar-error'
+  | '::marker'
+  // | '::part()' 暂时没有实现
+  | '::placeholder'
+  | '::selection'
+  // | '::slotted()'
+  | '::spelling-error'
+  | '::target-text'
+
+export type PseudoClasses =
+  | ':active'
+  | ':any-link'
+  | ':blank'
+  | ':checked'
+  | ':current'
+  | ':default'
+  | ':defined'
+  | ':dir()'
+  | ':disabled'
+  | ':drop'
+  | ':empty'
+  | ':enabled'
+  | ':first'
+  | ':first-child'
+  | ':first-of-type'
+  | ':fullscreen'
+  | ':future'
+  | ':focus'
+  | ':focus-visible'
+  | ':focus-within'
+  | ':has()'
+  | ':host'
+  | ':host()'
+  | ':host-context()'
+  | ':hover'
+  | ':indeterminate'
+  | ':in-range'
+  | ':invalid'
+  | ':is()'
+  | ':lang()'
+  | ':last-child'
+  | ':last-of-type'
+  | ':left'
+  | ':link'
+  | ':local-link'
+  | ':not()'
+  | ':nth-child()'
+  | ':nth-col()'
+  | ':nth-last-child()'
+  | ':nth-last-col()'
+  | ':nth-last-of-type()'
+  | ':nth-of-type()'
+  | ':only-child'
+  | ':only-of-type'
+  | ':optional'
+  | ':out-of-range'
+  | ':past'
+  | ':placeholder-shown'
+  | ':read-only'
+  | ':read-write'
+  | ':required'
+  | ':right'
+  | ':root'
+  | ':scope'
+  | ':target'
+  | ':target-within'
+  | ':user-invalid'
+  | ':valid'
+  | ':visited'
+  | ':where()'
 
 if (isBrowser) {
   const style = document.createElement('style')
@@ -23,38 +128,119 @@ if (isBrowser) {
   styleDom = style
 }
 
-export function render(): string {
-  return Object.keys(styleData)
-    .map((sconpeHash) =>
-      Object.keys(styleData[sconpeHash])
-        .map((selectors) =>
-          styleToString(selectors, styleData[sconpeHash][selectors], true)
-        )
-        .join('\n')
-    )
-    .join('\n')
+let taskDdded: boolean = false
+
+const toBeUpdated: StyleData[] = []
+
+export function getLeaf(): StyleData[] {
+  const leaf = []
+
+  const weakSet = new WeakSet()
+  let styleData
+  while (true) {
+    styleData = toBeUpdated.pop()
+
+    if (!styleData) {
+      break
+    }
+
+    if (weakSet.has(styleData)) {
+      continue
+    }
+
+    leaf.push(styleData)
+
+    let parent = styleData.parent
+    while (parent) {
+      weakSet.add(parent)
+      parent = parent.parent
+    }
+  }
+  // 删除非叶子节点更新
+  return leaf.filter((item) => {
+    return !weakSet.has(item)
+  })
 }
 
-let isWillRun: boolean = false
+export function dependencyCollation(
+  leaf: StyleData[]
+): WeakMap<object, number> {
+  const dependencyCounter = new WeakMap<object, number>()
+  let n: number | undefined
+  leaf.forEach((item) => {
+    let parent = item.parent
+    while (parent) {
+      n = dependencyCounter.get(parent)
+      if (n) {
+        dependencyCounter.set(parent, n + 1)
+      } else {
+        dependencyCounter.set(parent, 0)
+      }
+      parent = parent.parent
+    }
+  })
+  return dependencyCounter
+}
+export function addPro(pro: string, name: string): string {
+  return pro + '-' + name
+}
 
-export function update(
-  scopeHash: string,
-  selectors: string,
-  cssStyle: CSSStyle
-): void {
-  ;(styleData[scopeHash] ?? (styleData[scopeHash] = {}))[selectors] = cssStyle
+export function render(): string {
+  const leaf = getLeaf()
+  const dependencyCounter = dependencyCollation(leaf)
 
-  if (isWillRun) {
+  while (true) {
+    const l = leaf.pop()
+
+    if (!l) {
+      break
+    }
+    const id = l.id
+    // 第一步将style 更新渲染到part里面
+    const style = l.style
+    l.part[id] = Object.keys(style)
+      .map((k) => {
+        return `.${l.name}-${k}{${style[k]}}`
+      })
+      .join('\n')
+
+    // 第二步将当前的part放到父组件的part里面
+    const part = l.part
+    const partStr = Object.getOwnPropertySymbols(part)
+      .map((s) => {
+        return part[s]
+      })
+      .join('\n')
+
+    const parent = l.parent
+    if (!parent) {
+      return partStr
+    }
+
+    parent.part[id] = partStr
+
+    // 第三步父组件的依赖数减一
+    const parentDependencyCounter = (dependencyCounter.get(l) ?? 1) - 1
+    if (parentDependencyCounter === 0) {
+      leaf.push(parent)
+    }
+    dependencyCounter.set(l, (dependencyCounter.get(l) ?? 1) - 1)
+  }
+  return ''
+}
+
+export function update(styleData: StyleData): void {
+  toBeUpdated.push(styleData)
+
+  if (taskDdded) {
     return
   }
 
-  isWillRun = true
-
   nextTick(() => {
     styleDom.innerHTML = render()
-
-    isWillRun = false
+    taskDdded = false
   })
+  taskDdded = true
 }
 
 export function initStyleDom(_styleDom: object): void {

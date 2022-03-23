@@ -2,6 +2,7 @@ import { isFunction } from '@wormery/utils'
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { computed, ref } from 'vue'
+import { defRefPackager } from '../../../../core/inject/injectKey'
 import {
   defInjKey,
   defDefluatProvider,
@@ -74,19 +75,19 @@ describe('defRefProviderAPI()', function () {
     assert.equal(comV.value, v2)
   })
   it('查看wtsc是不是依然运行正常', () => {
-    const wtsc = defWTSC({
-      defProvider: defRefProviderAPI(ref),
-    })
+    const wtsc = defWTSC({})
+    defRefPackager(ref)
 
     const key = wtsc.provide('测试1')
 
     // 我们定义一个计算属性
     const comV = computed(() => {
+      console.log(wtsc.inject(key))
+
       return wtsc.inject(key)
     })
 
     // 得到计算属性的值
-    console.log(comV.value) // 测试1
     assert.equal(comV.value, '测试1')
 
     // 我们给provide一个新值

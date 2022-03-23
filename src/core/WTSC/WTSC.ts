@@ -1,4 +1,4 @@
-import { hypnenate, isString } from '@wormery/utils'
+import { isString } from '@wormery/utils'
 import { Theme } from '../theme/theme'
 import { WTSCOptions } from './option'
 import { ADD, CSSStyle, StyleValue } from './types'
@@ -16,7 +16,14 @@ import { warn } from '../error/warn'
 import { InjectKey, defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { genHash } from '../../utils/utils'
-import { update, PseudoClass } from './render'
+import { PseudoClasses } from './render'
+import {
+  update,
+  styleDataInj,
+  addPro,
+  PseudoElements,
+  selectorDataInj,
+} from './render'
 export const scopeKey = defInjKey<string>()
 
 export const WTSCObject = Symbol('WTSCObject')
@@ -95,7 +102,8 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
    * @memberof WTSC
    */
   public get add(): ADD<Options, ParsersInterface> {
-    return (wtsc = this)._add
+    this.setGlobal()
+    return this._add
   }
 
   /**
@@ -120,31 +128,21 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     this._add = this.defAdd()
 
     this.root = this
+
+    this.provide(
+      {
+        id: this.storage.id,
+        name: this.storage.name,
+        style: {},
+        part: {},
+      },
+      styleDataInj
+    )
   }
 
-  /**
-   * 沙盒：进入沙盒中的操作不会干扰父wtsc
-   * 这个是通过style标签输出,不是直接生成行内style
-   * @author meke
-   * @param {(
-   *       this: WTSC<Options, ParsersInterface>,
-   *       wtsc: WTSC<Options, ParsersInterface>
-   *     ) => void} sand
-   * @param {string} selector
-   * @param {PseudoClass} [pseudoClass]
-   * @param {boolean} [scoped]
-   * @return {*}  {string}
-   * @memberof WTSC
-   */
-  public shandbox(
-    sand: (
-      this: WTSC<Options, ParsersInterface>,
-      wtsc: WTSC<Options, ParsersInterface>
-    ) => void,
-    selector: string,
-    pseudoClass?: PseudoClass,
-    scoped?: boolean
-  ): string
+  setGlobal(): void {
+    wtsc = this
+  }
 
   /**
    * 沙盒：进入沙盒中的操作不会干扰父wtsc
@@ -167,10 +165,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     sand: (
       this: WTSC<Options, ParsersInterface>,
       wtsc: WTSC<Options, ParsersInterface>
-    ) => void,
-    selector?: any,
-    pseudoClass?: PseudoClass,
-    scoped?: boolean
+    ) => void
   ): Data<string, string> | string {
     try {
       const wtsc = this.sham()
@@ -180,7 +175,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     } finally {
       this.real()
     }
-    return this.out(selector, pseudoClass, scoped)
+    return this.out()
   }
 
   /**
@@ -195,7 +190,16 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     name: string = 'scoped' + genHash()
   ): WTSC<Options, ParsersInterface> {
     const _wtsc = this.sham(name)
-    _wtsc.provide(name, scopeKey)
+    _wtsc.provide(
+      {
+        id: _wtsc.storage.id,
+        name,
+        style: {},
+        part: {},
+        parent: this.inject(styleDataInj),
+      },
+      styleDataInj
+    )
     return _wtsc
   }
 
@@ -215,7 +219,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
   }
 
   /**
-   * 退栈
+   * 获得父存储，到达root将会退占失败
    * @memberof WTSC
    */
   public real(): WTSC<Options, ParsersInterface> {
@@ -224,10 +228,10 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
       return _wtsc
     } else {
       if (__DEV__) {
-        if (this.storage.name === 'root') {
+        if (this === this.root) {
           warn('你应该在root层')
         } else {
-          warn('您可能已经在栈顶了,退栈失败')
+          warn('未知原因您已退到顶栈,退栈失败')
         }
       }
       return this
@@ -289,26 +293,12 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
   }
 
   /**
-   * 这个是简化写法，不可以写并列的选择器，只可以写比如'.class'| '#id' | 'Tag'等单个选择器
-   * @author meke
-   * @param {string} selector
-   * @param {('' | ':hover' | ':active')} [pseudoClass]
-   * @return {*}  {string}
-   * @memberof WTSC
-   */
-  public out(
-    selector: string,
-    pseudoClass?: '' | ':hover' | ':active',
-    spoced?: boolean
-  ): string
-
-  /**
    * 什么都不传将会返回一个styleValue对象
    * @author meke
    * @return {*}  {CSSStyle}
    * @memberof WTSC
    */
-  public out(): CSSStyle
+  public out(): string
 
   /**
    * 返回css属性
@@ -319,29 +309,43 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
    */
   public out(
     selector?: string,
-    pseudoClass?: PseudoClass,
+    pseudoClass?: PseudoElements,
     scoped: boolean = true
-  ): CSSStyle | string {
-    let ret: CSSStyle | string
+  ): string {
+    const data = this.ownInject(selectorDataInj)
 
-    if (isString(selector)) {
-      this.outSelector(selector, pseudoClass, scoped)
+    if (data) {
+      this.delete(selectorDataInj)
 
-      if (selector.startsWith('#')) {
-        ret = selector.slice(1, selector.length)
-      } else if (selector.startsWith('.')) {
-        ret = selector.slice(1, selector.length)
-      } else {
-        ret = selector
+      data.style += styleToString(this.outStyle())
+      const styleData = this.inject(styleDataInj)
+
+      const name = data.name
+
+      styleData.style[name] = data.style
+      const pseudoClass = data.pseudoClass
+      if (pseudoClass) {
+        Object.keys(pseudoClass).forEach((k) => {
+          styleData.style[name + k] = pseudoClass[k]
+        })
       }
-    } else {
-      ret = this.outStyle()
-    }
 
-    this.clear()
-    return ret
+      update(styleData)
+
+      return addPro(styleData.name, name)
+    } else {
+      const ret = styleToString(this.outStyle())
+      this.clear()
+      return ret
+    }
   }
 
+  /**
+   * 得到style的输出
+   * @author meke
+   * @return {*}  {CSSStyle}
+   * @memberof WTSC
+   */
   public outStyle(): CSSStyle {
     const _style = this.storage.style
     const retStyle: Data<string, string> = {}
@@ -350,44 +354,76 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
         retStyle[cssKey] = styleValueToString(this, _style[cssKey])
       })
     )
+    this.clear()
     return retStyle as any
   }
 
-  private outSelector(
-    selectors: string,
-    pseudoClass: PseudoClass = '',
-    scoped: boolean = true
-  ): string {
-    if (selectors === '') {
-      return ''
+  /**
+   * 添加类选择器
+   * @author meke
+   * @param {string} name
+   * @return {*}  {WTSC<Options, ParsersInterface>}
+   * @memberof WTSC
+   */
+  public class(name: string): WTSC<Options, ParsersInterface> {
+    if (name === '') {
+      return this
     }
-
-    let pro = ''
-    let _selectors = selectors.trim()
-
-    // 检查是否增加私有前缀
-    if (scoped) {
-      const scopeHash = this.inject(scopeKey)
-      if (scopeHash) {
-        pro = scopeHash
-        _selectors += `-${pro}`
+    if (__DEV__) {
+      const selectorData = this.ownInject(selectorDataInj)
+      if (selectorData) {
+        warn('wtsc.class()方法每个语句块里请使用一次')
       }
     }
+    this.provide(
+      {
+        name,
+        selector: '.',
+        style: styleToString(this.outStyle()),
+      },
+      selectorDataInj
+    )
 
-    _selectors += pseudoClass
-
-    update(pro, hypnenate(_selectors), this.outStyle())
-
-    return _selectors
+    return this
   }
 
+  /**
+   * 添加伪元素和伪类选择器
+   * @author meke
+   * @param {(PseudoElements | PseudoClasses)} PseudoClass
+   * @return {*}  {WTSC<Options, ParsersInterface>}
+   * @memberof WTSC
+   */
+  public pseudo(
+    PseudoClass: PseudoElements | PseudoClasses
+  ): WTSC<Options, ParsersInterface> {
+    const selectorData = this.ownInject(selectorDataInj)
+    if (!selectorData) {
+      if (__DEV__) {
+        warn('需要先添加类再添加伪类')
+      }
+      return this
+    }
+    const pseudoClass = selectorData.pseudoClass ?? {}
+
+    pseudoClass[PseudoClass] = styleToString(this.outStyle())
+
+    selectorData.pseudoClass = pseudoClass
+
+    return this
+  }
+
+  /**
+   * 从key中读取
+   * @author meke
+   * @param {InjectKey<WTSCStorage['style']>} saveKey
+   * @return {*}  {WTSC<Options, ParsersInterface>}
+   * @memberof WTSC
+   */
   public read(
     saveKey: InjectKey<WTSCStorage['style']>
   ): WTSC<Options, ParsersInterface> {
-    this.storage.style = {
-      ...this.storage.style,
-      ...this.inject(saveKey),
-    }
+    this.storage.style = { ...this.storage.style, ...this.inject(saveKey) }
     return this
   }
 
@@ -409,18 +445,18 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
   public save(isClear: boolean): InjectKey<WTSCStorage['style']>
 
   /**
-   * 保存
+   * 保存一个副本，本方法会清空现有存储，并保存到空间中
    * @author meke
    * @param {boolean} [isClear=true]
    * @return {*}  {InjectKey<Style<T>>}
    * @memberof WTSC
    */
-  public save(isClear: boolean = true): InjectKey<WTSCStorage['style']> {
+  public save(): InjectKey<WTSCStorage['style']> {
     const injectkey = this.provide(
       this.storage.style,
       this.defInjKey(false, __DEV__ ? this.storage.name + '>save' : '')
     )
-    isClear && this.clear()
+    this.clear()
     return injectkey
   }
 
@@ -434,16 +470,13 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
   }
 
   /**
-   * 将会以css的形式格式化
+   *
+   *
    * @author meke
-   * @param {string} [name=this.name]
    * @return {*}  {string}
    * @memberof WTSC
    */
-  public toString(name: string = this.storage.name): string {
-    if (name === this.storage.name) {
-      name = '.' + name
-    }
-    return styleToString(name, this.storage.style as any)
+  public toString(): string {
+    return `WTSC<${this.name}>`
   }
 }
