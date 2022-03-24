@@ -8,7 +8,6 @@ WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你�
 
 如图：
 
-
 ![](./doc/imgs/2022-03-24_15-26-57.png)
 
 # 快速开始
@@ -24,7 +23,6 @@ WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你�
 > pnpm install @wormery/wtsc
 
 2. 使用
-
 
 ```typescript
 //引入
@@ -43,20 +41,42 @@ const style = wtsc.add.width(px(20)).add.height(PE(30)).out()
 console.log(style)
 //printed: width: 20px;height: 30%;
 ```
-## class输出
-使用class输出后将会把**前面**的style，并入class存储器，使用out进入输出流程
+
+## @keyframes
+
+用于输出关键帧动画
 
 ```typescript
-const value = wtsc.sham()
-                .add.height(px(20))
-                .class('classSelector')
-              .out()
+wtsc.add
+  .height('20px')
+  .add.width('20px')
+  .add.animationName(
+    keyframes(
+      'test',
+      (a, w) => {
+        a('from', w.add.borderRadius(PE(50)))
+        a('to', w.add.borderRadius(PE(0)))
+      },
+      wtsc
+    )
+  )
+const part = wtsc.out()
+assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
+```
+
+## class 输出
+
+使用 class 输出后将会把**前面**的 style，并入 class 存储器，使用 out 进入输出流程
+
+```typescript
+const value = wtsc.sham().add.height(px(20)).class('classSelector').out()
 
 console.log(vlaue) // classSelector
 ```
-这个api在nextTick()执行（这样可以避免在同步线程内多次更新dom,增加运行效率，你可以放心的添加class）
 
-### 与局部api混合双打！
+这个 api 在 nextTick()执行（这样可以避免在同步线程内多次更新 dom,增加运行效率，你可以放心的添加 class）
+
+### 与局部 api 混合双打！
 
 ```typescript
 - const value = wtsc.sham()
@@ -112,7 +132,7 @@ export default (w) => {
               .add.backgroundColor(createPressedColor(color))
               .pseudo(':active')
               .out(),
-  
+
 }
 
 // ./app.tsx
@@ -144,26 +164,26 @@ export default  defineCompution({
 沙箱的作用是隔离作用域，沙箱的创建成本更低，适合用完就丢的任物如：
 
 ```typescript
-const xxx = wtsc.shandbox((wtsc)=>{
+const xxx = wtsc.shandbox((wtsc) => {
   wtsc.add.height(px(30))
 })
 //或
-const xxx = wtsc.shandbox(function(){
+const xxx = wtsc.shandbox(function () {
   this.add.height(px(30))
 })
 
 consocle.log(xxx) //  height: 30px;
 ```
 
-在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide
+在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如 inject provide
 
 沙箱的`<style><style>`作用域默认继承父亲
 
-- sham('name') 开启一个局部作用域，`<style><style>`作用域默认继承父亲 **sham定义子wtsc**
-- scoped('name') 定义一个包括`<style><style>`隔离的wtsc **scoped定义子wtsc**
-- real() 获取父节点 **real返回父wtsc**
+- sham('name') 开启一个局部作用域，`<style><style>`作用域默认继承父亲 **sham 定义子 wtsc**
+- scoped('name') 定义一个包括`<style><style>`隔离的 wtsc **scoped 定义子 wtsc**
+- real() 获取父节点 **real 返回父 wtsc**
 
-这两个api一定要成对出现，或者不要用的太多了，如果有一些没关掉，别弄出一些找不到的bug，这两个api可以在多个文件内出现，这就是它的意义，你可以隔离一个不规整的作用域
+这两个 api 一定要成对出现，或者不要用的太多了，如果有一些没关掉，别弄出一些找不到的 bug，这两个 api 可以在多个文件内出现，这就是它的意义，你可以隔离一个不规整的作用域
 
 ## 响应化
 
@@ -339,7 +359,6 @@ wtsc.inject(key, 10) //return 10
 wtsc.inject(key) //return undefined
 ```
 
-
 ## defInjKey()
 
 作用是定义一个 InjectKey
@@ -470,6 +489,6 @@ out:
 
 ......
 
-[更多api文档点此处](https://wormery.github.io/wtsc/docs/)
+[更多 api 文档点此处](https://wormery.github.io/wtsc/docs/)
 
 [更新记录点此处](https://github.com/wormery/wtsc/blob/dev/CHANGELOG.md)
