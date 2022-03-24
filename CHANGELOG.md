@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.14](https://github.com/wormery/wtsc/compare/v2.0.0-bate.13...v2.0.0-bate.14) (2022-03-24)
+
+
+### Features
+
+* class(); pseudo() render() out() PseudoElements PseudoClasses getLeaf() dependencyCollation() update() 提级的方法新增或删除重写,还使用weakMap来分布存储,防止依赖集中无法释放导致内存泄漏,现在还有一个问题,css注册可能会内存泄漏,准备修复创建一个挂载钩子 ([6e66c5d](https://github.com/wormery/wtsc/commit/6e66c5dc1fdf4ea2d6bd9fba28b9eb3c43840e44))
+* unmonunt() 卸载方法 ([b6cc43d](https://github.com/wormery/wtsc/commit/b6cc43df1937f987a9b8529dd2a0884d3fe4a624))
+* update docs ([78fa8f8](https://github.com/wormery/wtsc/commit/78fa8f8254ec9a3d3ad2566d0a6d394d11464620))
+* update readme.md ([f93442a](https://github.com/wormery/wtsc/commit/f93442add327ef97993cef55c44f5fdaecdc15cc))
+
+
+### Bug Fixes
+
+* 修复vite开发环境下当刷新代码,样式标签清空的问题 ([09c9157](https://github.com/wormery/wtsc/commit/09c9157bf3f46ee930c1f945a1139e7123428f64))
+
 ## [2.0.0-bate.13](https://github.com/wormery/wtsc/compare/v2.0.0-bate.12...v2.0.0-bate.13) (2022-03-21)
 
 

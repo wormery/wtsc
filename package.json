@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "2.0.0-bate.13",
+  "version": "2.0.0-bate.14",
   "description": "Generate vue style value using TS",
   "main": "index.js",
   "types": "src/index.ts",
@@ -24,7 +24,7 @@
     "release:bate": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version --prerelease bate && pnpm build",
     "release": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version && pnpm build",
     "update-docs": "pnpm typedoc ./src/* ./src/core/* --exclude src/test",
-    "lint":"pnpm eslint ./src/**.ts"
+    "lint": "pnpm eslint ./src/**.ts"
   },
   "author": {
     "name": "meke",
