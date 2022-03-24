@@ -16,8 +16,9 @@ import { warn } from '../error/warn'
 import { InjectKey, defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { genHash } from '../../utils/utils'
-import { PseudoClasses, setRootStyleData, rootStyleData } from './render'
 import {
+  PseudoClasses,
+  setRootStyleData,
   update,
   styleDataInj,
   addPro,
@@ -32,6 +33,25 @@ export const WTSCObject = Symbol('WTSCObject')
  * 执行add时保存调用者信息
  */
 export let wtsc!: WTSC<any, any>
+export let preAddKey!: string
+
+const wtscStack: Array<WTSC<any, any>> = []
+const preAddKeyStack: string[] = []
+
+export function hideAddStack(): void {
+  wtscStack.push(wtsc)
+  preAddKeyStack.push(preAddKey)
+}
+
+export function findAddStack(): void {
+  wtsc = wtscStack.pop() as any
+  preAddKey = preAddKeyStack.pop() as any
+}
+
+/**
+ * 根
+ */
+export let rootWtsc!: WTSC<any, any>
 
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
@@ -102,7 +122,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
    * @memberof WTSC
    */
   public get add(): ADD<Options, ParsersInterface> {
-    this.setGlobal()
+    wtsc = this
     return this._add
   }
 
@@ -127,12 +147,16 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
 
     this._add = this.defAdd()
 
+    rootWtsc = this
+
+    wtsc = this
+
     this.root = this
 
     // styleData init
     const styleData = {
       id: this.storage.id,
-      name: 'root',
+      name: this.storage.name,
       style: {},
       part: {},
     }
@@ -256,7 +280,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
           }
         }
 
-        setKey(key)
+        preAddKey = key
         return parsersResultHandle
       },
       set(v) {
@@ -319,18 +343,20 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
       const styleData = this.inject(styleDataInj)
 
       const name = data.name
+      const pro = addPro(styleData.name, name)
+      const selector = '.' + pro
 
-      styleData.style[name] = data.style
+      styleData.style[selector] = data.style
       const pseudoClass = data.pseudoClass
       if (pseudoClass) {
         Object.keys(pseudoClass).forEach((k) => {
-          styleData.style[name + k] = pseudoClass[k]
+          styleData.style[selector + k] = pseudoClass[k]
         })
       }
 
       update(styleData)
 
-      return addPro(styleData.name, name)
+      return pro
     } else {
       const ret = styleToString(this.outStyle())
       this.clear()

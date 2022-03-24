@@ -7,9 +7,7 @@ import { rootId } from './storage'
 interface SelectorData {
   name: string
   selector: string
-  pseudoClass?: {
-    [k in string]: string
-  }
+  pseudoClass?: Data<string, string>
   style: string
 }
 export const selectorDataInj = defInjKey<SelectorData>()
@@ -225,7 +223,7 @@ export function render(): string {
     const style = l.style
     l.part[id] = Object.keys(style)
       .map((k) => {
-        return `.${l.name}-${k}{${style[k]}}`
+        return `${k}{${style[k]}}`
       })
       .join('\n')
 

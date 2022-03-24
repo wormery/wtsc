@@ -1,7 +1,7 @@
 import { isUndef, isString, isFunction } from '@wormery/utils'
 import { WTSCOptions } from './option'
 import { isInjectKey } from '../inject/injectKey'
-import { WTSC, wtsc } from './WTSC'
+import { WTSC, wtsc, preAddKey } from './WTSC'
 import { StyleValue } from './types'
 import { skip } from '../error/error'
 import { parserSpace } from '../parser/ParserSpace'
@@ -23,14 +23,13 @@ export function parsersResultHandle(...rest: StyleValue): WTSC<any, any> {
   return toHandle(rest)
 }
 function toHandle(rest: StyleValue): WTSC<any, any> {
-  parserSpace(csskey, () => {
-    wtsc.addAny(csskey, ...rest)
+  parserSpace(preAddKey, () => {
+    wtsc.addAny(preAddKey, ...rest)
   })
   return wtsc
 }
 export function Add(key: string, ...rest: StyleValue): WTSC<any, any> {
-  setKey(key)
-  return toHandle(rest)
+  return wtsc.addAny(key, ...rest)
 }
 
 function warningForStyleToString(index: number, msg: string): never {

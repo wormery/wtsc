@@ -21,10 +21,11 @@
     "unit": "pnpm ts-mocha -p tsconfig.json **/unit/**/*.spec.ts ",
     "release:minor-alpha": "pnpm build && pnpm standard-version --release-as minor --prerelease alpha",
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
-    "release:bate": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version --prerelease bate && pnpm build",
-    "release": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version && pnpm build",
+    "release:bate": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version --prerelease bate",
+    "release": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version",
     "update-docs": "pnpm typedoc ./src/* ./src/core/* --exclude src/test",
-    "lint": "pnpm eslint ./src/**.ts"
+    "lint": "pnpm eslint ./src/**.ts",
+    "pub:bate":"pnpm build && git push --follow-tags && npm publish --tag bate"
   },
   "author": {
     "name": "meke",
