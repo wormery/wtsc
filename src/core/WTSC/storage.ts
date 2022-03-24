@@ -1,8 +1,6 @@
-import { ProviderStorage, defDefluatProvider } from '../inject/providerApi'
+import { ProviderStorage } from '../inject/providerApi'
 import { WTSCOptions } from '.'
 import { StyleValue } from './types'
-import { Data } from '../inject/types'
-import { defInjKey } from '../inject/injectKey'
 
 export interface WTSCStorage extends ProviderStorage {
   id: symbol
@@ -10,6 +8,7 @@ export interface WTSCStorage extends ProviderStorage {
   style: { [s: string]: StyleValue }
   parent?: WTSCStorage
 }
+export const rootId = Symbol('')
 
 export type DefWTSCStorage = (
   name?: string,
@@ -21,7 +20,7 @@ export function defWTSCStorageAPI<Options extends WTSCOptions>(
   options?.defProvider?.()
   return (name = 'root', parent) => {
     return {
-      id: Symbol(''),
+      id: parent ? Symbol('') : rootId,
       name,
       style: {},
       provider: new WeakMap(),

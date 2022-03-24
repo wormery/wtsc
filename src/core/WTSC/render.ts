@@ -3,6 +3,7 @@ import nextTick from '../../utils/nextTick'
 import { isBrowser } from '../../utils/utils'
 import { defInjKey } from '../inject/injectKey'
 import { warn } from '../error/warn'
+import { rootId } from './storage'
 interface SelectorData {
   name: string
   selector: string
@@ -22,6 +23,12 @@ interface StyleData {
 }
 
 export const styleDataInj = defInjKey<StyleData, true>()
+
+export let rootStyleData: null | StyleData = null
+
+export function setRootStyleData(styleData: StyleData): void {
+  rootStyleData = styleData
+}
 
 export let cssTemp: any = ''
 
@@ -232,8 +239,14 @@ export function render(): string {
 
     const parent = l.parent
     if (!parent) {
-      cssTemp = partStr
-      return partStr
+      // 查看是不是root节点
+      if (l.id === rootId) {
+        cssTemp = partStr
+        return partStr
+      }
+
+      // 不是root节点就忽略更新，它可能是一个已经被删除的节点
+      continue
     }
 
     parent.part[id] = partStr

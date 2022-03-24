@@ -16,7 +16,7 @@ import { warn } from '../error/warn'
 import { InjectKey, defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { genHash } from '../../utils/utils'
-import { PseudoClasses } from './render'
+import { PseudoClasses, setRootStyleData, rootStyleData } from './render'
 import {
   update,
   styleDataInj,
@@ -129,15 +129,17 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
 
     this.root = this
 
-    this.provide(
-      {
-        id: this.storage.id,
-        name: this.storage.name,
-        style: {},
-        part: {},
-      },
-      styleDataInj
-    )
+    // styleData init
+    const styleData = {
+      id: this.storage.id,
+      name: 'root',
+      style: {},
+      part: {},
+    }
+
+    this.provide(styleData, styleDataInj)
+
+    setRootStyleData(styleData)
   }
 
   setGlobal(): void {
@@ -385,6 +387,53 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     )
 
     return this
+  }
+
+  /**
+   * 卸载并清空负作用
+   * @author meke
+   * @memberof WTSC
+   */
+  public unmount(): void {
+    this.delete(selectorDataInj)
+    // 手动清空本作用域style
+    const styleData = this.inject(styleDataInj)
+    if (styleData) {
+      const thisId = this.storage.id
+      // 检查是不是当前实例创建的styleData
+      if (styleData.id === thisId) {
+        // 清空样式库
+        styleData.part = {}
+
+        // 如果是当前实例创建的此id的话所有父作用域进入销毁流程
+        const parent = styleData.parent
+        if (parent) {
+          // 在样式树上清楚引用
+          styleData.parent = undefined
+
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+          delete parent.part[thisId]
+
+          update(parent)
+        } else {
+          // 由于当前是根，卸载根会变的不一样
+          styleData.style = undefined as any
+          styleData.part = undefined as any
+          this.root.delete(styleDataInj)
+          update(styleData)
+          // root节点被卸载执行任何代码都会报错
+        }
+
+        // 删除引用
+        this.delete(styleDataInj)
+      } else {
+        // 如果不是隔离作用域的主体的话，删除本实例创建的所有style并进入更新流程
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete styleData.part[thisId]
+        update(styleData)
+      }
+    }
+    // 之后垃圾回收会自动清理剩余的项目
   }
 
   /**
