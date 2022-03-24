@@ -1,9 +1,9 @@
-import { animationInterface } from './animation'
-import { animationNameInterface } from './animationName'
-import { animationDelayInterface } from './animationDelay'
-import { animationDurationInterface } from './animationDuration'
-export interface animationGroupInterface<R>
-  extends animationInterface<R>,
-    animationNameInterface<R>,
-    animationDelayInterface<R>,
-    animationDurationInterface<R> {}
+import { AnimationInterface } from './animation'
+import { AnimationNameInterface } from './animationName'
+import { AnimationDelayInterface } from './animationDelay'
+import { AnimationDurationInterface } from './animationDuration'
+export interface AnimationGroupInterface<R>
+  extends AnimationInterface<R>,
+    AnimationNameInterface<R>,
+    AnimationDelayInterface<R>,
+    AnimationDurationInterface<R> {}

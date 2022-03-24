@@ -1,5 +1,5 @@
 import { Time } from '../../../CSSValue/time'
 
-export interface animationDelayInterface<R> {
+export interface AnimationDelayInterface<R> {
   animationDelay(value: Time): R
 }
