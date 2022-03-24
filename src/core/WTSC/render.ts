@@ -1,8 +1,8 @@
 import { Data } from '../inject/types'
-import { CSSStyle } from './types'
 import nextTick from '../../utils/nextTick'
 import { isBrowser } from '../../utils/utils'
 import { defInjKey } from '../inject/injectKey'
+import { warn } from '../error/warn'
 interface SelectorData {
   name: string
   selector: string
@@ -23,7 +23,7 @@ interface StyleData {
 
 export const styleDataInj = defInjKey<StyleData, true>()
 
-export const styleData: Data<string, Data<string, CSSStyle>> = {}
+export let cssTemp: any = ''
 
 // export const styleDom = document.createElement('style')
 export let styleDom: HTMLStyleElement = {} as any
@@ -116,16 +116,34 @@ export type PseudoClasses =
   | ':where()'
 
 if (isBrowser) {
-  const style = document.createElement('style')
-  // 设置style属性
-  styleDom.type = 'text/css'
+  try {
+    const style = document.createElement('style')
+    // 设置style属性
+    styleDom.type = 'text/css'
 
-  style.id = 'wtscStyle'
+    style.id = 'wtscStyle'
 
-  // 将style样式存放到head标签
-  document.getElementsByTagName('head')[0].appendChild(style)
+    style.innerHTML = cssTemp
 
-  styleDom = style
+    // 将style样式存放到head标签
+    document.getElementsByTagName('head')[0].appendChild(style)
+
+    // vite工具动态更新样式会清空style标签，此是自动监听更新样式
+    let isUpdating = false
+    style.addEventListener('load', () => {
+      if (!isUpdating) {
+        isUpdating = true
+        style.innerHTML = cssTemp
+        setTimeout(() => {
+          isUpdating = false
+        }, 0)
+      }
+    })
+
+    styleDom = style
+  } catch (E) {
+    warn('在将style标签添加到页面时发生了错误', E)
+  }
 }
 
 let taskDdded: boolean = false
@@ -214,6 +232,7 @@ export function render(): string {
 
     const parent = l.parent
     if (!parent) {
+      cssTemp = partStr
       return partStr
     }
 

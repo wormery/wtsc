@@ -82,8 +82,6 @@ describe('defRefProviderAPI()', function () {
 
     // 我们定义一个计算属性
     const comV = computed(() => {
-      console.log(wtsc.inject(key))
-
       return wtsc.inject(key)
     })
 
