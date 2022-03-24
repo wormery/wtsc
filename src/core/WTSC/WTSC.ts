@@ -309,11 +309,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
    * @return {*}  {Style<T>}
    * @memberof WTSC
    */
-  public out(
-    selector?: string,
-    pseudoClass?: PseudoElements,
-    scoped: boolean = true
-  ): string {
+  public out(): string {
     const data = this.ownInject(selectorDataInj)
 
     if (data) {

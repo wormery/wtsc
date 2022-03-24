@@ -8,9 +8,8 @@ WTSC 主要功能是管理主题切换，生成 css，响应式更改，当你�
 
 如图：
 
-注：此预览图是多版本之前
 
-![AutomatiCompletion](https://raw.githubusercontent.com/wormery/wtsc/main/doc/imgs/AutomatiCompletion.png)
+![](./doc/imgs/2022-03-24_15-26-57.png)
 
 # 快速开始
 
@@ -42,8 +41,104 @@ const wtsc = defTypeWTSC({})
 const style = wtsc.add.width(px(20)).add.height(PE(30)).out()
 //打印测试
 console.log(style)
-//printed: { width: '20px', height: '30%' }
+//printed: width: 20px;height: 30%;
 ```
+## class输出
+使用class输出后将会把**前面**的style，并入class存储器，使用out进入输出流程
+
+```typescript
+const value = wtsc.sham()
+                .add.height(px(20))
+                .class('classSelector')
+              .out()
+
+console.log(vlaue) // classSelector
+```
+这个api在nextTick()执行（这样可以避免在同步线程内多次更新dom,增加运行效率，你可以放心的添加class）
+
+### 与局部api混合双打！
+
+```typescript
+- const value = wtsc.sham()
++ const value = wtsc.scoped('具名')
+                .add.height(px(20))
+                .class('classSelector')
+              .out()
+
+console.log(value) // 具名-classSelector
+
+// 随机
+- const value = wtsc.scoped('具名')
++ const value = wtsc.scoped()
+                .add.height(px(20))
+                .class('classSelector')
+              .out()
+console.log(value) // (随机哈希)-classSelector
+```
+
+### 伪类输出
+
+伪类必须在类后面定义如下面所见
+
+也可以这么用
+
+```typescript
+// ./class.wtsc.ts
+function createHoverColor(
+  color: RGBColor,
+  overlayAlpha: number = 0.50
+): RGBColor {
+  return mixColor(color, rgb(255, 255, 255, overlayAlpha));
+}
+
+function createPressedColor(
+  color: RGBColor,
+  overlayAlpha: number = 0.15
+): RGBAColor {
+  return mixColor(color, rgb(0, 0, 0, overlayAlpha))
+}
+
+const color = rgb(250, 0, 0)
+
+export default (w) => {
+  button: w.sham()
+              .add.height(px(30))
+              .add.backgroundColor(color)
+              .add.userSelect('none')
+              .add.transition('all  300ms ease')
+              .class('testclass')
+              .add.backgroundColor(createHoverColor(color))
+              .pseudo(':hover')
+              .add.backgroundColor(createPressedColor(color))
+              .pseudo(':active')
+              .out(),
+  
+}
+
+// ./app.tsx
+import cl from './class.wtsc.ts'
+const name = 'app',
+export const w = wtsc.scoped(genHash() + name)
+export default  defineCompution({
+  name,
+  setup(){
+
+    return () =>{
+    const  c = cl(w)
+      return (<>
+              <div :class="[c]">测试 class</div>
+              <div :style="[
+                w.add.height(px(20))
+                .out()
+                ,
+                w.add.background('red').out()
+              ]">简单样式</div>
+      </>)
+    }
+  }
+})
+```
+
 ## 沙箱
 
 沙箱的作用是隔离作用域，沙箱的创建成本更低，适合用完就丢的任物如：
@@ -57,7 +152,7 @@ const xxx = wtsc.shandbox(function(){
   this.add.height(px(30))
 })
 
-consocle.log(xxx) // { height: 30px }
+consocle.log(xxx) //  height: 30px;
 ```
 
 在沙箱关闭前会自动将剩下的值导出,沙箱中修改任何内容关闭后数据都会丢失，比如inject provide
@@ -125,12 +220,12 @@ console.log(comV.value) // 测试2
 
 ```typescript
 const wtsc = defTypeWTSC({
-  defThemeKeys(inject: Inject) {
+  defThemeKeys(p) {
     // 这里推荐用provide,这样有个默认值使用过程就不会undefined
     // 然后wtsc默认就会忽略掉undefined的项目
     return {
-      mainColor: inject.provide(rgb(255, 255, 255)),
-      mainFontColor: inject.provide(rgb(14, 14, 14)),
+      mainColor: p(rgb(255, 255, 255)),
+      mainFontColor:this.provide(rgb(14, 14, 14)),
     }
   },
   themeList: {
@@ -156,7 +251,7 @@ const the = wtsc.mainColor
 wtsc.add.background(the.mainColor)
 
 const value = wtsc.inject(the.mainFontColor)
-console.log(value) // 'rgb(14, 14, 14)'
+console.log(value.out()) // 'rgb(14, 14, 14)'
 ```
 
 - 简单切换主题
@@ -299,9 +394,8 @@ typeof key1 //InjectKey<3>
 ### 带描述的 key
 
 ```typescript
-const key = wtsc.provide('你好帅', defInject('我好ai'))
-key.[IK].toString() // Symbol(我好ai)
-// 想啥呢
+const key = wtsc.provide('你好帅', defInject(''))
+key.[IK].toString() // Symbol()
 ```
 
 ## add()
@@ -335,7 +429,7 @@ wtsc.add('height', csshwStyle)
 ## out()
 
 ```typescript
-wtsc.add.all('inherit').out() // { all: 'inherit' }
+wtsc.add.all('inherit').out() // all: inherit;
 ```
 
 ## save()
@@ -343,7 +437,7 @@ wtsc.add.all('inherit').out() // { all: 'inherit' }
 ```typescript
 wtsc.add.width(px(20))
 const saveKey = wtsc.save()
-const stvleValue = wtsc.inject(savekey) // { width: '20px' }
+const stvleValue = wtsc.inject(savekey) // width: 20px;
 ```
 
 ## toString()
