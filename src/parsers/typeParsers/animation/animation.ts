@@ -1,3 +1,5 @@
+import { AnimationNameValue } from './animationName'
+
 export interface animationInterface<R> {
-  animation(): R
+  animation(value: AnimationNameValue): R
 }
