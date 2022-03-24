@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.15](https://github.com/wormery/wtsc/compare/v2.0.0-bate.14...v2.0.0-bate.15) (2022-03-24)
+
+
+### Features
+
+* keyframes ([047e338](https://github.com/wormery/wtsc/commit/047e338fb063fb6600cd75bb31e1c5325b3b1b69))
+* update readme.md ([63b6fa4](https://github.com/wormery/wtsc/commit/63b6fa4f33bb199992fb6f360e80db3c6f8a681a))
+
 ## [2.0.0-bate.14](https://github.com/wormery/wtsc/compare/v2.0.0-bate.13...v2.0.0-bate.14) (2022-03-24)
 
 
