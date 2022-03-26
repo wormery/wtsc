@@ -35,9 +35,9 @@ function out(this: Keyframes, wtsc: WTSC<any, any>): string {
   const keyfram = keyfromsData.keyfram
   const part = Object.keys(keyfram)
     .map((k) => {
-      return `${k} {${keyfram[k]}}\n`
+      return `${k} {${keyfram[k]}}`
     })
-    .join('')
+    .join(' ')
 
   const pro = addPro(styleData.name, keyfromsData.name)
 

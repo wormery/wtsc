@@ -1,9 +1,10 @@
-import { PE } from '../../..'
+import { PE, rgb } from '../../..'
 import { defWTSC } from '../../../core/WTSC/api'
 import { wtsc } from '../../../core/WTSC/WTSC'
 import { keyframes } from '../../../CSSValue/keyframs'
 import { px } from '../../../CSSValue/length/px'
 import assert from 'assert'
+import { render } from '../../../core/WTSC/render'
 describe('keyframes检查', () => {
   const wtsc = defWTSC()
   it('基本使用', () => {
@@ -17,8 +18,15 @@ describe('keyframes检查', () => {
           a('to', w.add.borderRadius(PE(0)))
         })
       )
-    const part = wtsc.out()
+    let part = wtsc.out()
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
+    part = render()
+
+    assert.ok(
+      part.includes(
+        '@keyframes root-test{from {border-radius: 50%;} to {border-radius: 0%;}}'
+      )
+    )
   })
 
   it('自动sham', () => {
@@ -42,7 +50,7 @@ describe('keyframes检查', () => {
   it('作用域随机', () => {
     const part = wtsc
       .scoped()
-      .add.height('20px')
+      .add.height(px(20))
       .add.width('20px')
       .add.animationName(
         keyframes(
