@@ -23,7 +23,7 @@
     "release:major-bate": "pnpm build && pnpm standard-version --release-as major --prerelease bate",
     "release:bate": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version --prerelease bate",
     "release": "pnpm unit && pnpm build && pnpm lint && pnpm standard-version",
-    "update-docs": "pnpm typedoc ./src/* ./src/core/* --exclude src/test",
+    "apiDocs": "pnpm typedoc ./src/* ./src/core/* --exclude src/test -out apiDocs",
     "lint": "pnpm eslint ./src/**.ts",
     "pub:bate": "pnpm build && git push --follow-tags && npm publish --tag bate"
   },
