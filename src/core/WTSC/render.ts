@@ -3,7 +3,6 @@ import nextTick from '../../utils/nextTick'
 import { isBrowser } from '../../utils/utils'
 import { defInjKey } from '../inject/injectKey'
 import { warn } from '../error/warn'
-import { rootId } from './storage'
 interface SelectorData {
   name: string
   selector: string
@@ -126,7 +125,6 @@ export function addPro(pro: string, name: string): string {
 export function render(): string {
   const leaf = getLeaf()
   const dependencyCounter = dependencyCollation(leaf)
-
   while (true) {
     const l = leaf.pop()
 
@@ -165,11 +163,12 @@ export function render(): string {
     parent.part[id] = partStr
 
     // 第三步父组件的依赖数减一
-    const parentDependencyCounter = (dependencyCounter.get(l) ?? 1) - 1
+    const parentDependencyCounter = dependencyCounter.get(parent) ?? 0
+
     if (parentDependencyCounter === 0) {
       leaf.push(parent)
     }
-    dependencyCounter.set(l, (dependencyCounter.get(l) ?? 1) - 1)
+    dependencyCounter.set(l, (dependencyCounter.get(parent) ?? 1) - 1)
   }
   return ''
 }

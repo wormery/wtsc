@@ -155,12 +155,15 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
     wtsc = this
 
     this.root = this
+    const styleData = {
+      id: this.storage.id,
+      name: this.storage.name,
+      style: {},
+      part: {},
+      parent: rootStyleData,
+    }
 
-    this.provide(rootStyleData, styleDataInj)
-  }
-
-  setGlobal(): void {
-    wtsc = this
+    this.provide(styleData, styleDataInj)
   }
 
   /**
