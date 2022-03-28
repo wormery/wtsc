@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.16](https://github.com/wormery/wtsc/compare/v2.0.0-bate.15...v2.0.0-bate.16) (2022-03-28)
+
+
+### Features
+
+* animationDelay ([ac93897](https://github.com/wormery/wtsc/commit/ac9389772d588bb9d5cf071591cae35f6b859e75))
+* boxShadow() ([ee7113b](https://github.com/wormery/wtsc/commit/ee7113bccad9a1dbbda66a02572bc40c7f517ef9))
+* docs home ([ef9698e](https://github.com/wormery/wtsc/commit/ef9698e364e6f3d8eeadac69cd836030090d928b))
+* position ([2cbaa18](https://github.com/wormery/wtsc/commit/2cbaa18037403febfa9fa3e398ba3efa48b10856))
+* s() ms() Time animationDuration() ([936a47d](https://github.com/wormery/wtsc/commit/936a47dfe461c7d5fc222c26c3ebab2edc5d0c4b))
+* updata apidocs ([7b20c8d](https://github.com/wormery/wtsc/commit/7b20c8d00b65282fea0ae591eeeb545bc89b7eb8))
+* updata docs ([685ccdc](https://github.com/wormery/wtsc/commit/685ccdc965d2a1a4ed19349db8eb3446d2a15ccd))
+* update docs ([f7f5a9e](https://github.com/wormery/wtsc/commit/f7f5a9ee9c83ba55239f4feb18221846c51538ac))
+
+
+### Bug Fixes
+
+* render 算法的一个严重错误,defWTSC创建的根wtsc也是隔离的,最终会全部汇总渲染 ([f3f2734](https://github.com/wormery/wtsc/commit/f3f2734ece9a7b8b8e5092cc4b1d28235121dbad))
+* render 算法的一个严重错误,兄弟依赖只会渲染一个的bug ([3a4551b](https://github.com/wormery/wtsc/commit/3a4551b94f69a7325ebba360b1f183e221ce3cb8))
+* root wtsc cover ([fd318c6](https://github.com/wormery/wtsc/commit/fd318c66c1971f6c9e506ee9950b25f6c1b4f1e7))
+
 ## [2.0.0-bate.15](https://github.com/wormery/wtsc/compare/v2.0.0-bate.14...v2.0.0-bate.15) (2022-03-24)
 
 
