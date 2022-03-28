@@ -1,14 +1,19 @@
 import { isString } from '@wormery/utils'
 import { Theme } from '../theme/theme'
 import { WTSCOptions } from './option'
-import { ADD, CSSStyle, StyleValue } from './types'
+import {
+  ADD,
+  CSSStyle,
+  StyleValue,
+  PseudoClasses,
+  PseudoElements,
+} from './types'
 import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
 import { SaveApi } from './saveApi'
 import {
   parsersResultHandle,
   styleValueToString,
-  setKey,
   Add,
 } from './parserResultHandleApi'
 import { DefWTSCStorage, WTSCStorage } from './storage'
@@ -17,12 +22,10 @@ import { InjectKey, defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { genHash } from '../../utils/utils'
 import {
-  PseudoClasses,
-  setRootStyleData,
+  rootStyleData,
   update,
   styleDataInj,
   addPro,
-  PseudoElements,
   selectorDataInj,
 } from './render'
 export const scopeKey = defInjKey<string>()
@@ -153,17 +156,7 @@ export class WTSC<Options extends WTSCOptions, ParsersInterface>
 
     this.root = this
 
-    // styleData init
-    const styleData = {
-      id: this.storage.id,
-      name: this.storage.name,
-      style: {},
-      part: {},
-    }
-
-    this.provide(styleData, styleDataInj)
-
-    setRootStyleData(styleData)
+    this.provide(rootStyleData, styleDataInj)
   }
 
   setGlobal(): void {

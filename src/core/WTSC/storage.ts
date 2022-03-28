@@ -9,6 +9,12 @@ export interface WTSCStorage extends ProviderStorage {
   parent?: WTSCStorage
 }
 export const rootId = Symbol('')
+export const rootStorage = {
+  id: rootId,
+  name: 'root',
+  style: {},
+  provider: new WeakMap(),
+}
 
 export type DefWTSCStorage = (
   name?: string,
@@ -17,10 +23,12 @@ export type DefWTSCStorage = (
 export function defWTSCStorageAPI<Options extends WTSCOptions>(
   options: Options
 ): DefWTSCStorage {
-  options?.defProvider?.()
   return (name = 'root', parent) => {
+    if (!parent) {
+      return rootStorage
+    }
     return {
-      id: parent ? Symbol('') : rootId,
+      id: Symbol(''),
       name,
       style: {},
       provider: new WeakMap(),

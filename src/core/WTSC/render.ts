@@ -22,10 +22,11 @@ interface StyleData {
 
 export const styleDataInj = defInjKey<StyleData, true>()
 
-export let rootStyleData: null | StyleData = null
-
-export function setRootStyleData(styleData: StyleData): void {
-  rootStyleData = styleData
+export const rootStyleData: StyleData = {
+  id: Symbol(''),
+  name: 'root',
+  style: {},
+  part: {},
 }
 
 export let cssTemp: any = ''
@@ -33,93 +34,7 @@ export let cssTemp: any = ''
 // export const styleDom = document.createElement('style')
 export let styleDom: HTMLStyleElement = {} as any
 
-/**
- * 伪元素类型
- */
-export type PseudoElements =
-  | ':after'
-  | '::after'
-  | '::backdrop'
-  | ':before'
-  | '::before'
-  | '::cue'
-  | '::cue-region'
-  | ':first-letter'
-  | '::first-letter'
-  | ':first-line'
-  | '::first-line'
-  | '::file-selector-button'
-  | '::grammar-error'
-  | '::marker'
-  // | '::part()' 暂时没有实现
-  | '::placeholder'
-  | '::selection'
-  // | '::slotted()'
-  | '::spelling-error'
-  | '::target-text'
-
-export type PseudoClasses =
-  | ':active'
-  | ':any-link'
-  | ':blank'
-  | ':checked'
-  | ':current'
-  | ':default'
-  | ':defined'
-  | ':dir()'
-  | ':disabled'
-  | ':drop'
-  | ':empty'
-  | ':enabled'
-  | ':first'
-  | ':first-child'
-  | ':first-of-type'
-  | ':fullscreen'
-  | ':future'
-  | ':focus'
-  | ':focus-visible'
-  | ':focus-within'
-  | ':has()'
-  | ':host'
-  | ':host()'
-  | ':host-context()'
-  | ':hover'
-  | ':indeterminate'
-  | ':in-range'
-  | ':invalid'
-  | ':is()'
-  | ':lang()'
-  | ':last-child'
-  | ':last-of-type'
-  | ':left'
-  | ':link'
-  | ':local-link'
-  | ':not()'
-  | ':nth-child()'
-  | ':nth-col()'
-  | ':nth-last-child()'
-  | ':nth-last-col()'
-  | ':nth-last-of-type()'
-  | ':nth-of-type()'
-  | ':only-child'
-  | ':only-of-type'
-  | ':optional'
-  | ':out-of-range'
-  | ':past'
-  | ':placeholder-shown'
-  | ':read-only'
-  | ':read-write'
-  | ':required'
-  | ':right'
-  | ':root'
-  | ':scope'
-  | ':target'
-  | ':target-within'
-  | ':user-invalid'
-  | ':valid'
-  | ':visited'
-  | ':where()'
-
+// 检查到浏览器场景自动挂载style
 if (isBrowser) {
   try {
     const style = document.createElement('style')
@@ -238,7 +153,7 @@ export function render(): string {
     const parent = l.parent
     if (!parent) {
       // 查看是不是root节点
-      if (l.id === rootId) {
+      if (rootStyleData === l) {
         cssTemp = partStr
         return partStr
       }
