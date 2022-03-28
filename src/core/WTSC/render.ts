@@ -11,14 +11,26 @@ interface SelectorData {
 }
 export const selectorDataInj = defInjKey<SelectorData>()
 
-interface StyleData {
+export interface StyleData {
   id: symbol
   name: string
   style: Data<string, string>
   part: Data<symbol, string>
   parent?: StyleData | undefined | null
 }
-
+export function defStyleData(
+  name: string,
+  parent: StyleData | undefined | null,
+  id: symbol = Symbol('StyleDataId')
+): StyleData {
+  return {
+    id,
+    name,
+    style: {},
+    part: {},
+    parent,
+  }
+}
 export const styleDataInj = defInjKey<StyleData, true>()
 
 export const rootStyleData: StyleData = {
@@ -69,10 +81,11 @@ let taskDdded: boolean = false
 
 const toBeUpdated: StyleData[] = []
 
-export function getLeaf(): StyleData[] {
+export function getLeaf(toBeUpdated: StyleData[]): StyleData[] {
   const leaf = []
 
-  const weakSet = new WeakSet()
+  const recordLeaf = new WeakSet()
+  const baranchSet = new WeakSet()
   let styleData
   while (true) {
     styleData = toBeUpdated.pop()
@@ -81,77 +94,89 @@ export function getLeaf(): StyleData[] {
       break
     }
 
-    if (weakSet.has(styleData)) {
+    // 重复的更新
+    if (recordLeaf.has(styleData)) {
+      continue
+    }
+
+    if (baranchSet.has(styleData)) {
       continue
     }
 
     leaf.push(styleData)
+    recordLeaf.add(styleData)
 
     let parent = styleData.parent
     while (parent) {
-      weakSet.add(parent)
+      baranchSet.add(parent)
       parent = parent.parent
     }
   }
   // 删除非叶子节点更新
-  return leaf.filter((item) => {
-    return !weakSet.has(item)
-  })
+  return (
+    leaf
+      .filter((item) => {
+        return !baranchSet.has(item)
+      })
+      // 默认push到最后面，未了尽量不出问题，还按照原来的顺序排列
+      .reverse()
+  )
 }
 
-export function dependencyCollation(
-  leaf: StyleData[]
-): WeakMap<object, number> {
-  const dependencyCounter = new WeakMap<object, number>()
+export function dependencyCounter(leaf: StyleData[]): WeakMap<object, number> {
+  const dependencyNumberMap = new WeakMap<object, number>()
   let n: number | undefined
   leaf.forEach((item) => {
-    let parent = item.parent
-    while (parent) {
-      n = dependencyCounter.get(parent)
+    dependencyNumberMap.set(item, 0)
+    let sd = item.parent
+
+    while (sd) {
+      n = dependencyNumberMap.get(sd)
+
       if (n) {
-        dependencyCounter.set(parent, n + 1)
+        dependencyNumberMap.set(sd, n + 1)
       } else {
-        dependencyCounter.set(parent, 0)
+        dependencyNumberMap.set(sd, 1)
       }
-      parent = parent.parent
+      sd = sd.parent
     }
   })
-  return dependencyCounter
+  return dependencyNumberMap
 }
 export function addPro(pro: string, name: string): string {
   return pro + '-' + name
 }
 
 export function render(): string {
-  const leaf = getLeaf()
-  const dependencyCounter = dependencyCollation(leaf)
-  while (true) {
-    const l = leaf.pop()
+  const renderQueue = getLeaf(toBeUpdated)
+  const dependencyNumberMap = dependencyCounter(renderQueue)
 
-    if (!l) {
-      break
-    }
-    const id = l.id
+  let sd = renderQueue.pop()
+  while (sd) {
+    const id = sd.id
     // 第一步将style 更新渲染到part里面
-    const style = l.style
-    l.part[id] = Object.keys(style)
+    const style = sd.style
+    sd.part[id] = Object.keys(style)
       .map((k) => {
         return `${k}{${style[k]}}`
       })
       .join('\n')
 
     // 第二步将当前的part放到父组件的part里面
-    const part = l.part
+    const part = sd.part
     const partStr = Object.getOwnPropertySymbols(part)
       .map((s) => {
         return part[s]
       })
       .join('\n')
 
-    const parent = l.parent
+    const parent = sd.parent
     if (!parent) {
+      // 这里的作用是检查节点是否被删除，此删除行为可能发生上一帧的某个时间段
+      // ，但是在删除之前添加到队列里
+
       // 查看是不是root节点
-      if (rootStyleData === l) {
+      if (rootStyleData === sd) {
         cssTemp = partStr
         return partStr
       }
@@ -163,12 +188,18 @@ export function render(): string {
     parent.part[id] = partStr
 
     // 第三步父组件的依赖数减一
-    const parentDependencyCounter = dependencyCounter.get(parent) ?? 0
+    const newDependencyNumber = (dependencyNumberMap.get(parent) as number) - 1
 
-    if (parentDependencyCounter === 0) {
-      leaf.push(parent)
+    dependencyNumberMap.set(parent, newDependencyNumber)
+
+    // 第四步如果这个sd已经没有依赖项了，就开始执行
+    if (newDependencyNumber === 0) {
+      sd = parent
+      continue
     }
-    dependencyCounter.set(l, (dependencyCounter.get(parent) ?? 1) - 1)
+
+    // 从队列里执行下一个
+    sd = renderQueue.pop()
   }
   return ''
 }

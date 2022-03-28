@@ -13,7 +13,6 @@
   ></div>
 </template>
 <script lang="ts" setup>
-
 import { defWTSC, rgb, px, mixColor } from '@wormery/wtsc'
 import { RGBColor } from '../../src/CSSValue/color/RGBColor';
 import { RGBAColor } from '../../src/CSSValue/color/RGBAColor';
