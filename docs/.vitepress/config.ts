@@ -18,6 +18,8 @@ export default defineConfig({
         children: [
           { text: '安装', link: '/guide/installation' },
           { text: '介绍', link: '/guide/introduction' },
+          { text: 'wtsc实例', link: '/guide/defWTSC' },
+          { text: '响应', link: '/guide/reactive' },
         ],
       },
     ],
