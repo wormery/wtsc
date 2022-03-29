@@ -5,7 +5,7 @@ heroAlt: Logo image
 heroText: WTSC
 tagline: 无痛生产您的CSS
 actionText: Get Started
-actionLink: /guide/
+actionLink: /guide/introduction
 features:
   - title: Simplicity First
     details: Intuitive syntax allows you to write your code more happily.

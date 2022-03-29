@@ -7,10 +7,17 @@
   "module": "dist/wtsc.esm.js",
   "unpkg": "dist/wtsc.iife.js",
   "jsdelivr": "dist/wtsc.iife.js",
+  "author": {
+    "name": "meke",
+    "email": "mekefly@qq.com",
+    "url": "https://github.com/mekefly"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/wormery/wtsc"
   },
+  "homepage": "https://wormery.github.io/wtsc",
+  "license": "MIT",
   "scripts": {
     "build": "pnpm build:all && pnpm link .",
     "build:all": "pnpm build:dev && pnpm build:prod",
@@ -29,14 +36,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
-    "gh": "bash scripts/deploy.sh"
+    "deploy:docs": "bash scripts/deploy-docs.sh"
   },
-  "author": {
-    "name": "meke",
-    "email": "mekefly@qq.com",
-    "url": "https://github.com/mekefly"
-  },
-  "license": "MIT",
   "files": [
     "dist",
     "index.js",
