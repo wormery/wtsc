@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "2.0.0-bate.16",
+  "version": "2.0.0-bate.17",
   "description": "Generate vue style value using TS",
   "main": "index.js",
   "types": "src/index.ts",
