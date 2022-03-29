@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.18](https://github.com/wormery/wtsc/compare/v2.0.0-bate.17...v2.0.0-bate.18) (2022-03-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* 删除shamApi、RealApi,没有对应api、修改out函数为get()、修改shandbox return wtsc,增加clean,增加box,详细使用见文档 删除所有类,全部转换为函数式api,减少对象嵌套来增强效率
+
+### rest
+
+* 删除shamApi、RealApi,没有对应api、修改out函数为get()、修改shandbox return wtsc,增加clean,增加box,详细使用见文档 删除所有类,全部转换为函数式api,减少对象嵌套来增强效率 ([77a4903](https://github.com/wormery/wtsc/commit/77a4903bb886f5b8d45b91bfa473941fd549e434))
+
 ## [2.0.0-bate.17](https://github.com/wormery/wtsc/compare/v2.0.0-bate.16...v2.0.0-bate.17) (2022-03-29)
 
 
