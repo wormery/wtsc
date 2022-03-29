@@ -4,11 +4,17 @@ export default defineConfig({
   base: '/wtsc/',
   title: 'WTSC',
   description: 'A solution of TS in CSS',
+
   themeConfig: {
+    logo: '/public/logo.png',
     nav: [
       {
         text: '引导',
         link: '/guide/',
+      },
+      {
+        text: 'GitHub',
+        link: 'https://github.com/wormery/wtsc/tree/dev',
       },
     ],
     sidebar: [

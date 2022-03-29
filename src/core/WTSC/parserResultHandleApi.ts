@@ -1,14 +1,12 @@
 import { isUndef, isString, isFunction } from '@wormery/utils'
 import { WTSCOptions } from './option'
 import { isInjectKey } from '../inject/injectKey'
-import { WTSC, wtsc, preAddKey } from './WTSC'
+import { WTSC } from './WTSC'
 import { StyleValue } from './types'
 import { skip } from '../error/error'
 import { parserSpace } from '../parser/ParserSpace'
-let csskey = '333'
-export function setKey(_key: string): void {
-  csskey = _key
-}
+import { preAddKey, wtsc } from './WTSCPrototype'
+
 /**
  * @author meke
  * @private

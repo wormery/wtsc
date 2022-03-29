@@ -7,6 +7,19 @@ export interface ProviderStorage {
   parent?: ProviderStorage
 }
 
+export function createInjectStorage<O extends object = {}>(
+  parent?: ProviderStorage,
+  obj: O = {} as any
+): O & ProviderStorage {
+  const o = obj as ProviderStorage
+
+  o.provider = new WeakMap()
+
+  if (parent) o.parent = parent
+
+  return o as any
+}
+
 export interface ProviderOptions {
   defProvider?: DefProvider
 }

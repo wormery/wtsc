@@ -1,5 +1,4 @@
 import { hypnenate } from '@wormery/utils'
-import { WTSCStorage } from './storage'
 import { CSSStyle } from './types'
 
 /**

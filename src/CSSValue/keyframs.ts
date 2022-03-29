@@ -1,10 +1,11 @@
 import { isString } from '@wormery/utils'
-import { WTSC, hideAddStack, findAddStack, wtsc } from '../core/WTSC/WTSC'
+import { WTSC } from '../core/WTSC/WTSC'
 import { Percentage } from './Percentage'
 import { Data } from '../core/inject/types'
 import { styleToString } from '../core/WTSC/styleTostringApi'
 import { OutValue } from './index'
 import { styleDataInj, addPro, update } from '../core/WTSC/render'
+import { hideAddStack, findAddStack, wtsc } from '../core/WTSC/WTSCPrototype'
 interface KeyframsData {
   name: string
   keyfram: Data<string, string>
@@ -49,25 +50,15 @@ function out(this: Keyframes, wtsc: WTSC<any, any>): string {
 
   return pro
 }
-export function keyframes<T extends WTSC<any, any>>(
-  name: string,
-  callBack: (addKeyfram: typeof addKeyframe, wtsc: T) => void,
-  wtsc: T
-): Keyframes
+
 export function keyframes(
   name: string,
   callBack: (addKeyfram: typeof addKeyframe) => void
-): Keyframes
-
-export function keyframes<T extends WTSC<any, any>>(
-  name: string,
-  callBack: (addKeyfram: typeof addKeyframe, wtsc: T) => void,
-  w: T = wtsc as any
 ): Keyframes {
   hideAddStack()
   keyframsData = { name, keyfram: {} }
 
-  callBack(addKeyframe, w.sham() as any)
+  wtsc.shandbox(() => callBack(addKeyframe))
 
   findAddStack()
 

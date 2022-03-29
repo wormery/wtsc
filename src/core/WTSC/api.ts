@@ -1,9 +1,12 @@
 import { isObject } from '@wormery/utils'
 import { WTSC, WTSCObject } from './WTSC'
 import { WTSCOptions } from './option'
-import { defWTSCStorageAPI } from './storage'
+import { createWTSCStorage, WTSCStorage } from './storage'
 import { TypeParsers } from '../../parsers/typeParsers/TypeParsersInterface'
 import { BaseParsersInterface } from '../../parsers/baseParsers/BaseParsers'
+import { defWtscPrototype } from './WTSCPrototype'
+import { rootStyleData, styleDataInj, defStyleData } from './render'
+import { initDefThemeKeys } from '../theme/api'
 
 /**
  * 是一个WTSC对象返回true
@@ -49,6 +52,22 @@ export function defTypeWTSC<The extends object = {}>(
 export function defWTSC<The extends object = {}>(
   wtscOptions: WTSCOptions<The> = {}
 ): TypeWTSC<WTSCOptions<The>> {
-  const defWTSCStorage = defWTSCStorageAPI(wtscOptions)
-  return new WTSC(wtscOptions, defWTSCStorage)
+  const wtsc: TypeWTSC<WTSCOptions<The>> = createWTSCStorage(
+    'root',
+    undefined,
+    defWtscPrototype(wtscOptions)
+  )
+
+  ;(wtsc as any).root = wtsc
+
+  const styleData = defStyleData(
+    (wtsc as any as WTSCStorage).name,
+    rootStyleData,
+    (wtsc as any as WTSCStorage).id
+  )
+
+  initDefThemeKeys(wtscOptions, wtsc as any, wtsc)
+  wtsc.provide(styleData, styleDataInj)
+
+  return wtsc
 }

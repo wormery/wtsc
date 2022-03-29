@@ -61,3 +61,25 @@ export const isBrowser = (() => {
     return false
   }
 })()
+
+export function mixin<O1 extends object, O2 extends object>(
+  o1: O1,
+  o2: O2
+): Merge<O1, O2> {
+  Object.keys(o2).forEach((k) => {
+    ;(o1 as any)[k] = (o2 as any)[k]
+  })
+  Object.getOwnPropertySymbols(o2).forEach(
+    (k) => ((o1 as any)[k] = (o2 as any)[k])
+  )
+
+  return o1 as any
+}
+// const xxx = mixin({ s: '' }, { y: '' }, { x: 'xx' })
+export type Merge<X extends object, Y extends object> = {
+  [k in keyof X | keyof Y]: k extends keyof X
+    ? X[k]
+    : k extends keyof Y
+    ? Y[k]
+    : never
+}

@@ -1,6 +1,5 @@
-import { PE, rgb } from '../../..'
+import { PE } from '../../..'
 import { defWTSC } from '../../../core/WTSC/api'
-import { wtsc } from '../../../core/WTSC/WTSC'
 import { keyframes } from '../../../CSSValue/keyframs'
 import { px } from '../../../CSSValue/length/px'
 import assert from 'assert'
@@ -8,17 +7,19 @@ import { render } from '../../../core/WTSC/render'
 describe('keyframes检查', () => {
   const wtsc = defWTSC()
   it('基本使用', () => {
-    wtsc.add
-      .height('20px')
+    wtsc
+      .clear()
+      .add.height('20px')
       .add.width('20px')
       .add.animationName(
         keyframes('test', (a) => {
-          const w = wtsc.sham()
-          a('from', w.add.borderRadius(PE(50)))
-          a('to', w.add.borderRadius(PE(0)))
+          a('from', wtsc.add.borderRadius(PE(50)))
+          a('to', wtsc.add.borderRadius(PE(0)))
         })
       )
-    let part = wtsc.out()
+
+    let part = wtsc.out
+
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
     part = render()
 
@@ -34,16 +35,12 @@ describe('keyframes检查', () => {
       .height('20px')
       .add.width('20px')
       .add.animationName(
-        keyframes(
-          'test',
-          (a, w) => {
-            a('from', w.add.borderRadius(PE(50)))
-            a('to', w.add.borderRadius(PE(0)))
-          },
-          wtsc
-        )
+        keyframes('test', (a) => {
+          a('from', wtsc.add.borderRadius(PE(50)))
+          a('to', wtsc.add.borderRadius(PE(0)))
+        })
       )
-    const part = wtsc.out()
+    const part = wtsc.out
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
   })
 
@@ -53,16 +50,11 @@ describe('keyframes检查', () => {
       .add.height(px(20))
       .add.width('20px')
       .add.animationName(
-        keyframes(
-          'test',
-          (a, w) => {
-            a('from', w.add.borderRadius(PE(50)))
-            a('to', w.add.borderRadius(PE(0)))
-          },
-          wtsc
-        )
-      )
-      .out()
+        keyframes('test', (a) => {
+          a('from', wtsc.add.borderRadius(PE(50)))
+          a('to', wtsc.add.borderRadius(PE(0)))
+        })
+      ).out
 
     assert.ok(/height: 20px;width: 20px;animation-name: .*-test;/.test(part))
   })
