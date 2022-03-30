@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.19](https://github.com/wormery/wtsc/compare/v2.0.0-bate.18...v2.0.0-bate.19) (2022-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* shandbox 发现严重bug无法实现或性能损耗过大与设想不符,现在这个api由box实现,返回回调函数的返回值
+
+### Features
+
+* box隔离作用域更改 ([1de5b28](https://github.com/wormery/wtsc/commit/1de5b28a607125741ca2463bfc25caae6baa854e))
+
+
+### Bug Fixes
+
+* shandbox 发现严重bug无法实现或性能损耗过大与设想不符,现在这个api由box实现,返回回调函数的返回值 ([426e752](https://github.com/wormery/wtsc/commit/426e75284144583c81040ff16ffa6238b1e96595))
+
 ## [2.0.0-bate.18](https://github.com/wormery/wtsc/compare/v2.0.0-bate.17...v2.0.0-bate.18) (2022-03-29)
 
 
