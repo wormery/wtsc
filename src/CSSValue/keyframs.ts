@@ -5,7 +5,7 @@ import { Data } from '../core/inject/types'
 import { styleToString } from '../core/WTSC/styleTostringApi'
 import { OutValue } from './index'
 import { styleDataInj, addPro, update } from '../core/WTSC/render'
-import { hideAddStack, findAddStack, wtsc } from '../core/WTSC/WTSCPrototype'
+import { hideAddStack, findAddStack } from '../core/WTSC/WTSCPrototype'
 interface KeyframsData {
   name: string
   keyfram: Data<string, string>
@@ -54,11 +54,24 @@ function out(this: Keyframes, wtsc: WTSC<any, any>): string {
 export function keyframes(
   name: string,
   callBack: (addKeyfram: typeof addKeyframe) => void
+): Keyframes
+
+export function keyframes<W extends WTSC<any, any>>(
+  name: string,
+  callBack: (addKeyfram: typeof addKeyframe, wtsc: W) => void,
+  wtsc: W
+): Keyframes
+export function keyframes(
+  name: string,
+  callBack: (addKeyfram: typeof addKeyframe, wtsc?: any) => void,
+  wtsc?: any
 ): Keyframes {
   hideAddStack()
   keyframsData = { name, keyfram: {} }
 
-  wtsc.shandbox(() => callBack(addKeyframe))
+  const w = wtsc?.box
+
+  callBack.call(w, addKeyframe, w)
 
   findAddStack()
 

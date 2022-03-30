@@ -3,6 +3,7 @@ import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../..'
 import { render, addPro, styleDataInj } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
+import { wtsc } from '../../../../core/WTSC/WTSCPrototype'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
@@ -101,13 +102,26 @@ describe('wtsc', function () {
     })
 
     describe('#shandbox()隔离', () => {
-      it('#shandbox()', () => {
+      it('#shandbox() this', () => {
+        const w = wtsc.scoped()
+
+        w.add.height(px(20))
+
+        w.shandbox(function () {
+          assert.equal(this.out, '')
+        })
+
+        w.shandbox((wtsc) => {
+          assert.equal(wtsc.out, '')
+        })
+      })
+      it('#shandbox() 参数', () => {
         const w = wtsc.scoped()
 
         w.add.height(px(20))
 
         w.shandbox((wtsc) => {
-          assert.equal(w.out, '')
+          assert.equal(wtsc.out, '')
         })
       })
     })

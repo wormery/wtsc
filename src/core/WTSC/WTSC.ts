@@ -116,21 +116,21 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
   ) => WTSC<Options, ParsersInterface>
 
   /**
-   * 沙盒,隔离临时添加的style
+   * 现在隔离作用域与box相同
    * @author meke
+   * @template T
    * @param {(
-   *       this: WTSC<Options, ParsersInterface>,
-   *       wtsc: WTSC<Options, ParsersInterface>
-   *     ) => void} sand
-   * @return {*}  {Data<string, string>}
-   * @memberof WTSC
+   *         this: WTSC<Options, ParsersInterface>,
+   *         wtsc: WTSC<Options, ParsersInterface>
+   *       ) => T} callback
+   * @return {*}  {T}
    */
-  readonly shandbox: (
-    sand: (
+  readonly shandbox: <T>(
+    callback: (
       this: WTSC<Options, ParsersInterface>,
       wtsc: WTSC<Options, ParsersInterface>
-    ) => void
-  ) => WTSC<Options, ParsersInterface>
+    ) => T
+  ) => T
 
   /**
    * 隔离class临时添加的作用域，不隔离class名，style临时添加作用域隔离，inject隔离

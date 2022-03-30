@@ -15,6 +15,9 @@ import { parserSpace } from '../parser/ParserSpace'
 import { selectorDataInj, styleDataInj, addPro, update } from './render'
 import { styleToString } from './styleTostringApi'
 import { genHash, mixin } from '../../utils/utils'
+import { AnyMxRecord } from 'dns'
+import { provide } from '../inject/provideApi'
+import { timeStamp } from 'console'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -159,16 +162,8 @@ export function defWtscPrototype<
       return _wtsc
     },
     shandbox(this: ProvideWTSC<Options, ParsersInterface>, callback) {
-      const style = this.style
-      try {
-        this.style = {}
-        callback.call(this, this)
-      } catch (E) {
-        throw E as any
-      } finally {
-        this.style = style
-      }
-      return this
+      const w = this.box
+      return callback.call(w, w)
     },
     unmount(this: example): void {
       this.delete(selectorDataInj)

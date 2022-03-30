@@ -13,8 +13,9 @@ describe('keyframes检查', () => {
       .add.width('20px')
       .add.animationName(
         keyframes('test', (a) => {
-          a('from', wtsc.add.borderRadius(PE(50)))
-          a('to', wtsc.add.borderRadius(PE(0)))
+          const w = wtsc.box
+          a('from', w.add.borderRadius(PE(50)))
+          a('to', w.add.borderRadius(PE(0)))
         })
       )
 
@@ -30,15 +31,38 @@ describe('keyframes检查', () => {
     )
   })
 
-  it('自动sham', () => {
+  it('自动box,this语法', () => {
     wtsc.add
       .height('20px')
       .add.width('20px')
       .add.animationName(
-        keyframes('test', (a) => {
-          a('from', wtsc.add.borderRadius(PE(50)))
-          a('to', wtsc.add.borderRadius(PE(0)))
-        })
+        keyframes(
+          'test',
+          function (a) {
+            a('from', this.add.borderRadius(PE(50)))
+            a('to', this.add.borderRadius(PE(0)))
+          },
+          wtsc
+        )
+      )
+    const part = wtsc.out
+
+    assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
+  })
+
+  it('自动box,传值语法', () => {
+    wtsc.add
+      .height('20px')
+      .add.width('20px')
+      .add.animationName(
+        keyframes(
+          'test',
+          function (a, w) {
+            a('from', w.add.borderRadius(PE(50)))
+            a('to', w.add.borderRadius(PE(0)))
+          },
+          wtsc
+        )
       )
     const part = wtsc.out
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
@@ -50,10 +74,14 @@ describe('keyframes检查', () => {
       .add.height(px(20))
       .add.width('20px')
       .add.animationName(
-        keyframes('test', (a) => {
-          a('from', wtsc.add.borderRadius(PE(50)))
-          a('to', wtsc.add.borderRadius(PE(0)))
-        })
+        keyframes(
+          'test',
+          (a, w) => {
+            a('from', w.add.borderRadius(PE(50)))
+            a('to', w.add.borderRadius(PE(0)))
+          },
+          wtsc
+        )
       ).out
 
     assert.ok(/height: 20px;width: 20px;animation-name: .*-test;/.test(part))
