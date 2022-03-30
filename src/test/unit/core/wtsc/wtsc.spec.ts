@@ -1,9 +1,8 @@
 import assert from 'assert'
 import { describe, it } from 'mocha'
-import { defWTSC, px, defInjKey, isInjectKey } from '../../../..'
+import { defWTSC, px, defInjKey, isInjectKey } from '../../../../'
 import { render, addPro, styleDataInj } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
-import { wtsc } from '../../../../core/WTSC/WTSCPrototype'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
@@ -19,6 +18,7 @@ describe('wtsc', function () {
         },
       },
     })
+
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))

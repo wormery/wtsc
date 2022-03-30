@@ -92,6 +92,14 @@ export function defWtscPrototype<
       this.style[key] = rest
       return this
     },
+    if(this: example, v, callback, els) {
+      if (v) {
+        callback()
+      } else {
+        els?.()
+      }
+      return this
+    },
     isExisted(this: example, cssKey) {
       return !!this.style[cssKey]
     },

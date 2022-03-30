@@ -70,6 +70,12 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
     ...rest: StyleValue
   ) => WTSC<Options, ParsersInterface>
 
+  readonly if: (
+    value: boolean,
+    callback: () => void,
+    els?: () => void
+  ) => WTSC<Options, ParsersInterface>
+
   /**
    * 干净的清理后的wtsc
    * @author meke
