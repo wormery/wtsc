@@ -23,16 +23,16 @@ describe('wtsc', function () {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))
     })
-    describe('out方法', () => {
+    describe('out()方法', () => {
       it('{ height: "30px", width: "30px" }', () => {
         const w = wtsc.clean.add.height(px(30)).add.width(px(30))
 
-        assert.deepEqual(w.out, 'height: 30px;width: 30px;')
+        assert.deepEqual(w.out(), 'height: 30px;width: 30px;')
       })
       it('class .class', () => {
         wtsc.class('class')
 
-        const ret = wtsc.out
+        const ret = wtsc.out()
 
         assert.deepEqual(ret, addPro(wtsc.inject(styleDataInj).name, 'class'))
       })
@@ -41,7 +41,7 @@ describe('wtsc', function () {
         wtsc.addAny('检查隔离', '检查隔离')
         wtsc.class('123')
 
-        const s = wtsc.out
+        const s = wtsc.out()
 
         assert.equal(s, addPro(wtsc.inject(styleDataInj).name, '123'))
 
@@ -64,7 +64,7 @@ describe('wtsc', function () {
 
         w.addAny(name, name)
         w.class(name)
-        const l = w.out
+        const l = w.out()
 
         assert.ok(l)
 
@@ -75,15 +75,15 @@ describe('wtsc', function () {
       })
     })
 
-    it('wtsc.clear().out:Shoud be deepEqual {}', () => {
+    it('wtsc.clear().out():Shoud be deepEqual {}', () => {
       wtsc.clear()
 
-      assert.deepEqual(wtsc.out, '')
+      assert.deepEqual(wtsc.out(), '')
     })
 
-    it(`wtsc.addAny('--test-color','#000000').out: Shoud be deepEqual { '--test-color':'#000000'}`, () => {
+    it(`wtsc.addAny('--test-color','#000000').out(): Shoud be deepEqual { '--test-color':'#000000'}`, () => {
       assert.deepEqual(
-        wtsc.addAny('--test-color', '#000000').out,
+        wtsc.addAny('--test-color', '#000000').out(),
         '--test-color: #000000;'
       )
     })
@@ -108,11 +108,11 @@ describe('wtsc', function () {
         w.add.height(px(20))
 
         w.shandbox(function () {
-          assert.equal(this.out, '')
+          assert.equal(this.out(), '')
         })
 
         w.shandbox((wtsc) => {
-          assert.equal(wtsc.out, '')
+          assert.equal(wtsc.out(), '')
         })
       })
       it('#shandbox() 参数', () => {
@@ -121,7 +121,7 @@ describe('wtsc', function () {
         w.add.height(px(20))
 
         w.shandbox((wtsc) => {
-          assert.equal(wtsc.out, '')
+          assert.equal(wtsc.out(), '')
         })
       })
     })
@@ -130,8 +130,8 @@ describe('wtsc', function () {
         wtsc.add.width('3px')
         const childWtsc = wtsc.box
 
-        assert.equal(childWtsc.out, '')
-        assert.equal(wtsc.out, 'width: 3px;')
+        assert.equal(childWtsc.out(), '')
+        assert.equal(wtsc.out(), 'width: 3px;')
       })
     })
     describe('isExisted', () => {
@@ -157,14 +157,14 @@ describe('wtsc', function () {
 
       wtsc1.read(saved)
 
-      assert.deepEqual(wtsc1.out, 'width: 10px;')
+      assert.deepEqual(wtsc1.out(), 'width: 10px;')
     })
 
     describe('自动解包InjectKey', function () {
       it('InjectKey自动解包', () => {
         const key = wtsc.provide(px(20))
         wtsc.clean.add.width(key)
-        const value = wtsc.out
+        const value = wtsc.out()
 
         assert.deepEqual(value, 'width: 20px;')
       })

@@ -171,7 +171,7 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
    * @type {string}
    * @memberof WTSC
    */
-  readonly out: string
+  readonly out: () => string
 
   /**
    * 从key中读取会遮盖现在的

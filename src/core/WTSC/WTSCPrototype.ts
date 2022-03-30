@@ -230,7 +230,7 @@ export function defWtscPrototype<
       this.clear()
       return retStyle as any
     },
-    get out() {
+    out() {
       const that = this as example
       const data = that.ownInject(selectorDataInj)
 

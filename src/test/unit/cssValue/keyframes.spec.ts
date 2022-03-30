@@ -19,7 +19,7 @@ describe('keyframes检查', () => {
         })
       )
 
-    let part = wtsc.out
+    let part = wtsc.out()
 
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
     part = render()
@@ -45,7 +45,7 @@ describe('keyframes检查', () => {
           wtsc
         )
       )
-    const part = wtsc.out
+    const part = wtsc.out()
 
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
   })
@@ -64,7 +64,7 @@ describe('keyframes检查', () => {
           wtsc
         )
       )
-    const part = wtsc.out
+    const part = wtsc.out()
     assert.equal(part, 'height: 20px;width: 20px;animation-name: root-test;')
   })
 
@@ -82,7 +82,8 @@ describe('keyframes检查', () => {
           },
           wtsc
         )
-      ).out
+      )
+      .out()
 
     assert.ok(/height: 20px;width: 20px;animation-name: .*-test;/.test(part))
   })
