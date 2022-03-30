@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.21](https://github.com/wormery/wtsc/compare/v2.0.0-bate.20...v2.0.0-bate.21) (2022-03-30)
+
+
+### Features
+
+* if 工具函数 ([2590032](https://github.com/wormery/wtsc/commit/2590032517b9be6bef1347ea2a542d7236724b41))
+
 ## [2.0.0-bate.20](https://github.com/wormery/wtsc/compare/v2.0.0-bate.19...v2.0.0-bate.20) (2022-03-30)
 
 
