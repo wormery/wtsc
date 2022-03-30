@@ -9,7 +9,7 @@
     .pseudo(':hover')
     .add.background(createPressedColor(color))
     .pseudo(':active')
-    .out"
+    .out()"
   ></div>
 </template>
 <script lang="ts" setup>

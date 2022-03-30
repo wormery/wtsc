@@ -4,7 +4,7 @@
     .add.height(px(61))
     .add.width(px(100))
     .add.background(rgb(255, 0, 0))
-    .out"
+    .out()"
   ></div>
 </template>
 <script lang="ts" setup>
