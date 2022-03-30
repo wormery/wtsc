@@ -116,7 +116,7 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
   ) => WTSC<Options, ParsersInterface>
 
   /**
-   * 沙盒,隔离style,现在和box隔离范围相同，实现方式效率更高
+   * 沙盒,隔离临时添加的style
    * @author meke
    * @param {(
    *       this: WTSC<Options, ParsersInterface>,
@@ -133,7 +133,7 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
   ) => WTSC<Options, ParsersInterface>
 
   /**
-   * 隔离style的一个作用域，目前api不隔离inject
+   * 隔离class临时添加的作用域，不隔离class名，style临时添加作用域隔离，inject隔离
    * @author meke
    * @type {WTSC<Options, ParsersInterface>}
    * @memberof WTSC

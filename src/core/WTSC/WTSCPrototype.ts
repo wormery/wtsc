@@ -155,13 +155,7 @@ export function defWtscPrototype<
     },
     get box() {
       const that = this as example
-
-      const _wtsc = Object.setPrototypeOf(
-        {
-          style: {},
-        },
-        that
-      )
+      const _wtsc = Object.setPrototypeOf(createWTSCStorage('box', that), that)
       return _wtsc
     },
     shandbox(this: ProvideWTSC<Options, ParsersInterface>, callback) {

@@ -7,7 +7,7 @@
     .class('class')
     .add.background(mixColor(rgb(255, 0, 0), rgb(255, 255, 255, 0.5)))
     .pseudo(':hover')
-    .out()"
+    .out"
   ></div>
 </template>
 <script lang="ts" setup>
