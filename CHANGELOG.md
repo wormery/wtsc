@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.22](https://github.com/wormery/wtsc/compare/v2.0.0-bate.21...v2.0.0-bate.22) (2022-03-31)
+
+
+### Bug Fixes
+
+* 修复一个从bate14版本到现在才发现的一个问题,在其他项目测试使用时主题key类型错误,这个项目内没有任何错误的奇怪问题 ([0038544](https://github.com/wormery/wtsc/commit/00385446d0add478073feaae4efe8848cce7d4f9))
+
 ## [2.0.0-bate.21](https://github.com/wormery/wtsc/compare/v2.0.0-bate.20...v2.0.0-bate.21) (2022-03-30)
 
 
