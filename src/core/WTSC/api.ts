@@ -19,13 +19,13 @@ export function isWTSC(v: unknown): v is WTSC<any, any> {
   return isObject(v) && WTSCObject in v
 }
 
-export type BaseWTSC<Options extends WTSCOptions<Options>> = WTSC<
+export type BaseWTSC<Options extends WTSCOptions> = WTSC<
   Options,
   TypeParsers<BaseParsersInterface<Options>>
 >
 
 export function defBaseWTSC<The extends object = {}>(
-  options: WTSCOptions<The>
+  options: Partial<WTSCOptions<The>>
 ): BaseWTSC<WTSCOptions<The>> {
   return defWTSC(options) as any
 }
@@ -36,7 +36,7 @@ export type TypeWTSC<Options extends WTSCOptions> = WTSC<
 >
 
 export function defTypeWTSC<The extends object = {}>(
-  options: WTSCOptions<The> = {}
+  options: Partial<WTSCOptions<The>> = {}
 ): TypeWTSC<WTSCOptions<The>> {
   return defWTSC(options) as any
 }
@@ -50,12 +50,12 @@ export function defTypeWTSC<The extends object = {}>(
  * @return {*}  {WTSC<Options>}
  */
 export function defWTSC<The extends object = {}>(
-  wtscOptions: WTSCOptions<The> = {}
+  wtscOptions: Partial<WTSCOptions<The>> = {}
 ): TypeWTSC<WTSCOptions<The>> {
   const wtsc: TypeWTSC<WTSCOptions<The>> = createWTSCStorage(
     'root',
     undefined,
-    defWtscPrototype(wtscOptions)
+    defWtscPrototype(wtscOptions as WTSCOptions<The>)
   )
 
   ;(wtsc as any).root = wtsc
@@ -66,7 +66,7 @@ export function defWTSC<The extends object = {}>(
     (wtsc as any as WTSCStorage).id
   )
 
-  initDefThemeKeys(wtscOptions, wtsc as any, wtsc)
+  initDefThemeKeys(wtscOptions as WTSCOptions<The>, wtsc as any, wtsc)
   wtsc.provide(styleData, styleDataInj)
 
   return wtsc

@@ -13,7 +13,7 @@ export interface ThemeOptions<TheKey extends ThemeKeys = {}>
    * @author meke
    * @memberof ThemeOptions
    */
-  defThemeKeys?: (
+  defThemeKeys: (
     this: Inject,
     provide: <T>(value: T) => InjectKey<T, true>
   ) => TheKey
@@ -26,7 +26,7 @@ export interface ThemeOptions<TheKey extends ThemeKeys = {}>
    *   }}
    * @memberof ThemeOptions
    */
-  themeList?: {
+  themeList: {
     [mode in string]: Themes<TheKey>
   }
 }
