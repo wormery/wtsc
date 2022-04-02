@@ -9,5 +9,9 @@ export default function nextTick(f: () => void): void {
 }
 
 function nextTickRun(): void {
-  nextTickData.forEach((f) => f())
+  let f = nextTickData.pop()
+  while (f) {
+    f()
+    f = nextTickData.pop()
+  }
 }

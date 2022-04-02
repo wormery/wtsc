@@ -145,7 +145,7 @@ export function defWtscPrototype<
     get clean() {
       return (this as example).clear()
     },
-    scoped(this: example, name: string = 'scoped' + genHash()) {
+    scoped(this: example, name: string = 'scoped-' + genHash()) {
       const _wtsc: example = Object.setPrototypeOf(
         createWTSCStorage(name, this),
         this.root

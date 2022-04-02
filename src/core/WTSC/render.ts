@@ -50,7 +50,7 @@ if (isBrowser) {
   try {
     const style = document.createElement('style')
     // 设置style属性
-    styleDom.type = 'text/css'
+    style.setAttribute('type', 'text/css')
 
     style.id = 'wtscStyle'
 
@@ -59,22 +59,16 @@ if (isBrowser) {
     // 将style样式存放到head标签
     document.getElementsByTagName('head')[0].appendChild(style)
 
-    // vite工具动态更新样式会清空style标签，此是自动监听更新样式
-    let isUpdating = false
-    style.addEventListener('load', () => {
-      if (!isUpdating) {
-        isUpdating = true
-        style.innerHTML = cssTemp
-        setTimeout(() => {
-          isUpdating = false
-        }, 0)
-      }
-    })
+    setStyle(cssTemp)
 
     styleDom = style
   } catch (E) {
     warn('在将style标签添加到页面时发生了错误', E)
   }
+}
+function setStyle(s: string): void {
+  // nolistening = true
+  styleDom.innerHTML = cssTemp
 }
 
 let taskDdded: boolean = false
@@ -125,19 +119,24 @@ export function getLeaf(toBeUpdated: StyleData[]): StyleData[] {
 
 export function dependencyCounter(leaf: StyleData[]): WeakMap<object, number> {
   const dependencyNumberMap = new WeakMap<object, number>()
-  let n: number | undefined
   leaf.forEach((item) => {
+    // 第一步 当前要求是叶节点，所以叶节点全部为零
     dependencyNumberMap.set(item, 0)
+
+    // 对本树枝的所有节点初始化
     let sd = item.parent
-
     while (sd) {
-      n = dependencyNumberMap.get(sd)
+      const n = dependencyNumberMap.get(sd)
 
+      // 第二步 如果已经初始化了就+1依赖并退出这个叶节点的获取依赖进程
       if (n) {
         dependencyNumberMap.set(sd, n + 1)
-      } else {
-        dependencyNumberMap.set(sd, 1)
+        break
       }
+      // 第三步 能访问到这个父节点就肯定有一个依赖项
+      dependencyNumberMap.set(sd, 1)
+
+      // 第四步 获得父 并继续初始化
       sd = sd.parent
     }
   })
@@ -148,6 +147,10 @@ export function addPro(pro: string, name: string): string {
 }
 
 export function render(): string {
+  if (toBeUpdated.length === 0) {
+    return cssTemp
+  }
+
   const renderQueue = getLeaf(toBeUpdated)
   const dependencyNumberMap = dependencyCounter(renderQueue)
 
@@ -177,7 +180,6 @@ export function render(): string {
 
       // 查看是不是root节点
       if (rootStyleData === sd) {
-        cssTemp = partStr
         return partStr
       }
 
@@ -188,14 +190,14 @@ export function render(): string {
     parent.part[id] = partStr
 
     // 第三步父组件的依赖数减一
-    const newDependencyNumber = (dependencyNumberMap.get(parent) as number) - 1
-
-    dependencyNumberMap.set(parent, newDependencyNumber)
+    const newDependencyNumber = dependencyNumberMap.get(parent) ?? 1
 
     // 第四步如果这个sd已经没有依赖项了，就开始执行
-    if (newDependencyNumber === 0) {
+    if (newDependencyNumber === 1) {
       sd = parent
       continue
+    } else {
+      dependencyNumberMap.set(parent, newDependencyNumber - 1)
     }
 
     // 从队列里执行下一个
@@ -211,11 +213,15 @@ export function update(styleData: StyleData): void {
     return
   }
 
-  nextTick(() => {
-    styleDom.innerHTML = render()
-    taskDdded = false
-  })
+  nextTick(mount)
   taskDdded = true
+}
+
+export function mount(): void {
+  cssTemp = render()
+
+  setStyle(cssTemp)
+  taskDdded = false
 }
 
 export function initStyleDom(_styleDom: object): void {
