@@ -5,5 +5,6 @@
     "**/*.config.js", // for *.config.js files
     "**/*.ts",
     "**/*.tsx"
-  ]
+  ],
+  "exclude": ["dist/**/*"]
 }

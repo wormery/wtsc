@@ -72,6 +72,7 @@ function createPlugin(format, isProd) {
         compilerOptions: {
           module: 'esnext',
           sourceMap: isSourceMap,
+          declarationDir: 'types', // 定义文件输出目录
         },
         exclude: ['**/__tests__', 'test-dts', 'src/test/**'],
       },

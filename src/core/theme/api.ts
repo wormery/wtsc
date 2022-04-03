@@ -39,9 +39,10 @@ export function initDefThemeKeys<Options extends ThemeOptions>(
   example: ThemeStorage<Options>,
   prototype: Theme<Options>
 ): void {
-  prototype.the =
-    options.defThemeKeys?.call(example, example.provide.bind(example)) ??
-    ({} as any)
+  prototype.the = (options.defThemeKeys?.call(
+    example,
+    example.provide.bind(example)
+  ) ?? ({} as any)) as any
 
   const defaul = example.depInject(prototype.the)
 
@@ -51,10 +52,10 @@ export function initDefThemeKeys<Options extends ThemeOptions>(
 
   // 初始化选中主题
   Object.keys(themeList).forEach((key) => {
-    themeList[key][choice] = theFirstOne(themeList[key]) ?? defaul
+    themeList[key][choice as any] = theFirstOne(themeList[key]) ?? defaul
   })
 
-  prototype.themeList = themeList
+  prototype.themeList = themeList as any
 }
 
 function theFirstOne(o: object): any {

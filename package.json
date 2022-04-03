@@ -3,7 +3,7 @@
   "version": "2.0.0-bate.23",
   "description": "Generate vue style value using TS",
   "main": "index.js",
-  "types": "src/index.ts",
+  "types": "dist/index.d.ts",
   "module": "dist/wtsc.esm.js",
   "unpkg": "dist/wtsc.iife.js",
   "jsdelivr": "dist/wtsc.iife.js",
@@ -41,8 +41,7 @@
   "files": [
     "dist",
     "index.js",
-    "index.mjs",
-    "src"
+    "index.mjs"
   ],
   "publishConfig": {
     "access": "public"
