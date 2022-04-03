@@ -2,7 +2,7 @@ import { newClass } from '../utils/utils'
 
 import { isUndef } from '@wormery/utils'
 import { Percentage } from '.'
-import { ToString } from 'src/core/WTSC/types'
+import { ToString } from '../core/WTSC/types'
 import { Length } from './length'
 export class CSave implements ToString {
   public value: string

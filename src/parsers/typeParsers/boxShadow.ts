@@ -1,4 +1,4 @@
-import { Length } from 'src'
+import { Length } from '../../'
 import { CssColor } from '../../CSSValue/color/Color'
 import { GlobalCSSValues } from '../../CSSValue/types'
 
