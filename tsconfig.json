@@ -20,10 +20,6 @@
     "lib": ["esnext", "dom"], // 导入库类型定义
     "types": ["node", "jest"] // 导入指定类型包
   },
-  "include": [
-    "src/*",
-    "types/global.d.ts",
-    "src/**/*.d.ts",
-    "src/CSSValue/index.ts"
-  ]
+  "include": ["src/**/*.ts", "types/**/*"],
+  "exclude": ["src/test/**/*", "**/*.spec.ts", "src/codeGenerator/*.ts"]
 }

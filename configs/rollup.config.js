@@ -74,7 +74,12 @@ function createPlugin(format, isProd) {
           sourceMap: isSourceMap,
           declarationDir: 'types', // 定义文件输出目录
         },
-        exclude: ['**/__tests__', 'test-dts', 'src/test/**'],
+        exclude: [
+          '**/__tests__',
+          'test-dts',
+          'src/test/**',
+          'src/codeGenerator/*',
+        ],
       },
     })
   )
