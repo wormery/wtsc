@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.29](https://github.com/wormery/wtsc/compare/v2.0.0-bate.28...v2.0.0-bate.29) (2022-04-07)
+
+
+### Features
+
+* 增加关于background八个方法的类型分别是background,backgroundClip,backgroundColor,backgroundImage,backgroundOrigin,backgroundPosition,backgroundRepeat,backgroundSize ([aaa1305](https://github.com/wormery/wtsc/commit/aaa13051b0f5c788165f60493a8c42dcdb2598a1))
+
 ## [2.0.0-bate.28](https://github.com/wormery/wtsc/compare/v2.0.0-bate.27...v2.0.0-bate.28) (2022-04-07)
 
 
