@@ -1,0 +1,21 @@
+export type scroll = 'scroll'
+export type fixed = 'fixed'
+export type local = 'local'
+export type paddingBox = 'padding-box'
+export type text = 'text'
+// position
+export type center = 'center'
+export type top = 'top'
+export type bottom = 'bottom'
+export type right = 'right'
+export type left = 'left'
+// repeat
+export type repeatX = 'repeat-x'
+export type repeatY = 'repeat-Y'
+export type repeat = 'repeat'
+export type space = 'space'
+export type round = 'round'
+export type noRepeat = 'no-repeat'
+// size
+export type cover = 'cover'
+export type contain = 'contain'

@@ -6,6 +6,7 @@ import { AnimationGroupInterface } from './animation/index'
 import { PositionInterface } from './position'
 import { BoxShadowInterface } from './boxShadow'
 import { TransItionGroupInterface } from './transition'
+import { BackgroundGloupIntercace } from './background/index'
 
 export type TypeParsersOfReplaceUpdata<R> = {
   [k in keyof BaseParsersInterface<R>]: k extends keyof TypeParsersInterface<R>
@@ -22,4 +23,5 @@ export interface TypeParsersInterface<R>
     AnimationGroupInterface<R>,
     PositionInterface<R>,
     BoxShadowInterface<R>,
-    TransItionGroupInterface<R> {}
+    TransItionGroupInterface<R>,
+    BackgroundGloupIntercace<R> {}

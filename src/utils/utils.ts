@@ -1,4 +1,6 @@
 import { isArray, isObject } from '@wormery/utils'
+import { OutValue } from '../CSSValue/index'
+import { suffix } from '../CSSValue/CssAttributeName'
 
 export function newClass<T extends new (...rest: A) => R, A extends any[], R>(
   Class: T
@@ -82,4 +84,19 @@ export type Merge<X extends object, Y extends object> = {
     : k extends keyof Y
     ? Y[k]
     : never
+}
+
+export function setPrototypeOf<T extends object, P extends object>(
+  o: T,
+  parent: P
+): Merge<T, P> {
+  return Object.setPrototypeOf(o, parent)
+}
+export function isOutValue(v: unknown): v is OutValue {
+  return isObject(v) && 'out' in v
+}
+export function genPack(prefix: string, suffix: string) {
+  return (v: string) => {
+    return `${prefix}${v}${suffix}`
+  }
 }

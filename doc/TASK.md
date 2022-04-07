@@ -44,29 +44,29 @@
 
 - [ ] backfaceVisibility
 
-- [ ] background
+- [x] background
 
 - [ ] backgroundAttachment
 
 - [ ] backgroundBlendMode
 
-- [ ] backgroundClip
+- [x] backgroundClip
 
-- [ ] backgroundColor
+- [x] backgroundColor
 
-- [ ] backgroundImage
+- [x] backgroundImage
 
-- [ ] backgroundOrigin
+- [x] backgroundOrigin
 
-- [ ] backgroundPosition
+- [x] backgroundPosition
 
 - [ ] backgroundPositionX
 
 - [ ] backgroundPositionY
 
-- [ ] backgroundRepeat
+- [x] backgroundRepeat
 
-- [ ] backgroundSize
+- [x] backgroundSize
 
 - [ ] bleed
 

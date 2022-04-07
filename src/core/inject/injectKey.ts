@@ -165,5 +165,5 @@ export function defRefPackager(_ref: RefFun): void {
   }
 }
 
-export type MixInjectValue<T> = T | InjectKey<T> | T
+export type MixInjectValue<T> = T | InjectKey<T>
 export type MixIV<T> = MixInjectValue<T>

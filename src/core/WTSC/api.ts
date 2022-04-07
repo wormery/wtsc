@@ -76,5 +76,5 @@ export function defWTSC<The extends object = {}>(
   initDefThemeKeys(wtscOptions as WTSCOptions<The>, wtsc as any, wtsc)
   wtsc.provide(styleData, styleDataInj)
 
-  return wtsc
+  return wtsc as any
 }

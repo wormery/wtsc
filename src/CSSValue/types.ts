@@ -88,3 +88,5 @@ export type CSSHWType =
   | fill
 
 export type Duration = Time | GlobalCSSValues
+export type LengthOrNumber = Length | number
+export type LengthOrPE = Length | Percentage

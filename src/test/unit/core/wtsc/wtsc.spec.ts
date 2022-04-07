@@ -5,6 +5,9 @@ import { render, addPro, styleDataInj } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { s } from '../../../../CSSValue/time'
+import { backgroundColor } from '../../../../CSSValue/CssAttributeName'
+import { PE } from '../../../../CSSValue/Percentage'
+import { url } from '../../../../CSSValue/url'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
