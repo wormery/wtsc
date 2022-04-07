@@ -5,6 +5,7 @@ import { BaseParsersInterface } from '../baseParsers/BaseParsers'
 import { AnimationGroupInterface } from './animation/index'
 import { PositionInterface } from './position'
 import { BoxShadowInterface } from './boxShadow'
+import { TransItionGroupInterface } from './transition'
 
 export type TypeParsersOfReplaceUpdata<R> = {
   [k in keyof BaseParsersInterface<R>]: k extends keyof TypeParsersInterface<R>
@@ -20,4 +21,5 @@ export interface TypeParsersInterface<R>
     MarginGroupInterface<R>,
     AnimationGroupInterface<R>,
     PositionInterface<R>,
-    BoxShadowInterface<R> {}
+    BoxShadowInterface<R>,
+    TransItionGroupInterface<R> {}

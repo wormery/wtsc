@@ -3,18 +3,20 @@ import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../../'
 import { render, addPro, styleDataInj } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
+import { defTypeWTSC } from '../../../../core/WTSC/api'
+import { s } from '../../../../CSSValue/time'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
-    const wtsc = defWTSC({
+    const wtsc = defTypeWTSC({
       defThemeKeys(p) {
         return {
-          iliveyou: p([]),
+          hello: p([]),
         }
       },
       themeList: {
         drak: {
-          drak1: { iliveyou: [] },
+          drak1: { hello: [] },
         },
       },
     })
@@ -29,6 +31,13 @@ describe('wtsc', function () {
 
         assert.deepEqual(w.out(), 'height: 30px;width: 30px;')
       })
+      it('transition: border 1s,background-color 2s;', () => {
+        wtsc.clean.add.transition(['border', s(1)], ['background-color', s(2)])
+        const v = wtsc.out()
+
+        assert.deepEqual(v, 'transition: border 1s,background-color 2s;')
+      })
+
       it('class .class', () => {
         wtsc.class('class')
 

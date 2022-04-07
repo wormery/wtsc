@@ -8,9 +8,15 @@ import { MixInjectValue } from '../inject/injectKey'
  * css值支持的类型
  */
 export type CSSValue = string
-export type StyleValue = Array<MixInjectValue<MixOutString>>
-export type MixOutString = OutValue<string> | string
+export type StyleValue = MaybeAddRestList
+export type AddRest = Array<MixInjectValue<AddValue>>
+export type AddValue = MixOutString | number
+export type MixOutString = OutValue<string | String> | string | String
 
+export type MaybeAddRestList<T extends AddRest = AddRest> = T | T[]
+export type Parser<T extends AddRest, R> = (...rest: MaybeAddRestList<T>) => R
+export type SingleParser<T extends MixInjectValue<AddValue>, R> = Parser<[T], R>
+export type MaybeString<T> = T & string
 /**
  * style的类型
  */

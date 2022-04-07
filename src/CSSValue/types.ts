@@ -1,10 +1,14 @@
 import { CVar, Length, Percentage, CMin, CMax } from '.'
+import { Data } from '../core/inject/types'
+import { Time } from './time'
 export type auto = 'auto'
 
 /**
  * 该值是继承来的值，并且它的 cssText 属性值中包含"inherit"。
  */
 export type inherit = 'inherit'
+
+export type all = 'all'
 
 /**
  * initial CSS关键字将属性的初始（或默认）值应用于元素。
@@ -57,7 +61,7 @@ export type DisplayBoxType = contents
 /**
  * 全局cssvalue,都可能用得上的值
  */
-export type GlobalCSSValues = inherit | initial | unset | revert | CVar
+export type GlobalCSSValues = inherit | initial | unset | revert
 
 /**
  * css尺寸相关的类型
@@ -82,3 +86,5 @@ export type CSSHWType =
   | minContent
   | available
   | fill
+
+export type Duration = Time | GlobalCSSValues

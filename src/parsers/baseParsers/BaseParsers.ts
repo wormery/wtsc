@@ -1,858 +1,865 @@
-import { MixOutString } from '../../core/WTSC/types'
-import { MixInjectValue } from '../../core/inject/injectKey'
+import { StyleValue } from '../../core/WTSC/types'
 
 export interface BaseParsersInterface<R> {
-  WebkitLineClamp(value: MixInjectValue<MixOutString>): R
+  WebkitLineClamp(...rest: StyleValue): R
 
-  accentColor(value: MixInjectValue<MixOutString>): R
+  accentColor(...rest: StyleValue): R
 
-  additiveSymbols(value: MixInjectValue<MixOutString>): R
+  additiveSymbols(...rest: StyleValue): R
 
-  alignContent(value: MixInjectValue<MixOutString>): R
+  alignContent(...rest: StyleValue): R
 
-  alignItems(value: MixInjectValue<MixOutString>): R
+  alignItems(...rest: StyleValue): R
 
-  alignSelf(value: MixInjectValue<MixOutString>): R
+  alignSelf(...rest: StyleValue): R
 
-  alignTracks(value: MixInjectValue<MixOutString>): R
+  alignTracks(...rest: StyleValue): R
 
-  all(value: MixInjectValue<MixOutString>): R
+  all(...rest: StyleValue): R
 
-  animation(value: MixInjectValue<MixOutString>): R
+  animation(...rest: StyleValue): R
 
-  animationDelay(value: MixInjectValue<MixOutString>): R
+  animationDelay(...rest: StyleValue): R
 
-  animationDirection(value: MixInjectValue<MixOutString>): R
+  animationDirection(...rest: StyleValue): R
 
-  animationDuration(value: MixInjectValue<MixOutString>): R
+  animationDuration(...rest: StyleValue): R
 
-  animationFillMode(value: MixInjectValue<MixOutString>): R
+  animationFillMode(...rest: StyleValue): R
 
-  animationIterationCount(value: MixInjectValue<MixOutString>): R
+  animationIterationCount(...rest: StyleValue): R
 
-  animationName(value: MixInjectValue<MixOutString>): R
+  animationName(...rest: StyleValue): R
 
-  animationPlayState(value: MixInjectValue<MixOutString>): R
+  animationPlayState(...rest: StyleValue): R
 
-  animationTimingFunction(value: MixInjectValue<MixOutString>): R
+  animationTimingFunction(...rest: StyleValue): R
 
-  appearance(value: MixInjectValue<MixOutString>): R
+  appearance(...rest: StyleValue): R
 
-  ascentOverride(value: MixInjectValue<MixOutString>): R
+  ascentOverride(...rest: StyleValue): R
 
-  aspectRatio(value: MixInjectValue<MixOutString>): R
+  aspectRatio(...rest: StyleValue): R
 
-  backdropFilter(value: MixInjectValue<MixOutString>): R
+  backdropFilter(...rest: StyleValue): R
 
-  backfaceVisibility(value: MixInjectValue<MixOutString>): R
+  backfaceVisibility(...rest: StyleValue): R
 
-  background(value: MixInjectValue<MixOutString>): R
+  background(...rest: StyleValue): R
 
-  backgroundAttachment(value: MixInjectValue<MixOutString>): R
+  backgroundAttachment(...rest: StyleValue): R
 
-  backgroundBlendMode(value: MixInjectValue<MixOutString>): R
+  backgroundBlendMode(...rest: StyleValue): R
 
-  backgroundClip(value: MixInjectValue<MixOutString>): R
+  backgroundClip(...rest: StyleValue): R
 
-  backgroundColor(value: MixInjectValue<MixOutString>): R
+  backgroundColor(...rest: StyleValue): R
 
-  backgroundImage(value: MixInjectValue<MixOutString>): R
+  backgroundImage(...rest: StyleValue): R
 
-  backgroundOrigin(value: MixInjectValue<MixOutString>): R
+  backgroundOrigin(...rest: StyleValue): R
 
-  backgroundPosition(value: MixInjectValue<MixOutString>): R
+  backgroundPosition(...rest: StyleValue): R
 
-  backgroundPositionX(value: MixInjectValue<MixOutString>): R
+  backgroundPositionX(...rest: StyleValue): R
 
-  backgroundPositionY(value: MixInjectValue<MixOutString>): R
+  backgroundPositionY(...rest: StyleValue): R
 
-  backgroundRepeat(value: MixInjectValue<MixOutString>): R
+  backgroundRepeat(...rest: StyleValue): R
 
-  backgroundSize(value: MixInjectValue<MixOutString>): R
+  backgroundSize(...rest: StyleValue): R
 
-  bleed(value: MixInjectValue<MixOutString>): R
+  bleed(...rest: StyleValue): R
 
-  blockOverflow(value: MixInjectValue<MixOutString>): R
+  blockOverflow(...rest: StyleValue): R
 
-  blockSize(value: MixInjectValue<MixOutString>): R
+  blockSize(...rest: StyleValue): R
 
-  border(value: MixInjectValue<MixOutString>): R
+  border(...rest: StyleValue): R
 
-  borderBlock(value: MixInjectValue<MixOutString>): R
+  borderBlock(...rest: StyleValue): R
 
-  borderBlockColor(value: MixInjectValue<MixOutString>): R
+  borderBlockColor(...rest: StyleValue): R
 
-  borderBlockEnd(value: MixInjectValue<MixOutString>): R
+  borderBlockEnd(...rest: StyleValue): R
 
-  borderBlockEndColor(value: MixInjectValue<MixOutString>): R
+  borderBlockEndColor(...rest: StyleValue): R
 
-  borderBlockEndStyle(value: MixInjectValue<MixOutString>): R
+  borderBlockEndStyle(...rest: StyleValue): R
 
-  borderBlockEndWidth(value: MixInjectValue<MixOutString>): R
+  borderBlockEndWidth(...rest: StyleValue): R
 
-  borderBlockStart(value: MixInjectValue<MixOutString>): R
+  borderBlockStart(...rest: StyleValue): R
 
-  borderBlockStartColor(value: MixInjectValue<MixOutString>): R
+  borderBlockStartColor(...rest: StyleValue): R
 
-  borderBlockStartStyle(value: MixInjectValue<MixOutString>): R
+  borderBlockStartStyle(...rest: StyleValue): R
 
-  borderBlockStartWidth(value: MixInjectValue<MixOutString>): R
+  borderBlockStartWidth(...rest: StyleValue): R
 
-  borderBlockStyle(value: MixInjectValue<MixOutString>): R
+  borderBlockStyle(...rest: StyleValue): R
 
-  borderBlockWidth(value: MixInjectValue<MixOutString>): R
+  borderBlockWidth(...rest: StyleValue): R
 
-  borderBottom(value: MixInjectValue<MixOutString>): R
+  borderBottom(...rest: StyleValue): R
 
-  borderBottomColor(value: MixInjectValue<MixOutString>): R
+  borderBottomColor(...rest: StyleValue): R
 
-  borderBottomLeftRadius(value: MixInjectValue<MixOutString>): R
+  borderBottomLeftRadius(...rest: StyleValue): R
 
-  borderBottomRightRadius(value: MixInjectValue<MixOutString>): R
+  borderBottomRightRadius(...rest: StyleValue): R
 
-  borderBottomStyle(value: MixInjectValue<MixOutString>): R
+  borderBottomStyle(...rest: StyleValue): R
 
-  borderBottomWidth(value: MixInjectValue<MixOutString>): R
+  borderBottomWidth(...rest: StyleValue): R
 
-  borderCollapse(value: MixInjectValue<MixOutString>): R
+  borderCollapse(...rest: StyleValue): R
 
-  borderColor(value: MixInjectValue<MixOutString>): R
+  borderColor(...rest: StyleValue): R
 
-  borderEndEndRadius(value: MixInjectValue<MixOutString>): R
+  borderEndEndRadius(...rest: StyleValue): R
 
-  borderEndStartRadius(value: MixInjectValue<MixOutString>): R
+  borderEndStartRadius(...rest: StyleValue): R
 
-  borderImage(value: MixInjectValue<MixOutString>): R
+  borderImage(...rest: StyleValue): R
 
-  borderImageOutset(value: MixInjectValue<MixOutString>): R
+  borderImageOutset(...rest: StyleValue): R
 
-  borderImageRepeat(value: MixInjectValue<MixOutString>): R
+  borderImageRepeat(...rest: StyleValue): R
 
-  borderImageSlice(value: MixInjectValue<MixOutString>): R
+  borderImageSlice(...rest: StyleValue): R
 
-  borderImageSource(value: MixInjectValue<MixOutString>): R
+  borderImageSource(...rest: StyleValue): R
 
-  borderImageWidth(value: MixInjectValue<MixOutString>): R
+  borderImageWidth(...rest: StyleValue): R
 
-  borderInline(value: MixInjectValue<MixOutString>): R
+  borderInline(...rest: StyleValue): R
 
-  borderInlineColor(value: MixInjectValue<MixOutString>): R
+  borderInlineColor(...rest: StyleValue): R
 
-  borderInlineEnd(value: MixInjectValue<MixOutString>): R
+  borderInlineEnd(...rest: StyleValue): R
 
-  borderInlineEndColor(value: MixInjectValue<MixOutString>): R
+  borderInlineEndColor(...rest: StyleValue): R
 
-  borderInlineEndStyle(value: MixInjectValue<MixOutString>): R
+  borderInlineEndStyle(...rest: StyleValue): R
 
-  borderInlineEndWidth(value: MixInjectValue<MixOutString>): R
+  borderInlineEndWidth(...rest: StyleValue): R
 
-  borderInlineStart(value: MixInjectValue<MixOutString>): R
+  borderInlineStart(...rest: StyleValue): R
 
-  borderInlineStartColor(value: MixInjectValue<MixOutString>): R
+  borderInlineStartColor(...rest: StyleValue): R
 
-  borderInlineStartStyle(value: MixInjectValue<MixOutString>): R
+  borderInlineStartStyle(...rest: StyleValue): R
 
-  borderInlineStartWidth(value: MixInjectValue<MixOutString>): R
+  borderInlineStartWidth(...rest: StyleValue): R
 
-  borderInlineStyle(value: MixInjectValue<MixOutString>): R
+  borderInlineStyle(...rest: StyleValue): R
 
-  borderInlineWidth(value: MixInjectValue<MixOutString>): R
+  borderInlineWidth(...rest: StyleValue): R
 
-  borderLeft(value: MixInjectValue<MixOutString>): R
+  borderLeft(...rest: StyleValue): R
 
-  borderLeftColor(value: MixInjectValue<MixOutString>): R
+  borderLeftColor(...rest: StyleValue): R
 
-  borderLeftStyle(value: MixInjectValue<MixOutString>): R
+  borderLeftStyle(...rest: StyleValue): R
 
-  borderLeftWidth(value: MixInjectValue<MixOutString>): R
+  borderLeftWidth(...rest: StyleValue): R
 
-  borderRadius(value: MixInjectValue<MixOutString>): R
+  borderRadius(...rest: StyleValue): R
 
-  borderRight(value: MixInjectValue<MixOutString>): R
+  borderRight(...rest: StyleValue): R
 
-  borderRightColor(value: MixInjectValue<MixOutString>): R
+  borderRightColor(...rest: StyleValue): R
 
-  borderRightStyle(value: MixInjectValue<MixOutString>): R
+  borderRightStyle(...rest: StyleValue): R
 
-  borderRightWidth(value: MixInjectValue<MixOutString>): R
+  borderRightWidth(...rest: StyleValue): R
 
-  borderSpacing(value: MixInjectValue<MixOutString>): R
+  borderSpacing(...rest: StyleValue): R
 
-  borderStartEndRadius(value: MixInjectValue<MixOutString>): R
+  borderStartEndRadius(...rest: StyleValue): R
 
-  borderStartStartRadius(value: MixInjectValue<MixOutString>): R
+  borderStartStartRadius(...rest: StyleValue): R
 
-  borderStyle(value: MixInjectValue<MixOutString>): R
+  borderStyle(...rest: StyleValue): R
 
-  borderTop(value: MixInjectValue<MixOutString>): R
+  borderTop(...rest: StyleValue): R
 
-  borderTopColor(value: MixInjectValue<MixOutString>): R
+  borderTopColor(...rest: StyleValue): R
 
-  borderTopLeftRadius(value: MixInjectValue<MixOutString>): R
+  borderTopLeftRadius(...rest: StyleValue): R
 
-  borderTopRightRadius(value: MixInjectValue<MixOutString>): R
+  borderTopRightRadius(...rest: StyleValue): R
 
-  borderTopStyle(value: MixInjectValue<MixOutString>): R
+  borderTopStyle(...rest: StyleValue): R
 
-  borderTopWidth(value: MixInjectValue<MixOutString>): R
+  borderTopWidth(...rest: StyleValue): R
 
-  borderWidth(value: MixInjectValue<MixOutString>): R
+  borderWidth(...rest: StyleValue): R
 
-  bottom(value: MixInjectValue<MixOutString>): R
+  bottom(...rest: StyleValue): R
 
-  boxDecorationBreak(value: MixInjectValue<MixOutString>): R
+  boxDecorationBreak(...rest: StyleValue): R
 
-  boxShadow(value: MixInjectValue<MixOutString>): R
+  boxShadow(...rest: StyleValue): R
 
-  boxSizing(value: MixInjectValue<MixOutString>): R
+  boxSizing(...rest: StyleValue): R
 
-  breakAfter(value: MixInjectValue<MixOutString>): R
+  breakAfter(...rest: StyleValue): R
 
-  breakBefore(value: MixInjectValue<MixOutString>): R
+  breakBefore(...rest: StyleValue): R
 
-  breakInside(value: MixInjectValue<MixOutString>): R
+  breakInside(...rest: StyleValue): R
 
-  captionSide(value: MixInjectValue<MixOutString>): R
+  captionSide(...rest: StyleValue): R
 
-  caretColor(value: MixInjectValue<MixOutString>): R
+  caretColor(...rest: StyleValue): R
 
-  clear(value: MixInjectValue<MixOutString>): R
+  clear(...rest: StyleValue): R
 
-  clip(value: MixInjectValue<MixOutString>): R
+  clip(...rest: StyleValue): R
 
-  clipPath(value: MixInjectValue<MixOutString>): R
+  clipPath(...rest: StyleValue): R
 
-  color(value: MixInjectValue<MixOutString>): R
+  color(...rest: StyleValue): R
 
-  colorAdjust(value: MixInjectValue<MixOutString>): R
+  colorAdjust(...rest: StyleValue): R
 
-  colorScheme(value: MixInjectValue<MixOutString>): R
+  colorScheme(...rest: StyleValue): R
 
-  columnCount(value: MixInjectValue<MixOutString>): R
+  columnCount(...rest: StyleValue): R
 
-  columnFill(value: MixInjectValue<MixOutString>): R
+  columnFill(...rest: StyleValue): R
 
-  columnGap(value: MixInjectValue<MixOutString>): R
+  columnGap(...rest: StyleValue): R
 
-  columnRule(value: MixInjectValue<MixOutString>): R
+  columnRule(...rest: StyleValue): R
 
-  columnRuleColor(value: MixInjectValue<MixOutString>): R
+  columnRuleColor(...rest: StyleValue): R
 
-  columnRuleStyle(value: MixInjectValue<MixOutString>): R
+  columnRuleStyle(...rest: StyleValue): R
 
-  columnRuleWidth(value: MixInjectValue<MixOutString>): R
+  columnRuleWidth(...rest: StyleValue): R
 
-  columnSpan(value: MixInjectValue<MixOutString>): R
+  columnSpan(...rest: StyleValue): R
 
-  columnWidth(value: MixInjectValue<MixOutString>): R
+  columnWidth(...rest: StyleValue): R
 
-  columns(value: MixInjectValue<MixOutString>): R
+  columns(...rest: StyleValue): R
 
-  contain(value: MixInjectValue<MixOutString>): R
+  contain(...rest: StyleValue): R
 
-  content(value: MixInjectValue<MixOutString>): R
+  content(...rest: StyleValue): R
 
-  contentVisibility(value: MixInjectValue<MixOutString>): R
+  contentVisibility(...rest: StyleValue): R
 
-  counterIncrement(value: MixInjectValue<MixOutString>): R
+  counterIncrement(...rest: StyleValue): R
 
-  counterReset(value: MixInjectValue<MixOutString>): R
+  counterReset(...rest: StyleValue): R
 
-  counterSet(value: MixInjectValue<MixOutString>): R
+  counterSet(...rest: StyleValue): R
 
-  cursor(value: MixInjectValue<MixOutString>): R
+  cursor(...rest: StyleValue): R
 
-  descentOverride(value: MixInjectValue<MixOutString>): R
+  descentOverride(...rest: StyleValue): R
 
-  direction(value: MixInjectValue<MixOutString>): R
+  direction(...rest: StyleValue): R
 
-  display(value: MixInjectValue<MixOutString>): R
+  display(...rest: StyleValue): R
 
-  emptyCells(value: MixInjectValue<MixOutString>): R
+  emptyCells(...rest: StyleValue): R
 
-  fallback(value: MixInjectValue<MixOutString>): R
+  fallback(...rest: StyleValue): R
 
-  filter(value: MixInjectValue<MixOutString>): R
+  filter(...rest: StyleValue): R
 
-  flex(value: MixInjectValue<MixOutString>): R
+  flex(...rest: StyleValue): R
 
-  flexBasis(value: MixInjectValue<MixOutString>): R
+  flexBasis(...rest: StyleValue): R
 
-  flexDirection(value: MixInjectValue<MixOutString>): R
+  flexDirection(...rest: StyleValue): R
 
-  flexFlow(value: MixInjectValue<MixOutString>): R
+  flexFlow(...rest: StyleValue): R
 
-  flexGrow(value: MixInjectValue<MixOutString>): R
+  flexGrow(...rest: StyleValue): R
 
-  flexShrink(value: MixInjectValue<MixOutString>): R
+  flexShrink(...rest: StyleValue): R
 
-  flexWrap(value: MixInjectValue<MixOutString>): R
+  flexWrap(...rest: StyleValue): R
 
-  float(value: MixInjectValue<MixOutString>): R
+  float(...rest: StyleValue): R
 
-  font(value: MixInjectValue<MixOutString>): R
+  font(...rest: StyleValue): R
 
-  fontDisplay(value: MixInjectValue<MixOutString>): R
+  fontDisplay(...rest: StyleValue): R
 
-  fontFamily(value: MixInjectValue<MixOutString>): R
+  fontFamily(...rest: StyleValue): R
 
-  fontFeatureSettings(value: MixInjectValue<MixOutString>): R
+  fontFeatureSettings(...rest: StyleValue): R
 
-  fontKerning(value: MixInjectValue<MixOutString>): R
+  fontKerning(...rest: StyleValue): R
 
-  fontLanguageOverride(value: MixInjectValue<MixOutString>): R
+  fontLanguageOverride(...rest: StyleValue): R
 
-  fontOpticalSizing(value: MixInjectValue<MixOutString>): R
+  fontOpticalSizing(...rest: StyleValue): R
 
-  fontSize(value: MixInjectValue<MixOutString>): R
+  fontSize(...rest: StyleValue): R
 
-  fontSizeAdjust(value: MixInjectValue<MixOutString>): R
+  fontSizeAdjust(...rest: StyleValue): R
 
-  fontStretch(value: MixInjectValue<MixOutString>): R
+  fontStretch(...rest: StyleValue): R
 
-  fontStyle(value: MixInjectValue<MixOutString>): R
+  fontStyle(...rest: StyleValue): R
 
-  fontSynthesis(value: MixInjectValue<MixOutString>): R
+  fontSynthesis(...rest: StyleValue): R
 
-  fontVariant(value: MixInjectValue<MixOutString>): R
+  fontVariant(...rest: StyleValue): R
 
-  fontVariantAlternates(value: MixInjectValue<MixOutString>): R
+  fontVariantAlternates(...rest: StyleValue): R
 
-  fontVariantCaps(value: MixInjectValue<MixOutString>): R
+  fontVariantCaps(...rest: StyleValue): R
 
-  fontVariantEastAsian(value: MixInjectValue<MixOutString>): R
+  fontVariantEastAsian(...rest: StyleValue): R
 
-  fontVariantLigatures(value: MixInjectValue<MixOutString>): R
+  fontVariantLigatures(...rest: StyleValue): R
 
-  fontVariantNumeric(value: MixInjectValue<MixOutString>): R
+  fontVariantNumeric(...rest: StyleValue): R
 
-  fontVariantPosition(value: MixInjectValue<MixOutString>): R
+  fontVariantPosition(...rest: StyleValue): R
 
-  fontVariationSettings(value: MixInjectValue<MixOutString>): R
+  fontVariationSettings(...rest: StyleValue): R
 
-  fontWeight(value: MixInjectValue<MixOutString>): R
+  fontWeight(...rest: StyleValue): R
 
-  forcedColorAdjust(value: MixInjectValue<MixOutString>): R
+  forcedColorAdjust(...rest: StyleValue): R
 
-  gap(value: MixInjectValue<MixOutString>): R
+  gap(...rest: StyleValue): R
 
-  grid(value: MixInjectValue<MixOutString>): R
+  grid(...rest: StyleValue): R
 
-  gridArea(value: MixInjectValue<MixOutString>): R
+  gridArea(...rest: StyleValue): R
 
-  gridAutoColumns(value: MixInjectValue<MixOutString>): R
+  gridAutoColumns(...rest: StyleValue): R
 
-  gridAutoFlow(value: MixInjectValue<MixOutString>): R
+  gridAutoFlow(...rest: StyleValue): R
 
-  gridAutoRows(value: MixInjectValue<MixOutString>): R
+  gridAutoRows(...rest: StyleValue): R
 
-  gridColumn(value: MixInjectValue<MixOutString>): R
+  gridColumn(...rest: StyleValue): R
 
-  gridColumnEnd(value: MixInjectValue<MixOutString>): R
+  gridColumnEnd(...rest: StyleValue): R
 
-  gridColumnStart(value: MixInjectValue<MixOutString>): R
+  gridColumnStart(...rest: StyleValue): R
 
-  gridRow(value: MixInjectValue<MixOutString>): R
+  gridRow(...rest: StyleValue): R
 
-  gridRowEnd(value: MixInjectValue<MixOutString>): R
+  gridRowEnd(...rest: StyleValue): R
 
-  gridRowStart(value: MixInjectValue<MixOutString>): R
+  gridRowStart(...rest: StyleValue): R
 
-  gridTemplate(value: MixInjectValue<MixOutString>): R
+  gridTemplate(...rest: StyleValue): R
 
-  gridTemplateAreas(value: MixInjectValue<MixOutString>): R
+  gridTemplateAreas(...rest: StyleValue): R
 
-  gridTemplateColumns(value: MixInjectValue<MixOutString>): R
+  gridTemplateColumns(...rest: StyleValue): R
 
-  gridTemplateRows(value: MixInjectValue<MixOutString>): R
+  gridTemplateRows(...rest: StyleValue): R
 
-  hangingPunctuation(value: MixInjectValue<MixOutString>): R
+  hangingPunctuation(...rest: StyleValue): R
 
-  height(value: MixInjectValue<MixOutString>): R
+  height(...rest: StyleValue): R
 
-  hyphens(value: MixInjectValue<MixOutString>): R
+  hyphens(...rest: StyleValue): R
 
-  imageOrientation(value: MixInjectValue<MixOutString>): R
+  imageOrientation(...rest: StyleValue): R
 
-  imageRendering(value: MixInjectValue<MixOutString>): R
+  imageRendering(...rest: StyleValue): R
 
-  imageResolution(value: MixInjectValue<MixOutString>): R
+  imageResolution(...rest: StyleValue): R
 
-  inherit(value: MixInjectValue<MixOutString>): R
+  inherit(...rest: StyleValue): R
 
-  inherits(value: MixInjectValue<MixOutString>): R
+  inherits(...rest: StyleValue): R
 
-  initial(value: MixInjectValue<MixOutString>): R
+  initial(...rest: StyleValue): R
 
-  initialLetter(value: MixInjectValue<MixOutString>): R
+  initialLetter(...rest: StyleValue): R
 
-  initialLetterAlign(value: MixInjectValue<MixOutString>): R
+  initialLetterAlign(...rest: StyleValue): R
 
-  initialValue(value: MixInjectValue<MixOutString>): R
+  initialValue(...rest: StyleValue): R
 
-  inlineSize(value: MixInjectValue<MixOutString>): R
+  inlineSize(...rest: StyleValue): R
 
-  inputSecurity(value: MixInjectValue<MixOutString>): R
+  inputSecurity(...rest: StyleValue): R
 
-  inset(value: MixInjectValue<MixOutString>): R
+  inset(...rest: StyleValue): R
 
-  insetBlock(value: MixInjectValue<MixOutString>): R
+  insetBlock(...rest: StyleValue): R
 
-  insetBlockEnd(value: MixInjectValue<MixOutString>): R
+  insetBlockEnd(...rest: StyleValue): R
 
-  insetBlockStart(value: MixInjectValue<MixOutString>): R
+  insetBlockStart(...rest: StyleValue): R
 
-  insetInline(value: MixInjectValue<MixOutString>): R
+  insetInline(...rest: StyleValue): R
 
-  insetInlineEnd(value: MixInjectValue<MixOutString>): R
+  insetInlineEnd(...rest: StyleValue): R
 
-  insetInlineStart(value: MixInjectValue<MixOutString>): R
+  insetInlineStart(...rest: StyleValue): R
 
-  isolation(value: MixInjectValue<MixOutString>): R
+  isolation(...rest: StyleValue): R
 
-  justifyContent(value: MixInjectValue<MixOutString>): R
+  justifyContent(...rest: StyleValue): R
 
-  justifyItems(value: MixInjectValue<MixOutString>): R
+  justifyItems(...rest: StyleValue): R
 
-  justifySelf(value: MixInjectValue<MixOutString>): R
+  justifySelf(...rest: StyleValue): R
 
-  justifyTracks(value: MixInjectValue<MixOutString>): R
+  justifyTracks(...rest: StyleValue): R
 
-  left(value: MixInjectValue<MixOutString>): R
+  left(...rest: StyleValue): R
 
-  letterSpacing(value: MixInjectValue<MixOutString>): R
+  letterSpacing(...rest: StyleValue): R
 
-  lineBreak(value: MixInjectValue<MixOutString>): R
+  lineBreak(...rest: StyleValue): R
 
-  lineClamp(value: MixInjectValue<MixOutString>): R
+  lineClamp(...rest: StyleValue): R
 
-  lineGapOverride(value: MixInjectValue<MixOutString>): R
+  lineGapOverride(...rest: StyleValue): R
 
-  lineHeight(value: MixInjectValue<MixOutString>): R
+  lineHeight(...rest: StyleValue): R
 
-  lineHeightStep(value: MixInjectValue<MixOutString>): R
+  lineHeightStep(...rest: StyleValue): R
 
-  listStyle(value: MixInjectValue<MixOutString>): R
+  listStyle(...rest: StyleValue): R
 
-  listStyleImage(value: MixInjectValue<MixOutString>): R
+  listStyleImage(...rest: StyleValue): R
 
-  listStylePosition(value: MixInjectValue<MixOutString>): R
+  listStylePosition(...rest: StyleValue): R
 
-  listStyleType(value: MixInjectValue<MixOutString>): R
+  listStyleType(...rest: StyleValue): R
 
-  margin(value: MixInjectValue<MixOutString>): R
+  margin(...rest: StyleValue): R
 
-  marginBlock(value: MixInjectValue<MixOutString>): R
+  marginBlock(...rest: StyleValue): R
 
-  marginBlockEnd(value: MixInjectValue<MixOutString>): R
+  marginBlockEnd(...rest: StyleValue): R
 
-  marginBlockStart(value: MixInjectValue<MixOutString>): R
+  marginBlockStart(...rest: StyleValue): R
 
-  marginBottom(value: MixInjectValue<MixOutString>): R
+  marginBottom(...rest: StyleValue): R
 
-  marginInline(value: MixInjectValue<MixOutString>): R
+  marginInline(...rest: StyleValue): R
 
-  marginInlineEnd(value: MixInjectValue<MixOutString>): R
+  marginInlineEnd(...rest: StyleValue): R
 
-  marginInlineStart(value: MixInjectValue<MixOutString>): R
+  marginInlineStart(...rest: StyleValue): R
 
-  marginLeft(value: MixInjectValue<MixOutString>): R
+  marginLeft(...rest: StyleValue): R
 
-  marginRight(value: MixInjectValue<MixOutString>): R
+  marginRight(...rest: StyleValue): R
 
-  marginTop(value: MixInjectValue<MixOutString>): R
+  marginTop(...rest: StyleValue): R
 
-  marginTrim(value: MixInjectValue<MixOutString>): R
+  marginTrim(...rest: StyleValue): R
 
-  marks(value: MixInjectValue<MixOutString>): R
+  marks(...rest: StyleValue): R
 
-  mask(value: MixInjectValue<MixOutString>): R
+  mask(...rest: StyleValue): R
 
-  maskBorder(value: MixInjectValue<MixOutString>): R
+  maskBorder(...rest: StyleValue): R
 
-  maskBorderMode(value: MixInjectValue<MixOutString>): R
+  maskBorderMode(...rest: StyleValue): R
 
-  maskBorderOutset(value: MixInjectValue<MixOutString>): R
+  maskBorderOutset(...rest: StyleValue): R
 
-  maskBorderRepeat(value: MixInjectValue<MixOutString>): R
+  maskBorderRepeat(...rest: StyleValue): R
 
-  maskBorderSlice(value: MixInjectValue<MixOutString>): R
+  maskBorderSlice(...rest: StyleValue): R
 
-  maskBorderSource(value: MixInjectValue<MixOutString>): R
+  maskBorderSource(...rest: StyleValue): R
 
-  maskBorderWidth(value: MixInjectValue<MixOutString>): R
+  maskBorderWidth(...rest: StyleValue): R
 
-  maskClip(value: MixInjectValue<MixOutString>): R
+  maskClip(...rest: StyleValue): R
 
-  maskComposite(value: MixInjectValue<MixOutString>): R
+  maskComposite(...rest: StyleValue): R
 
-  maskImage(value: MixInjectValue<MixOutString>): R
+  maskImage(...rest: StyleValue): R
 
-  maskMode(value: MixInjectValue<MixOutString>): R
+  maskMode(...rest: StyleValue): R
 
-  maskOrigin(value: MixInjectValue<MixOutString>): R
+  maskOrigin(...rest: StyleValue): R
 
-  maskPosition(value: MixInjectValue<MixOutString>): R
+  maskPosition(...rest: StyleValue): R
 
-  maskRepeat(value: MixInjectValue<MixOutString>): R
+  maskRepeat(...rest: StyleValue): R
 
-  maskSize(value: MixInjectValue<MixOutString>): R
+  maskSize(...rest: StyleValue): R
 
-  maskType(value: MixInjectValue<MixOutString>): R
+  maskType(...rest: StyleValue): R
 
-  masonryAutoFlow(value: MixInjectValue<MixOutString>): R
+  masonryAutoFlow(...rest: StyleValue): R
 
-  mathStyle(value: MixInjectValue<MixOutString>): R
+  mathStyle(...rest: StyleValue): R
 
-  maxBlockSize(value: MixInjectValue<MixOutString>): R
+  maxBlockSize(...rest: StyleValue): R
 
-  maxHeight(value: MixInjectValue<MixOutString>): R
+  maxHeight(...rest: StyleValue): R
 
-  maxInlineSize(value: MixInjectValue<MixOutString>): R
+  maxInlineSize(...rest: StyleValue): R
 
-  maxLines(value: MixInjectValue<MixOutString>): R
+  maxLines(...rest: StyleValue): R
 
-  maxWidth(value: MixInjectValue<MixOutString>): R
+  maxWidth(...rest: StyleValue): R
 
-  maxZoom(value: MixInjectValue<MixOutString>): R
+  maxZoom(...rest: StyleValue): R
 
-  minBlockSize(value: MixInjectValue<MixOutString>): R
+  minBlockSize(...rest: StyleValue): R
 
-  minHeight(value: MixInjectValue<MixOutString>): R
+  minHeight(...rest: StyleValue): R
 
-  minInlineSize(value: MixInjectValue<MixOutString>): R
+  minInlineSize(...rest: StyleValue): R
 
-  minWidth(value: MixInjectValue<MixOutString>): R
+  minWidth(...rest: StyleValue): R
 
-  minZoom(value: MixInjectValue<MixOutString>): R
+  minZoom(...rest: StyleValue): R
 
-  mixBlendMode(value: MixInjectValue<MixOutString>): R
+  mixBlendMode(...rest: StyleValue): R
 
-  negative(value: MixInjectValue<MixOutString>): R
+  negative(...rest: StyleValue): R
 
-  objectFit(value: MixInjectValue<MixOutString>): R
+  objectFit(...rest: StyleValue): R
 
-  objectPosition(value: MixInjectValue<MixOutString>): R
+  objectPosition(...rest: StyleValue): R
 
-  offset(value: MixInjectValue<MixOutString>): R
+  offset(...rest: StyleValue): R
 
-  offsetAnchor(value: MixInjectValue<MixOutString>): R
+  offsetAnchor(...rest: StyleValue): R
 
-  offsetDistance(value: MixInjectValue<MixOutString>): R
+  offsetDistance(...rest: StyleValue): R
 
-  offsetPath(value: MixInjectValue<MixOutString>): R
+  offsetPath(...rest: StyleValue): R
 
-  offsetPosition(value: MixInjectValue<MixOutString>): R
+  offsetPosition(...rest: StyleValue): R
 
-  offsetRotate(value: MixInjectValue<MixOutString>): R
+  offsetRotate(...rest: StyleValue): R
 
-  opacity(value: MixInjectValue<MixOutString>): R
+  opacity(...rest: StyleValue): R
 
-  order(value: MixInjectValue<MixOutString>): R
+  order(...rest: StyleValue): R
 
-  orientation(value: MixInjectValue<MixOutString>): R
+  orientation(...rest: StyleValue): R
 
-  orphans(value: MixInjectValue<MixOutString>): R
+  orphans(...rest: StyleValue): R
 
-  outline(value: MixInjectValue<MixOutString>): R
+  outline(...rest: StyleValue): R
 
-  outlineColor(value: MixInjectValue<MixOutString>): R
+  outlineColor(...rest: StyleValue): R
 
-  outlineOffset(value: MixInjectValue<MixOutString>): R
+  outlineOffset(...rest: StyleValue): R
 
-  outlineStyle(value: MixInjectValue<MixOutString>): R
+  outlineStyle(...rest: StyleValue): R
 
-  outlineWidth(value: MixInjectValue<MixOutString>): R
+  outlineWidth(...rest: StyleValue): R
 
-  overflow(value: MixInjectValue<MixOutString>): R
+  overflow(...rest: StyleValue): R
 
-  overflowAnchor(value: MixInjectValue<MixOutString>): R
+  overflowAnchor(...rest: StyleValue): R
 
-  overflowBlock(value: MixInjectValue<MixOutString>): R
+  overflowBlock(...rest: StyleValue): R
 
-  overflowClipMargin(value: MixInjectValue<MixOutString>): R
+  overflowClipMargin(...rest: StyleValue): R
 
-  overflowInline(value: MixInjectValue<MixOutString>): R
+  overflowInline(...rest: StyleValue): R
 
-  overflowWrap(value: MixInjectValue<MixOutString>): R
+  overflowWrap(...rest: StyleValue): R
 
-  overflowX(value: MixInjectValue<MixOutString>): R
+  overflowX(...rest: StyleValue): R
 
-  overflowY(value: MixInjectValue<MixOutString>): R
+  overflowY(...rest: StyleValue): R
 
-  overscrollBehavior(value: MixInjectValue<MixOutString>): R
+  overscrollBehavior(...rest: StyleValue): R
 
-  overscrollBehaviorBlock(value: MixInjectValue<MixOutString>): R
+  overscrollBehaviorBlock(...rest: StyleValue): R
 
-  overscrollBehaviorInline(value: MixInjectValue<MixOutString>): R
+  overscrollBehaviorInline(...rest: StyleValue): R
 
-  overscrollBehaviorX(value: MixInjectValue<MixOutString>): R
+  overscrollBehaviorX(...rest: StyleValue): R
 
-  overscrollBehaviorY(value: MixInjectValue<MixOutString>): R
+  overscrollBehaviorY(...rest: StyleValue): R
 
-  PseudoClasses(value: MixInjectValue<MixOutString>): R
+  PseudoClasses(...rest: StyleValue): R
 
-  PseudoElements(value: MixInjectValue<MixOutString>): R
+  PseudoElements(...rest: StyleValue): R
 
-  pad(value: MixInjectValue<MixOutString>): R
+  pad(...rest: StyleValue): R
 
-  padding(value: MixInjectValue<MixOutString>): R
+  padding(...rest: StyleValue): R
 
-  paddingBlock(value: MixInjectValue<MixOutString>): R
+  paddingBlock(...rest: StyleValue): R
 
-  paddingBlockEnd(value: MixInjectValue<MixOutString>): R
+  paddingBlockEnd(...rest: StyleValue): R
 
-  paddingBlockStart(value: MixInjectValue<MixOutString>): R
+  paddingBlockStart(...rest: StyleValue): R
 
-  paddingBottom(value: MixInjectValue<MixOutString>): R
+  paddingBottom(...rest: StyleValue): R
 
-  paddingInline(value: MixInjectValue<MixOutString>): R
+  paddingInline(...rest: StyleValue): R
 
-  paddingInlineEnd(value: MixInjectValue<MixOutString>): R
+  paddingInlineEnd(...rest: StyleValue): R
 
-  paddingInlineStart(value: MixInjectValue<MixOutString>): R
+  paddingInlineStart(...rest: StyleValue): R
 
-  paddingLeft(value: MixInjectValue<MixOutString>): R
+  paddingLeft(...rest: StyleValue): R
 
-  paddingRight(value: MixInjectValue<MixOutString>): R
+  paddingRight(...rest: StyleValue): R
 
-  paddingTop(value: MixInjectValue<MixOutString>): R
+  paddingTop(...rest: StyleValue): R
 
-  pageBreakAfter(value: MixInjectValue<MixOutString>): R
+  pageBreakAfter(...rest: StyleValue): R
 
-  pageBreakBefore(value: MixInjectValue<MixOutString>): R
+  pageBreakBefore(...rest: StyleValue): R
 
-  pageBreakInside(value: MixInjectValue<MixOutString>): R
+  pageBreakInside(...rest: StyleValue): R
 
-  paintOrder(value: MixInjectValue<MixOutString>): R
+  paintOrder(...rest: StyleValue): R
 
-  perspective(value: MixInjectValue<MixOutString>): R
+  perspective(...rest: StyleValue): R
 
-  perspectiveOrigin(value: MixInjectValue<MixOutString>): R
+  perspectiveOrigin(...rest: StyleValue): R
 
-  placeContent(value: MixInjectValue<MixOutString>): R
+  placeContent(...rest: StyleValue): R
 
-  placeItems(value: MixInjectValue<MixOutString>): R
+  placeItems(...rest: StyleValue): R
 
-  placeSelf(value: MixInjectValue<MixOutString>): R
+  placeSelf(...rest: StyleValue): R
 
-  pointerEvents(value: MixInjectValue<MixOutString>): R
+  pointerEvents(...rest: StyleValue): R
 
-  position(value: MixInjectValue<MixOutString>): R
+  position(...rest: StyleValue): R
 
-  prefix(value: MixInjectValue<MixOutString>): R
+  prefix(...rest: StyleValue): R
 
-  quotes(value: MixInjectValue<MixOutString>): R
+  quotes(...rest: StyleValue): R
 
-  range(value: MixInjectValue<MixOutString>): R
+  range(...rest: StyleValue): R
 
-  resize(value: MixInjectValue<MixOutString>): R
+  resize(...rest: StyleValue): R
 
-  revert(value: MixInjectValue<MixOutString>): R
+  revert(...rest: StyleValue): R
 
-  right(value: MixInjectValue<MixOutString>): R
+  right(...rest: StyleValue): R
 
-  rotate(value: MixInjectValue<MixOutString>): R
+  rotate(...rest: StyleValue): R
 
-  rowGap(value: MixInjectValue<MixOutString>): R
+  rowGap(...rest: StyleValue): R
 
-  rubyAlign(value: MixInjectValue<MixOutString>): R
+  rubyAlign(...rest: StyleValue): R
 
-  rubyMerge(value: MixInjectValue<MixOutString>): R
+  rubyMerge(...rest: StyleValue): R
 
-  rubyPosition(value: MixInjectValue<MixOutString>): R
+  rubyPosition(...rest: StyleValue): R
 
-  scale(value: MixInjectValue<MixOutString>): R
+  scale(...rest: StyleValue): R
 
-  scrollBehavior(value: MixInjectValue<MixOutString>): R
+  scrollBehavior(...rest: StyleValue): R
 
-  scrollMargin(value: MixInjectValue<MixOutString>): R
+  scrollMargin(...rest: StyleValue): R
 
-  scrollMarginBlock(value: MixInjectValue<MixOutString>): R
+  scrollMarginBlock(...rest: StyleValue): R
 
-  scrollMarginBlockEnd(value: MixInjectValue<MixOutString>): R
+  scrollMarginBlockEnd(...rest: StyleValue): R
 
-  scrollMarginBlockStart(value: MixInjectValue<MixOutString>): R
+  scrollMarginBlockStart(...rest: StyleValue): R
 
-  scrollMarginBottom(value: MixInjectValue<MixOutString>): R
+  scrollMarginBottom(...rest: StyleValue): R
 
-  scrollMarginInline(value: MixInjectValue<MixOutString>): R
+  scrollMarginInline(...rest: StyleValue): R
 
-  scrollMarginInlineEnd(value: MixInjectValue<MixOutString>): R
+  scrollMarginInlineEnd(...rest: StyleValue): R
 
-  scrollMarginInlineStart(value: MixInjectValue<MixOutString>): R
+  scrollMarginInlineStart(...rest: StyleValue): R
 
-  scrollMarginLeft(value: MixInjectValue<MixOutString>): R
+  scrollMarginLeft(...rest: StyleValue): R
 
-  scrollMarginRight(value: MixInjectValue<MixOutString>): R
+  scrollMarginRight(...rest: StyleValue): R
 
-  scrollMarginTop(value: MixInjectValue<MixOutString>): R
+  scrollMarginTop(...rest: StyleValue): R
 
-  scrollPadding(value: MixInjectValue<MixOutString>): R
+  scrollPadding(...rest: StyleValue): R
 
-  scrollPaddingBlock(value: MixInjectValue<MixOutString>): R
+  scrollPaddingBlock(...rest: StyleValue): R
 
-  scrollPaddingBlockEnd(value: MixInjectValue<MixOutString>): R
+  scrollPaddingBlockEnd(...rest: StyleValue): R
 
-  scrollPaddingBlockStart(value: MixInjectValue<MixOutString>): R
+  scrollPaddingBlockStart(...rest: StyleValue): R
 
-  scrollPaddingBottom(value: MixInjectValue<MixOutString>): R
+  scrollPaddingBottom(...rest: StyleValue): R
 
-  scrollPaddingInline(value: MixInjectValue<MixOutString>): R
+  scrollPaddingInline(...rest: StyleValue): R
 
-  scrollPaddingInlineEnd(value: MixInjectValue<MixOutString>): R
+  scrollPaddingInlineEnd(...rest: StyleValue): R
 
-  scrollPaddingInlineStart(value: MixInjectValue<MixOutString>): R
+  scrollPaddingInlineStart(...rest: StyleValue): R
 
-  scrollPaddingLeft(value: MixInjectValue<MixOutString>): R
+  scrollPaddingLeft(...rest: StyleValue): R
 
-  scrollPaddingRight(value: MixInjectValue<MixOutString>): R
+  scrollPaddingRight(...rest: StyleValue): R
 
-  scrollPaddingTop(value: MixInjectValue<MixOutString>): R
+  scrollPaddingTop(...rest: StyleValue): R
 
-  scrollSnapAlign(value: MixInjectValue<MixOutString>): R
+  scrollSnapAlign(...rest: StyleValue): R
 
-  scrollSnapStop(value: MixInjectValue<MixOutString>): R
+  scrollSnapStop(...rest: StyleValue): R
 
-  scrollSnapType(value: MixInjectValue<MixOutString>): R
+  scrollSnapType(...rest: StyleValue): R
 
-  scrollbarColor(value: MixInjectValue<MixOutString>): R
+  scrollbarColor(...rest: StyleValue): R
 
-  scrollbarGutter(value: MixInjectValue<MixOutString>): R
+  scrollbarGutter(...rest: StyleValue): R
 
-  scrollbarWidth(value: MixInjectValue<MixOutString>): R
+  scrollbarWidth(...rest: StyleValue): R
 
-  shapeImageThreshold(value: MixInjectValue<MixOutString>): R
+  shapeImageThreshold(...rest: StyleValue): R
 
-  shapeMargin(value: MixInjectValue<MixOutString>): R
+  shapeMargin(...rest: StyleValue): R
 
-  shapeOutside(value: MixInjectValue<MixOutString>): R
+  shapeOutside(...rest: StyleValue): R
 
-  size(value: MixInjectValue<MixOutString>): R
+  size(...rest: StyleValue): R
 
-  sizeAdjust(value: MixInjectValue<MixOutString>): R
+  sizeAdjust(...rest: StyleValue): R
 
-  speakAs(value: MixInjectValue<MixOutString>): R
+  speakAs(...rest: StyleValue): R
 
-  src(value: MixInjectValue<MixOutString>): R
+  src(...rest: StyleValue): R
 
-  suffix(value: MixInjectValue<MixOutString>): R
+  suffix(...rest: StyleValue): R
 
-  symbols(value: MixInjectValue<MixOutString>): R
+  symbols(...rest: StyleValue): R
 
-  syntax(value: MixInjectValue<MixOutString>): R
+  syntax(...rest: StyleValue): R
 
-  system(value: MixInjectValue<MixOutString>): R
+  system(...rest: StyleValue): R
 
-  tabSize(value: MixInjectValue<MixOutString>): R
+  tabSize(...rest: StyleValue): R
 
-  tableLayout(value: MixInjectValue<MixOutString>): R
+  tableLayout(...rest: StyleValue): R
 
-  textAlign(value: MixInjectValue<MixOutString>): R
+  textAlign(...rest: StyleValue): R
 
-  textAlignLast(value: MixInjectValue<MixOutString>): R
+  textAlignLast(...rest: StyleValue): R
 
-  textCombineUpright(value: MixInjectValue<MixOutString>): R
+  textCombineUpright(...rest: StyleValue): R
 
-  textDecoration(value: MixInjectValue<MixOutString>): R
+  textDecoration(...rest: StyleValue): R
 
-  textDecorationColor(value: MixInjectValue<MixOutString>): R
+  textDecorationColor(...rest: StyleValue): R
 
-  textDecorationLine(value: MixInjectValue<MixOutString>): R
+  textDecorationLine(...rest: StyleValue): R
 
-  textDecorationSkip(value: MixInjectValue<MixOutString>): R
+  textDecorationSkip(...rest: StyleValue): R
 
-  textDecorationSkipInk(value: MixInjectValue<MixOutString>): R
+  textDecorationSkipInk(...rest: StyleValue): R
 
-  textDecorationStyle(value: MixInjectValue<MixOutString>): R
+  textDecorationStyle(...rest: StyleValue): R
 
-  textDecorationThickness(value: MixInjectValue<MixOutString>): R
+  textDecorationThickness(...rest: StyleValue): R
 
-  textEmphasis(value: MixInjectValue<MixOutString>): R
+  textEmphasis(...rest: StyleValue): R
 
-  textEmphasisColor(value: MixInjectValue<MixOutString>): R
+  textEmphasisColor(...rest: StyleValue): R
 
-  textEmphasisPosition(value: MixInjectValue<MixOutString>): R
+  textEmphasisPosition(...rest: StyleValue): R
 
-  textEmphasisStyle(value: MixInjectValue<MixOutString>): R
+  textEmphasisStyle(...rest: StyleValue): R
 
-  textIndent(value: MixInjectValue<MixOutString>): R
+  textIndent(...rest: StyleValue): R
 
-  textJustify(value: MixInjectValue<MixOutString>): R
+  textJustify(...rest: StyleValue): R
 
-  textOrientation(value: MixInjectValue<MixOutString>): R
+  textOrientation(...rest: StyleValue): R
 
-  textOverflow(value: MixInjectValue<MixOutString>): R
+  textOverflow(...rest: StyleValue): R
 
-  textRendering(value: MixInjectValue<MixOutString>): R
+  textRendering(...rest: StyleValue): R
 
-  textShadow(value: MixInjectValue<MixOutString>): R
+  textShadow(...rest: StyleValue): R
 
-  textSizeAdjust(value: MixInjectValue<MixOutString>): R
+  textSizeAdjust(...rest: StyleValue): R
 
-  textTransform(value: MixInjectValue<MixOutString>): R
+  textTransform(...rest: StyleValue): R
 
-  textUnderlineOffset(value: MixInjectValue<MixOutString>): R
+  textUnderlineOffset(...rest: StyleValue): R
 
-  textUnderlinePosition(value: MixInjectValue<MixOutString>): R
+  textUnderlinePosition(...rest: StyleValue): R
 
-  top(value: MixInjectValue<MixOutString>): R
+  top(...rest: StyleValue): R
 
-  touchAction(value: MixInjectValue<MixOutString>): R
+  touchAction(...rest: StyleValue): R
 
-  transform(value: MixInjectValue<MixOutString>): R
+  transform(...rest: StyleValue): R
 
-  transformBox(value: MixInjectValue<MixOutString>): R
+  transformBox(...rest: StyleValue): R
 
-  transformOrigin(value: MixInjectValue<MixOutString>): R
+  transformOrigin(...rest: StyleValue): R
 
-  transformStyle(value: MixInjectValue<MixOutString>): R
+  transformStyle(...rest: StyleValue): R
 
-  transition(value: MixInjectValue<MixOutString>): R
+  transition(...rest: StyleValue): R
 
-  transitionDelay(value: MixInjectValue<MixOutString>): R
+  transitionDelay(...rest: StyleValue): R
 
-  transitionDuration(value: MixInjectValue<MixOutString>): R
+  transitionDuration(...rest: StyleValue): R
 
-  transitionProperty(value: MixInjectValue<MixOutString>): R
+  /**
+   *https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition
+   *
+   * @author meke
+   * @param {MixInjectValue<MixOutString>} value
+   * @return {*}  {R}
+   * @memberof BaseParsersInterface
+   */
+  transitionProperty(...rest: StyleValue): R
 
-  transitionTimingFunction(value: MixInjectValue<MixOutString>): R
+  transitionTimingFunction(...rest: StyleValue): R
 
-  translate(value: MixInjectValue<MixOutString>): R
+  translate(...rest: StyleValue): R
 
-  unicodeBidi(value: MixInjectValue<MixOutString>): R
+  unicodeBidi(...rest: StyleValue): R
 
-  unicodeRange(value: MixInjectValue<MixOutString>): R
+  unicodeRange(...rest: StyleValue): R
 
-  unset(value: MixInjectValue<MixOutString>): R
+  unset(...rest: StyleValue): R
 
-  userSelect(value: MixInjectValue<MixOutString>): R
+  userSelect(...rest: StyleValue): R
 
-  userZoom(value: MixInjectValue<MixOutString>): R
+  userZoom(...rest: StyleValue): R
 
-  verticalAlign(value: MixInjectValue<MixOutString>): R
+  verticalAlign(...rest: StyleValue): R
 
-  viewportFit(value: MixInjectValue<MixOutString>): R
+  viewportFit(...rest: StyleValue): R
 
-  visibility(value: MixInjectValue<MixOutString>): R
+  visibility(...rest: StyleValue): R
 
-  whiteSpace(value: MixInjectValue<MixOutString>): R
+  whiteSpace(...rest: StyleValue): R
 
-  widows(value: MixInjectValue<MixOutString>): R
+  widows(...rest: StyleValue): R
 
-  width(value: MixInjectValue<MixOutString>): R
+  width(...rest: StyleValue): R
 
-  willChange(value: MixInjectValue<MixOutString>): R
+  willChange(...rest: StyleValue): R
 
-  wordBreak(value: MixInjectValue<MixOutString>): R
+  wordBreak(...rest: StyleValue): R
 
-  wordSpacing(value: MixInjectValue<MixOutString>): R
+  wordSpacing(...rest: StyleValue): R
 
-  wordWrap(value: MixInjectValue<MixOutString>): R
+  wordWrap(...rest: StyleValue): R
 
-  writingMode(value: MixInjectValue<MixOutString>): R
+  writingMode(...rest: StyleValue): R
 
-  zIndex(value: MixInjectValue<MixOutString>): R
+  zIndex(...rest: StyleValue): R
 
-  zoom(value: MixInjectValue<MixOutString>): R
+  zoom(...rest: StyleValue): R
 }

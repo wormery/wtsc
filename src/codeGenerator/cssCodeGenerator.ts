@@ -1,4 +1,6 @@
-import { camelize, unique } from '../utils/utils'
+// import { camelize, unique } from '../utils/utils'
+
+import { camelize, unique } from '@wormery/utils'
 
 const csslist = `
 "]
@@ -715,53 +717,58 @@ function baseParsersGener(): void {
   })
 
   // 3.将横线命名法改为驼峰命名
-  cssApiListArray = cssApiListArray.map((item) => {
-    item = camelize(item)
-    return item
-  })
+  // cssApiListArray = cssApiListArray.map((item) => {
+  //   item = camelize(item)
+  //   return item
+  // })
 
   // 去重
   cssApiListArray = unique(cssApiListArray)
 
+  // console.log(cssApiListArray.join('\n'))
+  cssApiListArray.forEach((i) => {
+    console.log(i)
+  })
+
   // 4. 生成接口的函数
-  let interfaceStr = ''
+  // let interfaceStr = ''
 
-  // 导入包
-  interfaceStr += `import { DefineParsers, DefineWTSC, implReturn } from "../core";\n`
+  // // 导入包
+  // interfaceStr += `import { DefineParsers, DefineWTSC, implReturn } from "../core";\n`
 
-  // 类型信息
-  interfaceStr += `type BaseWTSC = DefineWTSC<DefineBaseParsers<BaseWTSC>>;\n`
+  // // 类型信息
+  // interfaceStr += `type BaseWTSC = DefineWTSC<DefineBaseParsers<BaseWTSC>>;\n`
 
-  // 接口前缀
-  interfaceStr += ` export interface  DefineBaseParsers<R extends implReturn | BaseWTSC>
-    extends DefineParsers<R> {\n`
+  // // 接口前缀
+  // interfaceStr += ` export interface  DefineBaseParsers<R extends implReturn | BaseWTSC>
+  //   extends DefineParsers<R> {\n`
 
-  // 遍历生成api
-  for (const item of cssApiListArray) {
-    interfaceStr = interfaceStr + '  ' + item + `(value:string):R` + ';\n'
-  }
+  // // 遍历生成api
+  // for (const item of cssApiListArray) {
+  //   interfaceStr = interfaceStr + '  ' + item + `(value:string):R` + ';\n'
+  // }
 
-  // 接口后缀
-  interfaceStr += '}\n'
+  // // 接口后缀
+  // interfaceStr += '}\n'
 
-  let implStr = ''
-  // 导入包
-  implStr += `import { Parsers, DefineWTSC, implReturn } from "../core";\n`
-  implStr += `import { DefineBaseParsers } from "../DefinBaseParsers";\n`
-  // 类前缀
+  // let implStr = ''
+  // // 导入包
+  // implStr += `import { Parsers, DefineWTSC, implReturn } from "../core";\n`
+  // implStr += `import { DefineBaseParsers } from "../DefinBaseParsers";\n`
+  // // 类前缀
 
-  implStr += ` export class BaseParsersImpl extends Parsers
-  implements DefineBaseParsers<implReturn> {\n`
+  // implStr += ` export class BaseParsersImpl extends Parsers
+  // implements DefineBaseParsers<implReturn> {\n`
 
-  // 编历生成
-  for (const item of cssApiListArray) {
-    implStr += `  ${item}(value:string):string{return value;}\n`
-  }
-  // 类后缀
-  implStr += '}'
-  console.log(interfaceStr)
+  // // 编历生成
+  // for (const item of cssApiListArray) {
+  //   implStr += `  ${item}(value:string):string{return value;}\n`
+  // }
+  // // 类后缀
+  // implStr += '}'
+  // console.log(interfaceStr)
 
-  console.log(implStr)
+  // console.log(implStr)
 }
 
 baseParsersGener()

@@ -806,15 +806,15 @@
 
 - [ ] transformStyle
 
-- [ ] transition
+- [x] transition
 
-- [ ] transitionDelay
+- [x] transitionDelay
 
-- [ ] transitionDuration
+- [x] transitionDuration
 
-- [ ] transitionProperty
+- [x] transitionProperty
 
-- [ ] transitionTimingFunction
+- [x] transitionTimingFunction
 
 - [ ] translate
 

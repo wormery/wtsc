@@ -2,7 +2,10 @@ import { isObject } from '@wormery/utils'
 import { WTSC, WTSCObject } from './WTSC'
 import { WTSCOptions } from './option'
 import { createWTSCStorage, WTSCStorage } from './storage'
-import { TypeParsers } from '../../parsers/typeParsers/TypeParsersInterface'
+import {
+  TypeParsers,
+  TypeParsersOfReplaceUpdata,
+} from '../../parsers/typeParsers/TypeParsersInterface'
 import { BaseParsersInterface } from '../../parsers/baseParsers/BaseParsers'
 import { defWtscPrototype } from './WTSCPrototype'
 import { rootStyleData, styleDataInj, defStyleData } from './render'
@@ -32,6 +35,10 @@ export function defBaseWTSC<The extends object = {}>(
 
 export type TypeWTSC<Options extends WTSCOptions> = WTSC<
   Options,
+  TypeParsersOfReplaceUpdata<TypeWTSC<Options>>
+>
+export type DefaultTypeWTSC<Options extends WTSCOptions> = WTSC<
+  Options,
   TypeParsers<TypeWTSC<Options>>
 >
 
@@ -51,7 +58,7 @@ export function defTypeWTSC<The extends object = {}>(
  */
 export function defWTSC<The extends object = {}>(
   wtscOptions: Partial<WTSCOptions<The>> = {}
-): TypeWTSC<WTSCOptions<The>> {
+): DefaultTypeWTSC<WTSCOptions<The>> {
   const wtsc: TypeWTSC<WTSCOptions<The>> = createWTSCStorage(
     'root',
     undefined,
