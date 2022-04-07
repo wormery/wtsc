@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.28](https://github.com/wormery/wtsc/compare/v2.0.0-bate.27...v2.0.0-bate.28) (2022-04-07)
+
+
+### Features
+
+* 增加css逗号语法,增加方法的完整类型 transition,transitionDelay,transitionDuration,transitionProperty,transitionTimingFunction ([c59912c](https://github.com/wormery/wtsc/commit/c59912c3a2ce24801dd94d907fa9640eaf41fe63))
+
 ## [2.0.0-bate.27](https://github.com/wormery/wtsc/compare/v2.0.0-bate.26...v2.0.0-bate.27) (2022-04-03)
 
 
