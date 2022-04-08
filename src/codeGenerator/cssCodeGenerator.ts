@@ -1,6 +1,6 @@
 // import { camelize, unique } from '../utils/utils'
 
-import { camelize, unique } from '@wormery/utils'
+import { unique } from '@wormery/utils'
 
 const csslist = `
 "]

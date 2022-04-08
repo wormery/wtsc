@@ -1,13 +1,14 @@
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../../'
-import { render, addPro } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { s } from '../../../../CSSValue/time'
 import { defRefPackager } from '../../../../core/inject/package'
 import { ref } from 'vue'
-import { styleDataInj } from '../../../../core/WTSC/styleData'
+import { styleDataInj } from '../../../../core/render/styleData'
+import { addPro } from '../../../../utils/cssUtils'
+import { render } from '../../../../core/render/render'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {

@@ -1,6 +1,5 @@
 import { isArray, isObject } from '@wormery/utils'
 import { OutValue } from '../CSSValue/index'
-import { suffix } from '../CSSValue/CssAttributeName'
 
 export function newClass<T extends new (...rest: A) => R, A extends any[], R>(
   Class: T

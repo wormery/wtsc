@@ -1,5 +1,4 @@
-import { CVar, Length, Percentage, CMin, CMax } from '.'
-import { Data } from '../core/inject/types'
+import { Length, Percentage, CMin, CMax } from '.'
 import { Time } from './time'
 export type auto = 'auto'
 

@@ -3,12 +3,12 @@ import {
   update,
   render,
   getLeaf,
-  rootStyleData,
+  renderData,
   dependencyCounter,
-} from '../../../../core/WTSC/render'
+} from '../../../../core/render'
 import { pseudoDOM } from './pseudeDOM'
 import assert from 'assert'
-import { StyleData, defStyleData } from '../../../../core/WTSC/styleData'
+import { StyleData, defStyleData } from '../../../../core/render/styleData'
 const sets: Array<(value: string) => void> = []
 initStyleDom(
   pseudoDOM((value) => {
@@ -23,34 +23,34 @@ describe('render.ts', () => {
       assert.deepEqual(getLeaf(toBeUpdated), [])
     })
     it('传入根StyleData', () => {
-      const toBeUpdated: StyleData[] = [rootStyleData]
+      const toBeUpdated: StyleData[] = [renderData]
 
-      assert.deepEqual(getLeaf(toBeUpdated), [rootStyleData])
+      assert.deepEqual(getLeaf(toBeUpdated), [renderData])
     })
     it('传入一个子StyleData', () => {
-      const subStyleData = defStyleData('sub', rootStyleData)
+      const subStyleData = defStyleData('sub', renderData)
       const toBeUpdated: StyleData[] = [subStyleData]
 
       assert.deepEqual(getLeaf(toBeUpdated), [subStyleData])
     })
 
     it('toBeUpdated 的leaf重复保持唯一', () => {
-      const styleData = defStyleData('sd', rootStyleData)
+      const styleData = defStyleData('sd', renderData)
       const toBeUpdated: StyleData[] = [styleData, styleData]
       const value = getLeaf(toBeUpdated)
 
       assert.deepEqual(value, [styleData])
     })
     it('传入父子StyleData', () => {
-      const styleData = defStyleData('sub', rootStyleData)
-      const toBeUpdated: StyleData[] = [styleData, rootStyleData]
+      const styleData = defStyleData('sub', renderData)
+      const toBeUpdated: StyleData[] = [styleData, renderData]
       const value = getLeaf(toBeUpdated)
 
       assert.deepEqual(value, [styleData])
     })
     it('传入兄弟StyleData', () => {
-      const styleData1 = defStyleData('sub1', rootStyleData)
-      const styleData2 = defStyleData('sub2', rootStyleData)
+      const styleData1 = defStyleData('sub1', renderData)
+      const styleData2 = defStyleData('sub2', renderData)
       const toBeUpdated: StyleData[] = [styleData1, styleData2]
       const value = getLeaf(toBeUpdated)
 
@@ -58,15 +58,15 @@ describe('render.ts', () => {
     })
 
     it('传入一家三口', () => {
-      const styleData1 = defStyleData('sub1', rootStyleData)
-      const styleData2 = defStyleData('sub2', rootStyleData)
-      const toBeUpdated: StyleData[] = [styleData1, styleData2, rootStyleData]
+      const styleData1 = defStyleData('sub1', renderData)
+      const styleData2 = defStyleData('sub2', renderData)
+      const toBeUpdated: StyleData[] = [styleData1, styleData2, renderData]
       const value = getLeaf(toBeUpdated)
 
       assert.ok([styleData1, styleData2].every((i) => value.includes(i)))
     })
     it('三级', () => {
-      const borther1 = defStyleData('borther1', rootStyleData)
+      const borther1 = defStyleData('borther1', renderData)
       const sun1 = defStyleData('sun1', borther1)
       const sun2 = defStyleData('sun2', borther1)
 
@@ -79,29 +79,29 @@ describe('render.ts', () => {
   })
   describe('dependencyCounter方法', () => {
     it('传入一个根', () => {
-      const dependencyCounterMap = dependencyCounter([rootStyleData])
-      const n = dependencyCounterMap.get(rootStyleData)
+      const dependencyCounterMap = dependencyCounter([renderData])
+      const n = dependencyCounterMap.get(renderData)
       assert.equal(n, 0)
     })
 
     it('传入一个子', () => {
-      const subStyleData = defStyleData('sub1', rootStyleData)
+      const subStyleData = defStyleData('sub1', renderData)
       const map = dependencyCounter([subStyleData])
       assert.equal(map.get(subStyleData), 0)
-      assert.equal(map.get(rootStyleData), 1)
+      assert.equal(map.get(renderData), 1)
     })
 
     it('传入兄弟', () => {
-      const borther1 = defStyleData('borther1', rootStyleData)
-      const borther2 = defStyleData('borther2', rootStyleData)
+      const borther1 = defStyleData('borther1', renderData)
+      const borther2 = defStyleData('borther2', renderData)
       const map = dependencyCounter([borther1, borther2])
       assert.equal(map.get(borther1), 0)
       assert.equal(map.get(borther2), 0)
 
-      assert.equal(map.get(rootStyleData), 2)
+      assert.equal(map.get(renderData), 2)
     })
     it('三级', () => {
-      const borther1 = defStyleData('borther1', rootStyleData)
+      const borther1 = defStyleData('borther1', renderData)
       const sun1 = defStyleData('sun1', borther1)
       const sun2 = defStyleData('sun2', borther1)
 
@@ -112,10 +112,10 @@ describe('render.ts', () => {
 
       assert.equal(map.get(borther1), 2)
 
-      assert.equal(map.get(rootStyleData), 1)
+      assert.equal(map.get(renderData), 1)
     })
     it('混沌多级检查', () => {
-      const c1 = defStyleData('c1', rootStyleData)
+      const c1 = defStyleData('c1', renderData)
       const c11 = defStyleData('c11', c1)
       const c12 = defStyleData('c12', c1)
       const c121 = defStyleData('c121', c12)
@@ -128,7 +128,7 @@ describe('render.ts', () => {
 
       assert.equal(map.get(c12), 1)
 
-      assert.equal(map.get(rootStyleData), 1)
+      assert.equal(map.get(renderData), 1)
     })
   })
   describe('updata方法', () => {
@@ -138,7 +138,7 @@ describe('render.ts', () => {
         name: '3',
         style: { test: 'test;' },
         part: {},
-        parent: rootStyleData,
+        parent: renderData,
       })
       const value = render()
       assert.ok(value.includes('test{test;}\n'))
@@ -149,7 +149,7 @@ describe('render.ts', () => {
         name: '3',
         style: { 'parent-test': 'parent;' },
         part: {},
-        parent: rootStyleData,
+        parent: renderData,
       }
       update(parent)
       update({
@@ -170,16 +170,16 @@ describe('render.ts', () => {
         name: 'brother1',
         style: { 'brother1-test': 'value;' },
         part: {},
-        parent: rootStyleData,
+        parent: renderData,
       }
       const brother2 = {
         id: Symbol(''),
         name: 'brother2',
         style: { 'brother2-test': 'value;' },
         part: {},
-        parent: rootStyleData,
+        parent: renderData,
       }
-      update(rootStyleData)
+      update(renderData)
       update(brother1)
       update(brother2)
 

@@ -12,11 +12,12 @@ import { warn } from '../error/warn'
 import { defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { parserSpace } from '../parser/ParserSpace'
-import { addPro, update } from './render'
 import { styleToString } from './styleTostringApi'
 import { genHash, mixin } from '../../utils/utils'
 import { selectorDataInj } from './selectorData'
-import { styleDataInj } from './styleData'
+import { styleDataInj } from '../render/styleData'
+import { update } from '../render/updata'
+import { addPro } from '../../utils/cssUtils'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -251,7 +252,7 @@ export function defWtscPrototype<
 
         const pro = addPro(styleData.name, name)
 
-        const selector = '.' + pro
+        const selector = `.${pro}`
 
         styleData.style[selector] = data.style
         const pseudoClass = data.pseudoClass

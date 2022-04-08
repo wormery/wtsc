@@ -8,9 +8,9 @@ import {
 } from '../../parsers/typeParsers/TypeParsersInterface'
 import { BaseParsersInterface } from '../../parsers/baseParsers/BaseParsers'
 import { defWtscPrototype } from './WTSCPrototype'
-import { rootStyleData } from './render'
+import { renderData } from '../render'
 import { initDefThemeKeys } from '../theme/api'
-import { defStyleData, styleDataInj } from './styleData'
+import { defStyleData, styleDataInj } from '../render/styleData'
 
 /**
  * 是一个WTSC对象返回true
@@ -70,7 +70,7 @@ export function defWTSC<The extends object = {}>(
 
   const styleData = defStyleData(
     (wtsc as any as WTSCStorage).name,
-    rootStyleData,
+    renderData,
     (wtsc as any as WTSCStorage).id
   )
 

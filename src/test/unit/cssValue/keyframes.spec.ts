@@ -3,7 +3,7 @@ import { defWTSC } from '../../../core/WTSC/api'
 import { keyframes } from '../../../CSSValue/keyframs'
 import { px } from '../../../CSSValue/length/px'
 import assert from 'assert'
-import { render } from '../../../core/WTSC/render'
+import { render } from '../../../core/render'
 describe('keyframes检查', () => {
   const wtsc = defWTSC()
   it('基本使用', () => {
