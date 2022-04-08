@@ -1,7 +1,8 @@
 const nextTickData: Array<() => void> = []
 let timouter: NodeJS.Timeout = setTimeout(() => {})
 
-export default function nextTick(f: () => void): void {
+export default nextTick
+export function nextTick(f: () => void): void {
   nextTickData.push(f)
 
   clearTimeout(timouter)
