@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.31](https://github.com/wormery/wtsc/compare/v2.0.0-bate.30...v2.0.0-bate.31) (2022-04-08)
+
+
+### Features
+
+* add autoImport vue ref ,If the browser displays a warning,Indicates failure,根据提示关闭自动引入 ([e85921c](https://github.com/wormery/wtsc/commit/e85921c4a2247f0676cc8028bfadebfdbd40b4d8))
+* build开发环境保留了注释 ([1f17162](https://github.com/wormery/wtsc/commit/1f171623b13d4fdd94d094451bde5db34ffdc43c))
+
 ## [2.0.0-bate.30](https://github.com/wormery/wtsc/compare/v2.0.0-bate.29...v2.0.0-bate.30) (2022-04-08)
 
 
