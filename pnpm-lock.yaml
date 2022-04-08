@@ -3,7 +3,6 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/cli': ^7.17.6
   '@babel/core': ^7.17.5
-  '@babel/polyfill': ^7.12.1
   '@babel/preset-env': ^7.16.11
   '@rollup/plugin-babel': ^5.3.1
   '@rollup/plugin-commonjs': ^21.0.1
@@ -15,7 +14,6 @@ specifiers:
   '@types/node': '*'
   '@typescript-eslint/eslint-plugin': ^5.10.2
   '@wormery/utils': 1.0.1
-  core-js: ^3.21.1
   eslint: ^8.8.0
   eslint-config-prettier: ^8.3.0
   eslint-config-standard-with-typescript: ^21.0.1
@@ -41,9 +39,7 @@ specifiers:
   vue: ^3.0.0
 
 dependencies:
-  '@babel/polyfill': 7.12.1
   '@wormery/utils': 1.0.1
-  core-js: 3.21.1
 
 devDependencies:
   '@babel/cli': 7.17.6_@babel+core@7.17.5
@@ -1234,14 +1230,6 @@ packages:
       '@babel/helper-create-regexp-features-plugin': 7.17.0_@babel+core@7.17.5
       '@babel/helper-plugin-utils': 7.16.7
     dev: true
-
-  /@babel/polyfill/7.12.1:
-    resolution: {integrity: sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g==}
-    deprecated: 🚨 This package has been deprecated in favor of separate inclusion of a polyfill and regenerator-runtime (when needed). See the @babel/polyfill docs (https://babeljs.io/docs/en/babel-polyfill) for more information.
-    dependencies:
-      core-js: 2.6.12
-      regenerator-runtime: 0.13.9
-    dev: false
 
   /@babel/preset-env/7.16.11_@babel+core@7.17.5:
     resolution: {integrity: sha512-qcmWG8R7ZW6WBRPZK//y+E3Cli151B20W1Rv7ln27vuPaXU/8TKms6jFdiJtF7UDTxcrb7mZd88tAeK9LjdT8g==}
@@ -2786,17 +2774,6 @@ packages:
       browserslist: 4.19.3
       semver: 7.0.0
     dev: true
-
-  /core-js/2.6.12:
-    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
-    requiresBuild: true
-    dev: false
-
-  /core-js/3.21.1:
-    resolution: {integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==}
-    requiresBuild: true
-    dev: false
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -5503,6 +5480,7 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: true
 
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}

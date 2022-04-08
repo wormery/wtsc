@@ -54,6 +54,7 @@ function createReplacePlugin(isProd) {
     },
   })
 }
+let isdeclaration = false
 
 const babelPlugin = babel({
   babelHelpers: 'bundled',
@@ -61,10 +62,14 @@ const babelPlugin = babel({
 })
 
 function createPlugin(format, isProd) {
-  const ifProdGet = defIfProdGet(isProd)
+  // const ifProdGet = defIfProdGet(isProd)
 
   const isSourceMap = !isProd
   const ret = []
+
+  if (!isProd) {
+    isdeclaration = true
+  }
   ret.push(
     ts({
       tsconfig: getPath('./tsconfig.json'), // 导入本地ts配置
@@ -72,7 +77,9 @@ function createPlugin(format, isProd) {
         compilerOptions: {
           module: 'esnext',
           sourceMap: isSourceMap,
-          declarationDir: 'types', // 定义文件输出目录
+          removeComments: isProd,
+          declaration: isdeclaration,
+          declarationMap: isdeclaration,
         },
         exclude: [
           '**/__tests__',
@@ -83,6 +90,9 @@ function createPlugin(format, isProd) {
       },
     })
   )
+  if (!isProd) {
+    isdeclaration = false
+  }
   ret.push(createReplacePlugin(isProd))
 
   ret.push(resolve(['js', 'ts', 'json']))
@@ -95,7 +105,7 @@ function createPlugin(format, isProd) {
 
   ret.push(babelPlugin)
 
-  ifProdGet(() => {
+  if (isProd) {
     ret.push(
       terser({
         module: /esm/.test(format),
@@ -111,7 +121,7 @@ function createPlugin(format, isProd) {
         },
       })
     )
-  })
+  }
 
   return ret
 }
