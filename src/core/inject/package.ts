@@ -89,7 +89,6 @@ try {
 
   function autoInpurt(v: any): boolean {
     const [main] = v.version.split('.')
-
     if (main === '3') {
       //@ts-ignore
       const { ref } = v
