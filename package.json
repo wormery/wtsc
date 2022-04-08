@@ -1,7 +1,7 @@
 {
   "name": "@wormery/wtsc",
   "version": "2.0.0-bate.29",
-  "description": "Generate vue style value using TS",
+  "description": "'CSS in TS' solution,provide reactive CSS,and 'painless production'(无痛生产) of your CSS code",
   "main": "index.js",
   "types": "dist/index.d.ts",
   "module": "dist/wtsc.esm.js",
