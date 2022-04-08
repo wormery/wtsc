@@ -1,16 +1,17 @@
 import assert from 'assert'
 import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../../'
-import { render, addPro, styleDataInj } from '../../../../core/WTSC/render'
+import { render, addPro } from '../../../../core/WTSC/render'
 import { genHash } from '../../../../utils/utils'
 import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { s } from '../../../../CSSValue/time'
-import { backgroundColor } from '../../../../CSSValue/CssAttributeName'
-import { PE } from '../../../../CSSValue/Percentage'
-import { url } from '../../../../CSSValue/url'
+import { defRefPackager } from '../../../../core/inject/package'
+import { ref } from 'vue'
+import { styleDataInj } from '../../../../core/WTSC/styleData'
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
+    defRefPackager(ref)
     const wtsc = defTypeWTSC({
       defThemeKeys(p) {
         return {
@@ -46,11 +47,16 @@ describe('wtsc', function () {
 
         const ret = wtsc.out()
 
-        assert.deepEqual(ret, addPro(wtsc.inject(styleDataInj).name, 'class'))
+        const styleData = wtsc.inject(styleDataInj)
+
+        const nr = addPro(styleData.name, 'class')
+
+        assert.deepEqual(ret, nr)
       })
 
       it('检查隔离', () => {
         wtsc.addAny('检查隔离', '检查隔离')
+
         wtsc.class('123')
 
         const s = wtsc.out()

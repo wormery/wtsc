@@ -3,13 +3,12 @@ import {
   update,
   render,
   getLeaf,
-  StyleData,
-  defStyleData,
   rootStyleData,
   dependencyCounter,
 } from '../../../../core/WTSC/render'
 import { pseudoDOM } from './pseudeDOM'
 import assert from 'assert'
+import { StyleData, defStyleData } from '../../../../core/WTSC/styleData'
 const sets: Array<(value: string) => void> = []
 initStyleDom(
   pseudoDOM((value) => {

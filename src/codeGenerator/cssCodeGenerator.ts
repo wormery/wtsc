@@ -701,7 +701,6 @@ const csslist = `
 function baseParsersGener(): void {
   let cssApiListArray = csslist.split(`"]
 ["`)
-  console.log(cssApiListArray.length)
   // 1.替换无用的备注信息
   cssApiListArray = cssApiListArray.map((item) => {
     item = item.trim()
@@ -726,9 +725,7 @@ function baseParsersGener(): void {
   cssApiListArray = unique(cssApiListArray)
 
   // console.log(cssApiListArray.join('\n'))
-  cssApiListArray.forEach((i) => {
-    console.log(i)
-  })
+  cssApiListArray.forEach((i) => {})
 
   // 4. 生成接口的函数
   // let interfaceStr = ''

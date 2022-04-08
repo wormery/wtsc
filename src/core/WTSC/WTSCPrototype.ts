@@ -12,12 +12,11 @@ import { warn } from '../error/warn'
 import { defInjKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { parserSpace } from '../parser/ParserSpace'
-import { selectorDataInj, styleDataInj, addPro, update } from './render'
+import { addPro, update } from './render'
 import { styleToString } from './styleTostringApi'
 import { genHash, mixin } from '../../utils/utils'
-import { AnyMxRecord } from 'dns'
-import { provide } from '../inject/provideApi'
-import { timeStamp } from 'console'
+import { selectorDataInj } from './selectorData'
+import { styleDataInj } from './styleData'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -249,7 +248,9 @@ export function defWtscPrototype<
         const styleData = that.inject(styleDataInj)
 
         const name = data.name
+
         const pro = addPro(styleData.name, name)
+
         const selector = '.' + pro
 
         styleData.style[selector] = data.style

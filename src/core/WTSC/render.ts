@@ -1,43 +1,12 @@
-import { Data } from '../inject/types'
 import nextTick from '../../utils/nextTick'
 import { isBrowser } from '../../utils/utils'
-import { defInjKey } from '../inject/injectKey'
 import { warn } from '../error/warn'
-interface SelectorData {
-  name: string
-  selector: string
-  pseudoClass?: Data<string, string>
-  style: string
-}
-export const selectorDataInj = defInjKey<SelectorData>()
+import { defStyleData, StyleData } from './styleData'
 
-export interface StyleData {
-  id: symbol
-  name: string
-  style: Data<string, string>
-  part: Data<symbol, string>
-  parent?: StyleData | undefined | null
-}
-export function defStyleData(
-  name: string,
-  parent: StyleData | undefined | null,
-  id: symbol = Symbol('StyleDataId')
-): StyleData {
-  return {
-    id,
-    name,
-    style: {},
-    part: {},
-    parent,
-  }
-}
-export const styleDataInj = defInjKey<StyleData, true>()
+export const rootStyleData: StyleData = defStyleData('root')
 
-export const rootStyleData: StyleData = {
-  id: Symbol(''),
-  name: 'root',
-  style: {},
-  part: {},
+export function isRootStyleData(sd: StyleData): boolean {
+  return rootStyleData.id === sd.id
 }
 
 export let cssTemp: any = ''
@@ -152,9 +121,11 @@ export function render(): string {
   }
 
   const renderQueue = getLeaf(toBeUpdated)
+
   const dependencyNumberMap = dependencyCounter(renderQueue)
 
   let sd = renderQueue.pop()
+
   while (sd) {
     const id = sd.id
     // 第一步将style 更新渲染到part里面
@@ -179,10 +150,10 @@ export function render(): string {
       // ，但是在删除之前添加到队列里
 
       // 查看是不是root节点
-      if (rootStyleData === sd) {
+      if (isRootStyleData(sd)) {
         return partStr
       }
-
+      sd = undefined
       // 不是root节点就忽略更新，它可能是一个已经被删除的节点
       continue
     }

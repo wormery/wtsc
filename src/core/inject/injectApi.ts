@@ -1,8 +1,9 @@
 import { GetObjInjectReturn, ObjInjectKey, GetObjInjectValue } from './types'
-import { InjectKey, unpack, isInjectKey } from './injectKey'
+import { InjectKey, isInjectKey } from './injectKey'
 import { ProviderStorage } from './providerApi'
 import { isObject, isArray } from '@wormery/utils'
 import { InjectStorage } from './api'
+import { unpack } from './package'
 export interface InjectFunction {
   /**
    * inject 是一个注入器， 可以简单的注入需要的内容
@@ -39,7 +40,7 @@ function _inject(
   const v = storage.provider.get(injectKey)
   if (v) {
     if (injectKey.isReactive) {
-      return injectKey[unpack](v)
+      return unpack(v)
     }
     return v
   } else {

@@ -4,8 +4,9 @@ import { Percentage } from './Percentage'
 import { Data } from '../core/inject/types'
 import { styleToString } from '../core/WTSC/styleTostringApi'
 import { OutValue } from './index'
-import { styleDataInj, addPro, update } from '../core/WTSC/render'
+import { addPro, update } from '../core/WTSC/render'
 import { hideAddStack, findAddStack } from '../core/WTSC/WTSCPrototype'
+import { styleDataInj } from '../core/WTSC/styleData'
 interface KeyframsData {
   name: string
   keyfram: Data<string, string>

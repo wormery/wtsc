@@ -8,8 +8,9 @@ import {
 } from '../../parsers/typeParsers/TypeParsersInterface'
 import { BaseParsersInterface } from '../../parsers/baseParsers/BaseParsers'
 import { defWtscPrototype } from './WTSCPrototype'
-import { rootStyleData, styleDataInj, defStyleData } from './render'
+import { rootStyleData } from './render'
 import { initDefThemeKeys } from '../theme/api'
+import { defStyleData, styleDataInj } from './styleData'
 
 /**
  * 是一个WTSC对象返回true

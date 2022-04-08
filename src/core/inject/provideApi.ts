@@ -1,9 +1,10 @@
 import { ObjInjectKey, GetObjInjectValue } from './types'
-import { InjectKey, defInjKey, pack, isInjectKey } from './injectKey'
+import { InjectKey, defInjKey, isInjectKey } from './injectKey'
 import { Inject } from './inject'
 import { isUndef, isObject, isArray } from '@wormery/utils'
 import { warn } from '../error/warn'
 import { InjectStorage } from './api'
+import { pack } from './package'
 
 export interface ProvideFunction {
   /**
@@ -65,11 +66,10 @@ export const provide: ProvideFunction = function <T>(
   injectKey: InjectKey<T> = defInjKey<T>(true, __DEV__ ? 'provide' : '')
 ): InjectKey<T> {
   if (injectKey.isReactive) {
-    this.provider.set(
-      injectKey,
+    const ov = this.provider.get(injectKey)
+    const nv = pack(value, ov)
 
-      injectKey[pack](value, this.provider.get(injectKey))
-    )
+    this.provider.set(injectKey, nv)
   } else {
     this.provider.set(injectKey, value)
   }

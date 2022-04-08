@@ -3,7 +3,7 @@ import { Inject, injectObject } from './inject'
 import { createInjectStorage, ProviderStorage } from './providerApi'
 import { inject, depInject } from './injectApi'
 import { provide, depProvide } from './provideApi'
-import { unpack } from './injectKey'
+import { unpack } from './package'
 
 export function isInject(v: unknown): v is Inject {
   return isObject(v) && injectObject in v
@@ -27,7 +27,7 @@ export const injectPrototype: Inject = {
     const v = this.provider.get(injectKey)
     if (v) {
       if (injectKey.isReactive) {
-        return injectKey[unpack](v)
+        return unpack(v)
       }
     }
     return v
