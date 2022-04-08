@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.32](https://github.com/wormery/wtsc/compare/v2.0.0-bate.31...v2.0.0-bate.32) (2022-04-08)
+
+
+### Bug Fixes
+
+* build失误导致文件过大 ([113996e](https://github.com/wormery/wtsc/commit/113996e8e400d85ca2054a41dde202d3ededbc97))
+
 ## [2.0.0-bate.31](https://github.com/wormery/wtsc/compare/v2.0.0-bate.30...v2.0.0-bate.31) (2022-04-08)
 
 
