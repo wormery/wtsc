@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.34](https://github.com/wormery/wtsc/compare/v2.0.0-bate.33...v2.0.0-bate.34) (2022-04-11)
+
+
+### Bug Fixes
+
+* 修复三个bug,cubicBezier会让out报错join不存在的问题,clear无法清除pseudo的问题,使用pseudo会无限循环的引用导致触发vue提示递归依赖警告的问题 ([164788f](https://github.com/wormery/wtsc/commit/164788f8a165ea3053256e876b0af3e1bcf85813))
+
 ## [2.0.0-bate.33](https://github.com/wormery/wtsc/compare/v2.0.0-bate.32...v2.0.0-bate.33) (2022-04-11)
 
 
