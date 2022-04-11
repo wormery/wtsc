@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.33](https://github.com/wormery/wtsc/compare/v2.0.0-bate.32...v2.0.0-bate.33) (2022-04-11)
+
+
+### Features
+
+* autoInjectType ([2d02dcc](https://github.com/wormery/wtsc/commit/2d02dcc54c2d41e8cbaeb8dec9f3a16ec6da3cf8))
+
 ## [2.0.0-bate.32](https://github.com/wormery/wtsc/compare/v2.0.0-bate.31...v2.0.0-bate.32) (2022-04-08)
 
 

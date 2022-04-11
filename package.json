@@ -1,6 +1,6 @@
 {
   "name": "@wormery/wtsc",
-  "version": "2.0.0-bate.32",
+  "version": "2.0.0-bate.33",
   "description": "'CSS in TS' solution,provide reactive CSS,and 'painless production'(无痛生产) of your CSS code",
   "main": "index.js",
   "types": "dist/index.d.ts",
