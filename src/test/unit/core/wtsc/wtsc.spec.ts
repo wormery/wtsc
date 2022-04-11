@@ -13,7 +13,7 @@ import { render } from '../../../../core/render/render'
 describe('wtsc', function () {
   describe('defWTSC', function () {
     defRefPackager(ref)
-    const wtsc = defTypeWTSC({
+    const wtsc = defWTSC({
       defThemeKeys(p) {
         return {
           hello: p([]),
@@ -25,6 +25,7 @@ describe('wtsc', function () {
         },
       },
     })
+    wtsc.add.animation('inherit')
 
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))

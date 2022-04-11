@@ -1,4 +1,5 @@
 export * from './api'
 export { WTSCOptions } from './option'
 export { WTSC } from './WTSC'
+export { StyleValue, AddRest } from './types'
 export {} from './WTSCPrototype'

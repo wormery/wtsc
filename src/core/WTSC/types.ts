@@ -14,7 +14,9 @@ export type AddValue = MixOutString | number
 export type MixOutString = OutValue | string | String
 
 export type MaybeAddRestList<T extends AddRest = AddRest> = T | T[]
-export type Parser<T extends AddRest, R> = (...rest: MaybeAddRestList<T>) => R
+export type Parser<T extends AddValue[], R> = (
+  ...rest: MaybeAddRestList<{ [K in keyof T]: MixInjectValue<T[K]> }>
+) => R
 export type SingleParser<T extends AddValue, R> = Parser<[T], R>
 export type MaybeString<T> = T & string
 /**
