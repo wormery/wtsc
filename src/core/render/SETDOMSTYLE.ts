@@ -24,7 +24,9 @@ if (isBrowser) {
 
     styleDom = style
   } catch (E) {
-    warn('在将style标签添加到页面时发生了错误', E)
+    if (__DEV__) {
+      warn('在将style标签添加到页面时发生了错误', E)
+    }
   }
 }
 

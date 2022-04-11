@@ -7,4 +7,4 @@ interface SelectorData {
   style: string
 }
 
-export const selectorDataInj = defInjKey<SelectorData>()
+export const selectorDataInj = defInjKey<SelectorData>(false)

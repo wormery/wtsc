@@ -1,13 +1,14 @@
 import { TimingFunction } from './timingFunction'
+import { setPrototypeOf } from '../../utils/utils'
 export interface CubicBezier extends TimingFunction {
-  vlaue: number[]
+  value: number[]
 }
 
 const cubicBezierPropoType = {
   out(this: CubicBezier) {
-    return `cubic-bezier(${this.vlaue.join(', ')})`
+    return `cubic-bezier(${this.value.join(',')})`
   },
-}
+} as any as TimingFunction
 
 export function cubicBezier(
   x1: number,
@@ -15,8 +16,5 @@ export function cubicBezier(
   x2: number,
   y2: number
 ): CubicBezier {
-  return Object.setPrototypeOf(
-    { value: [x1, y1, x2, y2] },
-    cubicBezierPropoType
-  )
+  return setPrototypeOf({ value: [x1, y1, x2, y2] }, cubicBezierPropoType)
 }

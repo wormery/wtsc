@@ -8,7 +8,7 @@ export interface StyleData {
   part: Data<symbol, string>
   parent?: StyleData | undefined | null
 }
-export const styleDataInj = defInjKey<StyleData, true>()
+export const styleDataInj = defInjKey<StyleData, true>(false)
 
 export function defStyleData(
   name: string,

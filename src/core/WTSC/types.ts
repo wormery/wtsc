@@ -32,6 +32,7 @@ export type CSSStyle = {
 export interface ToString {
   toString: () => string
 }
+
 export function isParserReturnValue<T extends unknown>(
   v: T
 ): v is T & { toString: () => string } {

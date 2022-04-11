@@ -38,11 +38,9 @@ export function styleValueToString<O extends WTSCOptions, ParsersInterface>(
   styleValue: StyleValue
 ): string {
   _wtsc = wtsc
-  if (isAddRestList(styleValue)) {
-    return addRestListToString(styleValue)
-  } else {
-    return addRestToString(styleValue)
-  }
+  return isAddRestList(styleValue)
+    ? addRestListToString(styleValue)
+    : addRestToString(styleValue)
 }
 
 function addRestListToString(addRestList: AddRest[]): string {
@@ -50,13 +48,23 @@ function addRestListToString(addRestList: AddRest[]): string {
 }
 
 export function isAddRestList(v: StyleValue): v is AddRest[] {
-  if (v.length <= 0) {
-    return false
+  if (__DEV__) {
+    if (v.length <= 0) {
+      return false
+    }
+    const b = isArray(v[0])
+    if (b) {
+      v.forEach((item, i) => {
+        if (!isArray(item)) {
+          notAddRestWarning(i)
+        }
+      })
+    }
+    return b
   }
-  return isArray(v[0])
+  return v.length > 0 && isArray(v[0])
 }
 let index: any
-
 function addRestToString(addRest: AddRest): string {
   return addRest
     .map((v: MixInjectValue<AddValue>, _index) => {
@@ -120,4 +128,7 @@ function notAFunctionWarn(index: number): void {
     `当前正在处理的StyleValue的第${index}个参数，既不是string也不具有out方法，\
 本css将会被忽略，请查看您是否有强制类型转换来解决问题`
   )
+}
+function notAddRestWarning(index: number): void {
+  warningForStyleToString(index, `RestList的第${index}个参数，不是一个AddRest`)
 }

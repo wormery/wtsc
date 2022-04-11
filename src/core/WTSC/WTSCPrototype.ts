@@ -9,7 +9,7 @@ import {
 } from './parserResultHandleApi'
 import { isString } from '@wormery/utils'
 import { warn } from '../error/warn'
-import { defInjKey } from '../inject/injectKey'
+import { defInjKey, InjectKey } from '../inject/injectKey'
 import { Data } from '../inject/types'
 import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
@@ -23,6 +23,10 @@ export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   ParsersInterface
 > &
   WTSCStorage
+
+export const clearList: Array<InjectKey<any>> = []
+
+clearList.push(selectorDataInj)
 
 /**
  * 执行add时保存调用者信息
@@ -138,8 +142,15 @@ export function defWtscPrototype<
       selectorData.pseudoClass = pseudoClass
       return this
     },
-    clear(this: example) {
+    clearStyle(this: example) {
       ;(this as any).style = {}
+      return this
+    },
+    clear(this: example) {
+      this.clearStyle()
+      clearList.forEach((item) => {
+        this.delete(item)
+      })
       return this
     },
     get clean() {
@@ -219,8 +230,7 @@ export function defWtscPrototype<
         this.style,
         defInjKey(false, __DEV__ ? this.name + '>save' : '')
       )
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      this.clear()
+      this.clearStyle()
       return injectkey
     },
     read(this: ProvideWTSC<Options, ParsersInterface>, key) {
@@ -235,7 +245,7 @@ export function defWtscPrototype<
           retStyle[cssKey] = styleValueToString(this, _style[cssKey])
         })
       )
-      this.clear()
+      this.clearStyle()
       return retStyle as any
     },
     out() {
@@ -256,6 +266,7 @@ export function defWtscPrototype<
 
         styleData.style[selector] = data.style
         const pseudoClass = data.pseudoClass
+
         if (pseudoClass) {
           Object.keys(pseudoClass).forEach((k) => {
             styleData.style[selector + k] = pseudoClass[k]

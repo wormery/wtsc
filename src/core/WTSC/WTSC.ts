@@ -13,7 +13,6 @@ import { InjectKey } from '../inject/injectKey'
 import { Inject } from '../inject/inject'
 
 export const WTSCObject = Symbol('WTSCObject')
-
 /**
  * css解析器核心，负责用ts的方式将css转换为vue所支持的styleValue类型
  * @author meke
@@ -83,6 +82,8 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
    * @memberof WTSC
    */
   readonly clean: WTSC<Options, ParsersInterface>
+
+  readonly clearStyle: () => WTSC<Options, ParsersInterface>
 
   /**
    * 清理以添加进来的样式
