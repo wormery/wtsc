@@ -1,0 +1,1 @@
+import{_ as n,c as s,o as a,a as p}from"./app.08334bc0.js";const b='{"title":"out \u7684\u4F7F\u7528","description":"","frontmatter":{},"headers":[],"relativePath":"guide/out.md"}',t={},e=p("",9),c=[e];function o(u,l,i,r,k,d){return a(),s("div",null,c)}var _=n(t,[["render",o]]);export{b as __pageData,_ as default};
