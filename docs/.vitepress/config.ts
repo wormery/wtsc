@@ -26,6 +26,8 @@ export default defineConfig({
           { text: '介绍', link: '/guide/introduction' },
           { text: 'wtsc实例', link: '/guide/defWTSC' },
           { text: '响应', link: '/guide/reactive' },
+          { text: '添加', link: '/guide/add' },
+          { text: '输出', link: '/guide/out' },
           { text: '更多', link: '/guide/more' },
         ],
       },

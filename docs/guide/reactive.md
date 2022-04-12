@@ -10,6 +10,10 @@ import { defRefPackager } from '@wormery/wtsc'
 defRefPackager(ref)
 ```
 
+:::tip
+生成响应化的 api 请在代码最前执行，请在创建 wtsc 前执行，否则会导致一些 bug
+:::
+
 这样的代码您只需要执行一次就可以了
 
 ## 简单使用

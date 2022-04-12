@@ -25,7 +25,34 @@ describe('wtsc', function () {
         },
       },
     })
-    wtsc.add.animation('inherit')
+
+    wtsc.add.background(["black"],[''])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
