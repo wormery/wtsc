@@ -6,7 +6,7 @@ export default defineConfig({
   description: 'A solution of TS in CSS',
 
   themeConfig: {
-    logo: '/public/logo.png',
+    logo: '/logo.png',
     nav: [
       {
         text: '引导',
