@@ -22,6 +22,7 @@ import {
 import { styleDataInj, StyleData, defStyleData } from '../render/styleData'
 import { update } from '../render/updata'
 import { uniteSelectors } from '../../utils/cssUtils'
+import { renderData } from '../render/render'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -190,6 +191,16 @@ export function defWtscPrototype<
         defStyleData(name, this.inject(styleDataInj), _wtsc.id),
         styleDataInj
       )
+
+      return _wtsc
+    },
+    global(this: example) {
+      const _wtsc: example = Object.setPrototypeOf(
+        createWTSCStorage('global', this),
+        this.root
+      )
+
+      _wtsc.provide(renderData, styleDataInj)
 
       return _wtsc
     },

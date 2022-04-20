@@ -21,9 +21,8 @@ export function addClassSelectorData(
 ): void {
   const styleData = getStyleData(w)
   w.provide(
-    createClassSelectorData(styleData, className, w.outStyle()),
-    selectorDataInj,
-    global
+    createClassSelectorData(styleData, className, w.outStyle(), global),
+    selectorDataInj
   )
 }
 

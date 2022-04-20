@@ -166,6 +166,16 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
   readonly scoped: (name?: string) => WTSC<Options, ParsersInterface>
 
   /**
+   * 可以添加全局属性
+   * 局部的这个api会隔离provid、inject、class、id、tag、style
+   * @author meke
+   * @param {string} [name]
+   * @return {*}  {WTSC<Options, ParsersInterface>}
+   * @memberof WTSC
+   */
+  readonly global: () => WTSC<Options, ParsersInterface>
+
+  /**
    * 卸载并清空负作用
    * @author meke
    * @memberof WTSC
