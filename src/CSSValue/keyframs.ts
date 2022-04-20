@@ -7,8 +7,8 @@ import { OutValue } from './index'
 
 import { hideAddStack, findAddStack } from '../core/WTSC/WTSCPrototype'
 import { styleDataInj } from '../core/render/styleData'
-import { addPro } from '../utils'
 import { update } from '../core/render/updata'
+import { uniteHoxClassNames } from '../utils/cssUtils'
 interface KeyframsData {
   name: string
   keyfram: Data<string, string>
@@ -43,7 +43,7 @@ function out(this: Keyframes, wtsc: WTSC<any, any>): string {
     })
     .join(' ')
 
-  const pro = addPro(styleData.name, keyfromsData.name)
+  const pro = uniteHoxClassNames(styleData.hoxClassNames, keyfromsData.name)
 
   const selector = `@keyframes ${pro}`
 

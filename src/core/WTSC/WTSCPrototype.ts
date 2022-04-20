@@ -14,11 +14,14 @@ import { Data } from '../inject/types'
 import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
 import { genHash, mixin } from '../../utils/utils'
-import { selectorDataInj } from './selectorData'
-import { styleDataInj, StyleData } from '../render/styleData'
+import {
+  selectorDataInj,
+  addClassSelectorData,
+  SelectorData,
+} from './selectorData'
+import { styleDataInj, StyleData, defStyleData } from '../render/styleData'
 import { update } from '../render/updata'
-import { addPro } from '../../utils/cssUtils'
-import { inject } from '../inject/injectApi'
+import { uniteSelectors } from '../../utils/cssUtils'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -47,7 +50,7 @@ export function findAddStack(): void {
   wtsc = wtscStack.pop() as any
   preAddKey = preAddKeyStack.pop() as any
 }
-function getSelectorData(w: any): StyleData {
+export function getStyleData(w: any): StyleData {
   return w.inject(styleDataInj)
 }
 
@@ -111,7 +114,7 @@ export function defWtscPrototype<
     isExisted(this: example, cssKey) {
       return !!this.style[cssKey]
     },
-    selector(this: example, selector: string) {
+    selector(this: example, selector: string, global: boolean = true) {
       if (selector === '') {
         return this
       }
@@ -123,18 +126,19 @@ export function defWtscPrototype<
         }
       }
 
-      this.provide(
-        {
-          className: selector,
-          selector,
-          style: styleToString(this.outStyle()),
-        },
-        selectorDataInj
-      )
+      const selectorData: SelectorData = {
+        name: selector,
+        style: styleToString(this.outStyle()),
+        selector: global
+          ? selector
+          : uniteSelectors(getStyleData(this).classSelectors, selector),
+      }
+
+      this.provide(selectorData, selectorDataInj)
 
       return this
     },
-    class(this: example, className: string) {
+    class(this: example, className: string, global?: boolean) {
       if (className === '') {
         return this
       }
@@ -145,17 +149,7 @@ export function defWtscPrototype<
         }
       }
 
-      const styleData = getSelectorData(this)
-
-      const syocedName = styleData.name
-      this.provide(
-        {
-          className: addPro(syocedName, className),
-          selector: `.${addPro(syocedName, className)}`,
-          style: styleToString(this.outStyle()),
-        },
-        selectorDataInj
-      )
+      addClassSelectorData(this, className, global)
 
       return this
     },
@@ -193,13 +187,7 @@ export function defWtscPrototype<
       )
 
       _wtsc.provide(
-        {
-          id: _wtsc.id,
-          name,
-          style: {},
-          part: {},
-          parent: this.inject(styleDataInj),
-        },
+        defStyleData(name, this.inject(styleDataInj), _wtsc.id),
         styleDataInj
       )
 
@@ -278,39 +266,35 @@ export function defWtscPrototype<
       this.clearStyle()
       return retStyle as any
     },
-    out() {
-      const that = this as example
-      const data = that.ownInject(selectorDataInj)
+    out(this: example) {
+      const data = this.ownInject(selectorDataInj)
+      const styleString = styleToString(this.outStyle())
 
       if (data) {
-        that.delete(selectorDataInj)
+        // 现在开始处理选择器，然后从选择器列表里先删除
+        this.delete(selectorDataInj)
 
-        const styleData = that.inject(styleDataInj)
-        const ret = data.className
+        const styleData = getStyleData(this)
 
         const selector = data.selector
 
-        // 剩余默认导出到默认存储区
-        data.style += styleToString(that.outStyle())
-
-        // 将选择器放到存储区
-        styleData.style[selector] = data.style
+        // 将剩余的styleString和之前定义的styleString全部保存到styleData
+        styleData.style[selector] = data.style + styleString
 
         // 伪类处理
         const pseudoClass = data.pseudoClass
 
-        if (pseudoClass) {
+        pseudoClass &&
           Object.keys(pseudoClass).forEach((k) => {
             styleData.style[selector + k] = pseudoClass[k]
           })
-        }
 
         update(styleData)
 
-        return ret
+        return data.name
       }
 
-      return styleToString(that.outStyle())
+      return styleString
     },
     toString(this: example) {
       return `WTSC<${this.name}>`

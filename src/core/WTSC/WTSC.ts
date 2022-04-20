@@ -109,9 +109,15 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
    * @return {*}  {WTSC<Options, ParsersInterface>}
    * @memberof WTSC
    */
-  readonly class: (name: string) => WTSC<Options, ParsersInterface>
+  readonly class: (
+    name: string,
+    global?: boolean
+  ) => WTSC<Options, ParsersInterface>
 
-  readonly selector: (name: string) => WTSC<Options, ParsersInterface>
+  readonly selector: (
+    name: string,
+    global?: boolean
+  ) => WTSC<Options, ParsersInterface>
 
   /**
    * 添加伪元素和伪类选择器

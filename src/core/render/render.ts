@@ -1,10 +1,18 @@
-import { StyleData, defStyleData } from './styleData'
+import { StyleData } from './styleData'
 import { dependencyCounter } from './dependency'
 import { getLeaf } from './leaf'
 import { toBeUpdated } from './updata'
 import { cssTemp } from './SETDOMSTYLE'
 
-export const renderData: StyleData = defStyleData('render')
+export const renderData: StyleData = {
+  id: Symbol('render'),
+  name: 'render',
+  classNames: '',
+  hoxClassNames: '',
+  classSelectors: '',
+  style: {},
+  part: {},
+}
 
 export function isRenderData(sd: StyleData): boolean {
   return renderData.id === sd.id

@@ -6,8 +6,18 @@ import { s } from '../../../../CSSValue/time'
 import { defRefPackager } from '../../../../core/inject/package'
 import { ref } from 'vue'
 import { styleDataInj } from '../../../../core/render/styleData'
-import { addPro } from '../../../../utils/cssUtils'
+import {
+  uniteClassNames,
+  uniteClassSelectors,
+} from '../../../../utils/cssUtils'
 import { render } from '../../../../core/render/render'
+import { getStyleData } from '../../../../core/WTSC/WTSCPrototype'
+function testuniteClassNames(wtsc: any, name): string {
+  return uniteClassNames(getStyleData(wtsc).classNames, name)
+}
+function testUniteClassSelectors(wtsc: any, name): string {
+  return uniteClassSelectors(getStyleData(wtsc).classSelectors, name)
+}
 
 describe('wtsc', function () {
   describe('defWTSC', function () {
@@ -48,9 +58,7 @@ describe('wtsc', function () {
 
         const ret = wtsc.out()
 
-        const styleData = wtsc.inject(styleDataInj)
-
-        const nr = addPro(styleData.name, 'class')
+        const nr = uniteClassNames(getStyleData(wtsc).name, 'class')
 
         assert.deepEqual(ret, nr)
       })
@@ -62,14 +70,13 @@ describe('wtsc', function () {
 
         const s = wtsc.out()
 
-        assert.equal(s, addPro(wtsc.inject(styleDataInj).name, '123'))
+        assert.equal(s, testuniteClassNames(wtsc, '123'))
 
         let value = render()
 
         assert.ok(
           new RegExp(
-            addPro(wtsc.inject(styleDataInj).name, '123') +
-              '{检查隔离: 检查隔离;}'
+            testUniteClassSelectors(wtsc, '123') + '{检查隔离: 检查隔离;}'
           ).test(value)
         )
 
@@ -77,9 +84,8 @@ describe('wtsc', function () {
         const name = genHash()
         const w = wtsc.scoped(name)
 
+        value = render()
         assert.equal(w.name, name)
-
-        assert.equal(w.inject(styleDataInj).name, name)
 
         w.addAny(name, name)
         w.class(name)
@@ -89,7 +95,7 @@ describe('wtsc', function () {
 
         value = render()
 
-        assert.ok(value.includes(name + '-' + name))
+        assert.ok(value.includes(testUniteClassSelectors(wtsc, name)))
         assert.ok(new RegExp(name + ':.*' + name).test(value))
       })
     })
