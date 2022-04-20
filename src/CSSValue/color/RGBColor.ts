@@ -3,35 +3,63 @@ import { RGBAColor } from './RGBAColor'
 import { hexToRGB } from './hexColor'
 import { Color } from '.'
 import { Alpha } from './Color'
+import { OutValue } from '../../../dist/CSSValue/index'
+import { setPrototypeOf } from '../../utils/utils'
+import { Clone } from '../../utils/interface'
 export interface RGBColorNumbers {
   r: number
   g: number
   b: number
   a: number
 }
-export interface RGBColor extends Color, Alpha {
+export interface RGBColor extends Color, Alpha, RGBColorPrototype {
   r: number | Percentage
   g: number | Percentage
   b: number | Percentage
+}
+export interface RGBColorPrototype extends OutValue, Clone<RGBColor> {
   toNumbers(): RGBColorNumbers
-  out(): string
+  setR(value: number | Percentage): RGBColor
+  setG(value: number | Percentage): RGBColor
+  setB(value: number | Percentage): RGBColor
+  setA(value: number | Percentage): RGBColor
 }
 
-function out(this: RGBColor): string {
-  return `rgb(${this.r.toString()}, ${this.g.toString()}, ${this.b.toString()},${this.a.toString()})`
-}
-
-function toNumbers(this: RGBColor): RGBColorNumbers {
-  const r = typeof this.r === 'number' ? this.r : this.r.toFloat() * 255
-  const g = typeof this.g === 'number' ? this.g : this.g.toFloat() * 255
-  const b = typeof this.b === 'number' ? this.b : this.b.toFloat() * 255
-  const a = typeof this.a === 'number' ? this.a : this.a.toFloat() * 255
-  return {
-    r,
-    g,
-    b,
-    a,
-  }
+const rgbColorPrototype: RGBColorPrototype = {
+  out(this: RGBColor): string {
+    return `rgb(${this.r.toString()}, ${this.g.toString()}, ${this.b.toString()},${this.a.toString()})`
+  },
+  toNumbers(this: RGBColor): RGBColorNumbers {
+    const r = typeof this.r === 'number' ? this.r : this.r.toFloat() * 255
+    const g = typeof this.g === 'number' ? this.g : this.g.toFloat() * 255
+    const b = typeof this.b === 'number' ? this.b : this.b.toFloat() * 255
+    const a = typeof this.a === 'number' ? this.a : this.a.toFloat() * 255
+    return {
+      r,
+      g,
+      b,
+      a,
+    }
+  },
+  clone(this: RGBColor) {
+    return rgb(this.r, this.g, this.b, this.a)
+  },
+  setR(this: RGBColor, value) {
+    this.r = value
+    return this
+  },
+  setG(this: RGBColor, value) {
+    this.g = value
+    return this
+  },
+  setB(this: RGBColor, value) {
+    this.b = value
+    return this
+  },
+  setA(this: RGBColor, value) {
+    this.a = value
+    return this
+  },
 }
 
 /**
@@ -82,7 +110,7 @@ export function rgb(
   b: number | Percentage,
   a: number | Percentage = 1
 ): RGBColor | RGBAColor {
-  return { r, g, b, a, out, toNumbers }
+  return setPrototypeOf({ r, g, b, a }, rgbColorPrototype)
 }
 const reg =
   /^rgba?\((?<r>[0-9]{0,3}),(?<g>[0-9]{0,3}),(?<b>[0-9]{0,3})(,(?<a>0?\.?[0-9]{0,3})|)\)$/

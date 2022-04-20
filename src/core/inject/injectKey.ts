@@ -1,4 +1,6 @@
 import { isObject } from '@wormery/utils'
+import { WTSC } from '..'
+import { OutValue } from '../../../dist/CSSValue/index'
 
 /**
  * InjectKey 键
@@ -23,7 +25,7 @@ export const IV = Symbol('WTSCIV')
 export interface InjectKey<
   Value = any,
   IsAssertionExisted extends boolean = false
-> {
+> extends InjectKeyPrototype<ValueType<IsAssertionExisted, Value>> {
   /**
    * symbolKey
    * @author meke
@@ -39,7 +41,7 @@ export interface InjectKey<
    * @type {(Value | Default)}
    * @memberof InjectKey
    */
-  value?: IsAssertionExisted extends true ? Value : Value | undefined
+  value?: ValueType<IsAssertionExisted, Value>
 
   /**
    * 是否是响应化的值，自己定义的provider实现类如果有响应化的需求就要检查它
@@ -48,6 +50,14 @@ export interface InjectKey<
    * @memberof InjectKey
    */
   readonly isReactive: boolean
+}
+type ValueType<
+  IsAssertionExisted extends boolean,
+  Value
+> = IsAssertionExisted extends true ? Value : Value | undefined
+
+export interface InjectKeyPrototype<T> extends OutValue<T> {
+  out<W extends WTSC<any, any>>(wtsc: W): T
 }
 
 /**
@@ -98,10 +108,19 @@ export function defInjKey<Value, IsAssertionExisted extends boolean = false>(
   isReactive: boolean = true,
   describe: string = ''
 ): InjectKey<Value, IsAssertionExisted> {
-  return {
-    [IK]: Symbol(__DEV__ ? describe : ''),
-    isReactive,
-  }
+  return Object.setPrototypeOf(
+    {
+      [IK]: Symbol(__DEV__ ? describe : ''),
+      isReactive,
+    },
+    InjKeyPrototype
+  )
+}
+
+const InjKeyPrototype: InjectKeyPrototype<any> = {
+  out(w: any) {
+    return w.inject(this)
+  },
 }
 
 export type MixInjectValue<T> = T | InjectKey<T>
