@@ -15,9 +15,10 @@ import { parserSpace } from '../parser/ParserSpace'
 import { styleToString } from './styleTostringApi'
 import { genHash, mixin } from '../../utils/utils'
 import { selectorDataInj } from './selectorData'
-import { styleDataInj } from '../render/styleData'
+import { styleDataInj, StyleData } from '../render/styleData'
 import { update } from '../render/updata'
 import { addPro } from '../../utils/cssUtils'
+import { inject } from '../inject/injectApi'
 export type ProvideWTSC<Options extends WTSCOptions, ParsersInterface> = WTSC<
   Options,
   ParsersInterface
@@ -45,6 +46,9 @@ export function hideAddStack(): void {
 export function findAddStack(): void {
   wtsc = wtscStack.pop() as any
   preAddKey = preAddKeyStack.pop() as any
+}
+function getSelectorData(w: any): StyleData {
+  return w.inject(styleDataInj)
 }
 
 function defAdd(): any {
@@ -121,6 +125,7 @@ export function defWtscPrototype<
 
       this.provide(
         {
+          className: selector,
           selector,
           style: styleToString(this.outStyle()),
         },
@@ -140,9 +145,13 @@ export function defWtscPrototype<
         }
       }
 
+      const styleData = getSelectorData(this)
+
+      const syocedName = styleData.name
       this.provide(
         {
-          className,
+          className: addPro(syocedName, className),
+          selector: `.${addPro(syocedName, className)}`,
           style: styleToString(this.outStyle()),
         },
         selectorDataInj
@@ -277,20 +286,9 @@ export function defWtscPrototype<
         that.delete(selectorDataInj)
 
         const styleData = that.inject(styleDataInj)
-        let ret
+        const ret = data.className
 
-        let selector: string = data.selector as string
-        if (selector === undefined) {
-          const className = data.className
-          if (className) {
-            ret = addPro(styleData.name, className)
-            selector = `.${ret}`
-          } else {
-            return styleToString(that.outStyle())
-          }
-        } else {
-          ret = selector
-        }
+        const selector = data.selector
 
         // 剩余默认导出到默认存储区
         data.style += styleToString(that.outStyle())
