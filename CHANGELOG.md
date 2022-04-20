@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.35](https://github.com/wormery/wtsc/compare/v2.0.0-bate.34...v2.0.0-bate.35) (2022-04-20)
+
+
+### Features
+
+* getStyleData ([cd0c265](https://github.com/wormery/wtsc/commit/cd0c265c5116a521a7ad7e4911337cc2a1fafdab))
+* global css ([9bd689d](https://github.com/wormery/wtsc/commit/9bd689d4c6384d7f9a6596d10b3f304004a447ca))
+
 ## [2.0.0-bate.34](https://github.com/wormery/wtsc/compare/v2.0.0-bate.33...v2.0.0-bate.34) (2022-04-11)
 
 
