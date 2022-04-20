@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.37](https://github.com/wormery/wtsc/compare/v2.0.0-bate.36...v2.0.0-bate.37) (2022-04-20)
+
+
+### Features
+
+* baseParsers jsDoc mdn help url ([51af1f6](https://github.com/wormery/wtsc/commit/51af1f67542ed6ea90317651ef9c4e38c377ecb6))
+
 ## [2.0.0-bate.36](https://github.com/wormery/wtsc/compare/v2.0.0-bate.35...v2.0.0-bate.36) (2022-04-20)
 
 
