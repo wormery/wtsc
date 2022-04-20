@@ -107,21 +107,42 @@ export function defWtscPrototype<
     isExisted(this: example, cssKey) {
       return !!this.style[cssKey]
     },
-    class(this: example, name: string): WTSC<Options, ParsersInterface> {
-      if (name === '') {
+    selector(this: example, selector: string) {
+      if (selector === '') {
         return this
       }
+
       if (__DEV__) {
         const selectorData = this.ownInject(selectorDataInj)
         if (selectorData) {
-          warn('wtsc.class()方法每个语句块里请使用一次')
+          warn('wtsc.selector()和wtsc.class()方法每个语句块里请使用一次')
         }
       }
 
       this.provide(
         {
-          name,
-          selector: '.',
+          selector,
+          style: styleToString(this.outStyle()),
+        },
+        selectorDataInj
+      )
+
+      return this
+    },
+    class(this: example, className: string) {
+      if (className === '') {
+        return this
+      }
+      if (__DEV__) {
+        const selectorData = this.ownInject(selectorDataInj)
+        if (selectorData) {
+          warn('wtsc.selector()和wtsc.class()方法每个语句块里请使用一次')
+        }
+      }
+
+      this.provide(
+        {
+          className,
           style: styleToString(this.outStyle()),
         },
         selectorDataInj
@@ -255,16 +276,29 @@ export function defWtscPrototype<
       if (data) {
         that.delete(selectorDataInj)
 
-        data.style += styleToString(that.outStyle())
         const styleData = that.inject(styleDataInj)
+        let ret
 
-        const name = data.name
+        let selector: string = data.selector as string
+        if (selector === undefined) {
+          const className = data.className
+          if (className) {
+            ret = addPro(styleData.name, className)
+            selector = `.${ret}`
+          } else {
+            return styleToString(that.outStyle())
+          }
+        } else {
+          ret = selector
+        }
 
-        const pro = addPro(styleData.name, name)
+        // 剩余默认导出到默认存储区
+        data.style += styleToString(that.outStyle())
 
-        const selector = `.${pro}`
-
+        // 将选择器放到存储区
         styleData.style[selector] = data.style
+
+        // 伪类处理
         const pseudoClass = data.pseudoClass
 
         if (pseudoClass) {
@@ -275,11 +309,10 @@ export function defWtscPrototype<
 
         update(styleData)
 
-        return pro
-      } else {
-        const ret = styleToString(that.outStyle())
         return ret
       }
+
+      return styleToString(that.outStyle())
     },
     toString(this: example) {
       return `WTSC<${this.name}>`

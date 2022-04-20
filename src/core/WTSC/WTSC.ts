@@ -111,6 +111,8 @@ export interface WTSC<Options extends WTSCOptions, ParsersInterface>
    */
   readonly class: (name: string) => WTSC<Options, ParsersInterface>
 
+  readonly selector: (name: string) => WTSC<Options, ParsersInterface>
+
   /**
    * 添加伪元素和伪类选择器
    * @author meke

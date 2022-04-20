@@ -141,7 +141,8 @@ describe('render.ts', () => {
         parent: renderData,
       })
       const value = render()
-      assert.ok(value.includes('test{test;}\n'))
+
+      assert.ok(value.includes('test{test;}'))
     })
     it('当同时渲染两个为父字关系的渲染时', () => {
       const parent = {

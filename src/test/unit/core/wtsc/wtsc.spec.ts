@@ -2,7 +2,6 @@ import assert from 'assert'
 import { describe, it } from 'mocha'
 import { defWTSC, px, defInjKey, isInjectKey } from '../../../../'
 import { genHash } from '../../../../utils/utils'
-import { defTypeWTSC } from '../../../../core/WTSC/api'
 import { s } from '../../../../CSSValue/time'
 import { defRefPackager } from '../../../../core/inject/package'
 import { ref } from 'vue'
@@ -26,34 +25,7 @@ describe('wtsc', function () {
       },
     })
 
-    wtsc.add.background(["black"],[''])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    wtsc.add.background(['black'], [''])
     it('wtsc.add.xxx():Shoud  not report an error; ', () => {
       wtsc.add.height(px(30))
       wtsc.add.width(px(30))
