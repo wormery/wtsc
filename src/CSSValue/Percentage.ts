@@ -1,4 +1,4 @@
-import { SufUnit, sufUnit } from './'
+import { SufUnit } from './'
 import { SufUnitProtoType, sufUnitProtoType } from './length/suf'
 import { setPrototypeOf } from '../utils/utils'
 

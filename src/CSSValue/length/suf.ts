@@ -11,7 +11,6 @@ export interface SufUnitProtoType<U extends string>
   extends Clone<SufUnit<U>>,
     OutValue<string>,
     ToString {
-  out(): string
   setNum(number: number): SufUnit<U>
   setUnit(unit: U): SufUnit<U>
 }
@@ -20,7 +19,7 @@ export const sufUnitProtoType: SufUnitProtoType<any> = {
   out(this: SufUnit): string {
     return this.num.toString() + this.unit.toString()
   },
-  toString(this: SufUnit) {
+  toString(this: any) {
     return this.out()
   },
   clone(this: SufUnit) {

@@ -34,7 +34,7 @@ export interface Inject {
    * @param {InjectKey<any>} injectKey
    * @memberof Inject
    */
-  readonly delete: (injectKey: InjectKey<any>) => void
+  readonly delete: (injectKey: InjectKey<any, any>) => void
 
   /**
    * 默认查看自己有没有这个内容
@@ -43,5 +43,5 @@ export interface Inject {
    * @return {*}  {boolean}
    * @memberof Inject
    */
-  readonly has: (injectKey: InjectKey<any>) => boolean
+  readonly has: (injectKey: InjectKey<any, any>) => boolean
 }

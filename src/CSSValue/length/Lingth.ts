@@ -1,5 +1,4 @@
 import { SufUnit, sufUnit } from './suf'
-import { Clone } from '../../utils/interface'
 export enum LengthUnit {
   CAP = 'cap',
 
@@ -90,7 +89,7 @@ export type LengthUnitValue = keyof typeof LengthUnit extends infer K
  * @class Length
  */
 export interface Length<U extends LengthUnitValue = LengthUnitValue>
-  extends SufUnit<U>{
+  extends SufUnit<U> {
   unit: U
 }
 

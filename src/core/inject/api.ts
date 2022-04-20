@@ -24,7 +24,7 @@ export const injectPrototype: Inject = {
   provide,
   depProvide,
   ownInject(this: InjectStorage, injectKey) {
-    const v = this.provider.get(injectKey)
+    const v = this.provider.get(injectKey as any)
     if (v) {
       if (injectKey.isReactive) {
         return unpack(v)

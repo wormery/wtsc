@@ -26,7 +26,7 @@ export interface InjectFunction {
    * @return {*}  {R}
    * @memberof Inject
    */
-  <R = any>(injectKey: InjectKey<R>, defau: R): R
+  <R = any>(injectKey: InjectKey<R, any>, defau: R): R
 }
 
 export type DepInjectFunction = <ObjKey extends ObjInjectKey>(

@@ -5,7 +5,6 @@ import { genHash } from '../../../../utils/utils'
 import { s } from '../../../../CSSValue/time'
 import { defRefPackager } from '../../../../core/inject/package'
 import { ref } from 'vue'
-import { styleDataInj } from '../../../../core/render/styleData'
 import {
   uniteClassNames,
   uniteClassSelectors,
