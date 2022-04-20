@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.36](https://github.com/wormery/wtsc/compare/v2.0.0-bate.35...v2.0.0-bate.36) (2022-04-20)
+
+
+### Features
+
+* injKey.out rgb 中的 setR,setG,setB,setA,clone 方法 ([60ced9a](https://github.com/wormery/wtsc/commit/60ced9afdfbd476a4043e4a2d94ecd5a547922f1))
+* length add clone,setNum,setUnit ([165198d](https://github.com/wormery/wtsc/commit/165198df1d250eaf84cd7924a609e5d738549aa6))
+
 ## [2.0.0-bate.35](https://github.com/wormery/wtsc/compare/v2.0.0-bate.34...v2.0.0-bate.35) (2022-04-20)
 
 
