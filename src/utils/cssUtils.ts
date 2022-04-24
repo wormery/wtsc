@@ -1,12 +1,14 @@
+import { hypnenate } from '@wormery/utils'
+
 export function uniteClassSelectors(
   ClassSelectors: string,
   className: string
 ): string {
-  return `${ClassSelectors}.${className}`
+  return `${ClassSelectors}.${hypnenate(className) as string}`
 }
 
 export function uniteClassNames(classNames: string, className: string): string {
-  return `${classNames} ${className}`.trim()
+  return `${classNames} ${hypnenate(className) as string}`.trim()
 }
 
 export function uniteSelectors(selectors: string, selector: string): string {
