@@ -3,6 +3,8 @@
 import { nextTick } from '../../utils'
 import { warn } from '../error/warn'
 import { config } from '../config/config'
+import { addListener } from '../event'
+import { configUndated } from '../config/event'
 /* eslint-disable spaced-comment */
 /* eslint-disable @typescript-eslint/prefer-ts-expect-error */
 export type Pack = <Value = any, Pack = any>(value: Value, pack?: Pack) => Pack
@@ -42,6 +44,41 @@ export function defRefPackager(_ref: RefFun): void {
     return pack.value
   }
 }
+export function defUseStatePackager(useState: RefFun): void {
+  pack = (value: any, pack?: any): any => {
+    if (pack) {
+      pack[1](value)
+      return pack
+    }
+
+    return useState(value)
+  }
+  unpack = (pack: any): any => {
+    return pack[0]
+  }
+}
+
+addListener(configUndated, (config) => {
+  const vue = config.vue
+  if (vue !== undefined) {
+    defRefPackager(vue.ref)
+    return
+  }
+  const react = config.react
+  if (react !== undefined) {
+    defUseStatePackager(react.userState)
+    return
+  }
+  const ref = config.vueRef
+  if (ref !== undefined) {
+    defRefPackager(ref)
+    return
+  }
+  const useState = config.reactUseState
+  if (useState !== undefined) {
+    defUseStatePackager(useState)
+  }
+})
 
 // 自动添加响应
 try {
@@ -98,7 +135,7 @@ try {
 } catch {
   if (__DEV__) {
     nextTick(() => {
-      if (config.warn.all || config.warn.autoInput) {
+      if (config.warn.all && config.warn.autoInput) {
         warn(
           '自动添加响应vue失败，您可能不在一个vue您可以使用defRefPackager(ref)来定义ref响应,使用turnOffAutoImportWarning()来关闭警告'
         )
@@ -108,5 +145,5 @@ try {
 }
 
 export function turnOffAutoImportWarning(): void {
-  autoInput = false
+  config.warn.autoInput = false
 }
