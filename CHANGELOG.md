@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-bate.38](https://github.com/wormery/wtsc/compare/v2.0.0-bate.37...v2.0.0-bate.38) (2022-05-13)
+
+
+### Features
+
+* auto hypnenate of className ([d572b13](https://github.com/wormery/wtsc/commit/d572b137e9d07afc14405e825415ff14941bf89d))
+* global event,react support ([7e35ac2](https://github.com/wormery/wtsc/commit/7e35ac29e9174af03e95dcad88b2b86f79011f65))
+
 ## [2.0.0-bate.37](https://github.com/wormery/wtsc/compare/v2.0.0-bate.36...v2.0.0-bate.37) (2022-04-20)
 
 
